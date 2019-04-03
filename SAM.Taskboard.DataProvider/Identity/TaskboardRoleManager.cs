@@ -4,7 +4,7 @@ using SAM.Taskboard.DataProvider.Models;
 
 namespace SAM.Taskboard.DataProvider.Identity
 {
-    class TaskboardRoleManager : RoleManager<Role>
+    public class TaskboardRoleManager : RoleManager<Role>
     {
         public TaskboardRoleManager(RoleStore<Role> store)
             : base(store)

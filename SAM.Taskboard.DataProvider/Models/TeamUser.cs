@@ -1,6 +1,6 @@
 ﻿namespace SAM.Taskboard.DataProvider.Models
 {
-    class TeamUser
+    public class TeamUser
     {
         public int Id { get; set; }
 

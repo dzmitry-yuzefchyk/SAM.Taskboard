@@ -1,6 +1,6 @@
 ﻿namespace SAM.Taskboard.DataProvider.Models
 {
-    class BoardUser
+    public class BoardUser
     {
         public int Id { get; set; }
 

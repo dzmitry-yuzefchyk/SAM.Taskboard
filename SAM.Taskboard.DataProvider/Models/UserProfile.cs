@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAM.Taskboard.DataProvider.Models
 {
-    class UserProfile
+    public class UserProfile
     {
         [Key]
         [ForeignKey("User")]

@@ -1,2 +1,16 @@
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.csprojAssemblyReference.cache
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.csproj.CoreCompileInputs.cache
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\SAM.Taskboard.DataProvider.dll.config
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\SAM.Taskboard.DataProvider.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\SAM.Taskboard.DataProvider.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\EntityFramework.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\EntityFramework.SqlServer.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\Microsoft.AspNet.Identity.Core.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\EntityFramework.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\EntityFramework.SqlServer.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\Microsoft.AspNet.Identity.Core.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.csproj.CopyComplete
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.pdb

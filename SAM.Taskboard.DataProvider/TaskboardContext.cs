@@ -4,7 +4,7 @@ using SAM.Taskboard.DataProvider.Models;
 
 namespace SAM.Taskboard.DataProvider
 {
-    class TaskboardContext : IdentityDbContext<User>
+    public class TaskboardContext : IdentityDbContext<User>
     {
         public TaskboardContext()
             : base("Taskboard")
@@ -22,6 +22,5 @@ namespace SAM.Taskboard.DataProvider
         public DbSet<TeamUser> TeamsUsers { get; set; }
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<UserSettings> UserSettings { get; set; }
-        public DbSet<UserToken> UserTokens { get; set; }
     }
 }

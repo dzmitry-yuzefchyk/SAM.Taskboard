@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace SAM.Taskboard.DataProvider.Models
 {
-    class Team
+    public class Team
     {
         public int Id { get; set; }
 

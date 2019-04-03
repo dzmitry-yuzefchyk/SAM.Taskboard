@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAM.Taskboard.DataProvider.Models
 {
-    class Task
+    public class Task
     {
         public int Id { get; set; }
 

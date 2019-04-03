@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SAM.Taskboard.DataProvider.Models
 {
-    class User : IdentityUser
+    public class User : IdentityUser
     { 
         public UserSettings Settings { get; set; }
 
