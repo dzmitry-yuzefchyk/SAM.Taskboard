@@ -8,10 +8,8 @@ namespace SAM.Taskboard.DataProvider.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(64)]
         public string Title { get; set; } = "Project";
 
-        [MaxLength(256)]
         public string About { get; set; }
 
         public ICollection<Activity> Activities { get; set; }

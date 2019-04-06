@@ -92,3 +92,5 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Ta
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Taskboard.Web.csproj.CopyComplete
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Taskboard.Web.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Taskboard.Web.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\EntityFramework.SqlServer.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\EntityFramework.SqlServer.xml

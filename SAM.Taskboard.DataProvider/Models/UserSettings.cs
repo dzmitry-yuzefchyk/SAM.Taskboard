@@ -7,19 +7,17 @@ namespace SAM.Taskboard.DataProvider.Models
     {
         [Key]
         [ForeignKey("User")]
-        public int Id { get; set; }
+        public string Id { get; set; }
+
+        public User User { get; set; }
 
         [Required]
-        [MaxLength(64)]
         public string PrimaryColor { get; set; } = "WHITE";
 
         [Required]
-        [MaxLength(64)]
         public string SecondaryColor { get; set; } = "ORANGE";
 
         [Required]
         public bool EmailNotification { get; set; } = false;
-
-        public User User { get; set; }
     }
 }

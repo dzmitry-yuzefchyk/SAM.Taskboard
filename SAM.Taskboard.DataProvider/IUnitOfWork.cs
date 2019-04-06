@@ -10,7 +10,20 @@ namespace SAM.Taskboard.DataProvider
         TaskboardUserManager UserManager { get; }
         TaskboardRoleManager RoleManager { get; }
         ITaskboardClientManager ClientManager { get; }
+        IRepository<Activity> Activities { get; }
         IRepository<Board> Boards { get; }
-        void Save();
+        IRepository<BoardSettings> BoardSettings { get; }
+        IRepository<BoardUser> BoardUser { get; }
+        IRepository<Column> Columns { get; }
+        IRepository<Project> Projects { get; }
+        IRepository<ProjectSettings> ProjectSettings { get; }
+        IRepository<ProjectUser> ProjectUser { get; }
+        IRepository<Role> Roles { get; }
+        IRepository<Task> Tasks { get; }
+        IRepository<Team> Teams { get; }
+        IRepository<TeamUser> TeamUser { get; }
+        IRepository<User> Users { get; }
+        IRepository<UserProfile> UserProfiles { get; }
+        IRepository<UserSettings> UserSettings { get; }
     }
 }

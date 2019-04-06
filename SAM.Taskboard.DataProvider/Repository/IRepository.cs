@@ -1,15 +1,12 @@
-﻿using SAM.Taskboard.DataProvider.Utility;
-using System.Linq;
+﻿using System;
 
 namespace SAM.Taskboard.DataProvider.Repository
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity> : IDisposable where TEntity : class
     {
-        IQueryable<T> GetAll();
-        IQueryable<T> Get(int page, int pageSize);
-        T Get(int id);
-        void Create(T item);
-        void Update(T item);
+        TEntity Get(int id);
+        void Create(TEntity item);
+        void Update(TEntity item);
         void Delete(int id);
     }
 }

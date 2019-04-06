@@ -60,7 +60,17 @@
     <Compile Include="Identity\TaskboardClientManager.cs" />
     <Compile Include="Identity\TaskboardRoleManager.cs" />
     <Compile Include="Identity\TaskboardUserManager.cs" />
+    <Compile Include="ITaskboardContext.cs" />
     <Compile Include="IUnitOfWork.cs" />
+    <Compile Include="Migrations\201904050919409_1.cs" />
+    <Compile Include="Migrations\201904050919409_1.Designer.cs">
+      <DependentUpon>201904050919409_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904060503119_2.cs" />
+    <Compile Include="Migrations\201904060503119_2.Designer.cs">
+      <DependentUpon>201904060503119_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\BoardSettings.cs" />
@@ -73,15 +83,21 @@
     <Compile Include="Models\Task.cs" />
     <Compile Include="Models\Team.cs" />
     <Compile Include="Models\TeamUser.cs" />
-    <Compile Include="Repository\ActivityRepository.cs" />
+    <Compile Include="Repository\GenericRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="TaskboardContext.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Models\UserProfile.cs" />
     <Compile Include="Models\UserSettings.cs" />
     <Compile Include="UnitOfWork.cs" />
-    <Compile Include="Utility\Pagination.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201904050919409_1.resx">
+      <DependentUpon>201904050919409_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904060503119_2.resx">
+      <DependentUpon>201904060503119_2.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

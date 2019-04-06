@@ -4,7 +4,7 @@ using SAM.Taskboard.DataProvider.Models;
 
 namespace SAM.Taskboard.DataProvider
 {
-    public class TaskboardContext : IdentityDbContext<User>
+    public class TaskboardContext : IdentityDbContext<User>, ITaskboardContext
     {
         public TaskboardContext()
             : base("Taskboard")

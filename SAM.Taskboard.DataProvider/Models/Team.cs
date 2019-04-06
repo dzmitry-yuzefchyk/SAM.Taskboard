@@ -8,7 +8,6 @@ namespace SAM.Taskboard.DataProvider.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(64)]
         public string Title { get; set; } = "Team";
 
         public ICollection<Project> Projects { get; set; }

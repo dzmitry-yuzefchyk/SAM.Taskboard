@@ -8,6 +8,10 @@
 
         public Activity Activity { get; set; }
 
+        public int RoleId { get; set; }
+
+        public Role Rolde { get; set; }
+
         public Project Project { get; set; }
 
         public User User { get; set; }

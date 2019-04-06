@@ -8,20 +8,18 @@ namespace SAM.Taskboard.DataProvider.Models
         [Key]
         [ForeignKey("Project")]
         public int Id { get; set; }
+        
+        public Project Project { get; set; }
 
-        [MaxLength(2048)]
         public byte[] Background { get; set; }
 
         [Required]
-        [RegularExpression(@"CREATOR|ADMINISTRATOR|USER|VIEWER")]
         public string AccessToDeleteBoard { get; set; } = "Creator";
 
         [Required]
-        [RegularExpression(@"CREATOR|ADMINISTRATOR|USER|VIEWER")]
         public string AccessToChangeProject { get; set; } = "User";
 
         [Required]
-        [RegularExpression(@"CREATOR|ADMINISTRATOR|USER|VIEWER")]
         public string AccessToCreateTask { get; set; } = "User";
     }
 }
