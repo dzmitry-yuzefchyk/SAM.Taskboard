@@ -12,8 +12,6 @@ namespace SAM.Taskboard.DataProvider.Models
 
         public string About { get; set; }
 
-        public ICollection<Activity> Activities { get; set; }
-
         public ICollection<Board> Boards { get; set; }
 
         public ICollection<ProjectUser> ProjectUser { get; set; }
@@ -26,7 +24,6 @@ namespace SAM.Taskboard.DataProvider.Models
 
         public Project()
         {
-            Activities = new List<Activity>();
             Boards = new List<Board>();
             ProjectUser = new List<ProjectUser>();
         }

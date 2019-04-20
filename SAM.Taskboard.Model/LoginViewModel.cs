@@ -2,16 +2,13 @@
 
 namespace SAM.Taskboard.Model
 {
-    class LoginViewModel
+    public class LoginViewModel
     {
-        [Required]
-        public string UserName { get; set; }
+        [Required(ErrorMessage = "Поле не может быть пустым")]
+        public string Email { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Поле не может быть пустым")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        [Required]
-        public bool RememberMe { get; set; }
     }
 }

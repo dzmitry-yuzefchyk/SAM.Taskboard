@@ -1,24 +1,53 @@
-﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+﻿*
+{
+    margin: 0;
+    padding: 0;
+    font-family: Verdana;
 }
 
-/* Set padding to keep content from hitting the edges */
-.body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+html
+{
+    height: 100vh;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+body
+{
+    height: 100vh;
 }
 
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
+.small
+{
+    font-size: 0.80em;
+}
+
+.blur:before {
+    content: "";
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    display: block;
+    background-image: url(../Content/formImage.jpg);
+    background-repeat: no-repeat;
+    -webkit-filter: blur(0.5px);
+    -moz-filter: blur(0.5px);
+    -ms-filter: blur(0.5px);
+    filter: blur(0.5px);
+    transform: scale(1.1);
+}
+
+.input-length
+{
+    max-width: 13.2em;
+}
+
+.break-word
+{
+    word-break: break-all;
+}
+
+.blur
+{
+    height: 100%;
+    width: 100%;
+    display: block;
 }

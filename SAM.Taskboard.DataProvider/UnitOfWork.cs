@@ -13,7 +13,6 @@ namespace SAM.Taskboard.DataProvider
         {
             context = new TaskboardContext();
             UserManager = new TaskboardUserManager(new UserStore<User>(context));
-            RoleManager = new TaskboardRoleManager(new RoleStore<Role>(context));
             ClientManager = new TaskboardClientManager(context);
             Activities = new GenericRepository<Activity>(context);
             Boards = new GenericRepository<Board>(context);
@@ -33,8 +32,6 @@ namespace SAM.Taskboard.DataProvider
         }
 
         public TaskboardUserManager UserManager { get; }
-
-        public TaskboardRoleManager RoleManager { get; }
 
         public ITaskboardClientManager ClientManager { get; }
 
@@ -71,7 +68,6 @@ namespace SAM.Taskboard.DataProvider
         public void Dispose()
         {
             UserManager.Dispose();
-            RoleManager.Dispose();
             ClientManager.Dispose();
             Activities.Dispose();
             Boards.Dispose();

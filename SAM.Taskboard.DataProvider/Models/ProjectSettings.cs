@@ -17,9 +17,9 @@ namespace SAM.Taskboard.DataProvider.Models
         public string AccessToDeleteBoard { get; set; } = "Creator";
 
         [Required]
-        public string AccessToChangeProject { get; set; } = "User";
+        public string AccessToChangeProject { get; set; } = "Creator";
 
         [Required]
-        public string AccessToCreateTask { get; set; } = "User";
+        public string AccessToCreateBoard { get; set; } = "Creator";
     }
 }

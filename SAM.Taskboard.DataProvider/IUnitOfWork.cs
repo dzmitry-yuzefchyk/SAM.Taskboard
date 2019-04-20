@@ -8,7 +8,6 @@ namespace SAM.Taskboard.DataProvider
     public interface IUnitOfWork : IDisposable
     {
         TaskboardUserManager UserManager { get; }
-        TaskboardRoleManager RoleManager { get; }
         ITaskboardClientManager ClientManager { get; }
         IRepository<Activity> Activities { get; }
         IRepository<Board> Boards { get; }

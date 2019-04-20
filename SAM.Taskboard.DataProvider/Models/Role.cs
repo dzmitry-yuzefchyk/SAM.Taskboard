@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System.ComponentModel.DataAnnotations;
-
-namespace SAM.Taskboard.DataProvider.Models
+﻿namespace SAM.Taskboard.DataProvider.Models
 {
-    public class Role : IdentityRole
-    { }
+    public class Role
+    {
+        public int Id { get; set; }
+        public string RoleType { get; set; }
+    }
 }

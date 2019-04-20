@@ -10,7 +10,7 @@
 
         public int RoleId { get; set; }
 
-        public Role Rolde { get; set; }
+        public Role Role { get; set; }
 
         public Project Project { get; set; }
 

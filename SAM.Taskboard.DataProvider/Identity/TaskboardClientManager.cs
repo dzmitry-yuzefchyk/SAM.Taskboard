@@ -2,7 +2,7 @@
 
 namespace SAM.Taskboard.DataProvider.Identity
 {
-    class TaskboardClientManager : ITaskboardClientManager
+    public class TaskboardClientManager : ITaskboardClientManager
     {
         private TaskboardContext context;
         public TaskboardClientManager(TaskboardContext context)

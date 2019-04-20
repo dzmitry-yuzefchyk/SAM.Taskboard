@@ -3,6 +3,7 @@ using System.Web.Mvc;
 using SAM.Taskboard.DataProvider;
 using System;
 using System.Collections.Generic;
+using SAM.Taskboard.Logic.Services;
 
 namespace SAM.Taskboard.IoC
 {
@@ -14,6 +15,7 @@ namespace SAM.Taskboard.IoC
         {
             container = new UnityContainer();
             container.RegisterType<IUnitOfWork, UnitOfWork>();
+            container.RegisterType<IUserService, UserService>();
         }
 
         public object GetService(Type serviceType)

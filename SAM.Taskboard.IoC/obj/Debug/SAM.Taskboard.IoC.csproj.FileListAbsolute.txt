@@ -37,3 +37,9 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\obj\Debug\SAM.Ta
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\obj\Debug\SAM.Taskboard.IoC.csproj.CopyComplete
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\obj\Debug\SAM.Taskboard.IoC.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\obj\Debug\SAM.Taskboard.IoC.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\SAM.Taskboard.Logic.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\SAM.Taskboard.Logic.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\SAM.Taskboard.Logic.dll.config
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Owin.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.xml

@@ -58,17 +58,16 @@
   <ItemGroup>
     <Compile Include="Identity\ITaskboardClientManager.cs" />
     <Compile Include="Identity\TaskboardClientManager.cs" />
-    <Compile Include="Identity\TaskboardRoleManager.cs" />
     <Compile Include="Identity\TaskboardUserManager.cs" />
     <Compile Include="ITaskboardContext.cs" />
     <Compile Include="IUnitOfWork.cs" />
-    <Compile Include="Migrations\201904050919409_1.cs" />
-    <Compile Include="Migrations\201904050919409_1.Designer.cs">
-      <DependentUpon>201904050919409_1.cs</DependentUpon>
+    <Compile Include="Migrations\201904080540012_initial.cs" />
+    <Compile Include="Migrations\201904080540012_initial.Designer.cs">
+      <DependentUpon>201904080540012_initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201904060503119_2.cs" />
-    <Compile Include="Migrations\201904060503119_2.Designer.cs">
-      <DependentUpon>201904060503119_2.cs</DependentUpon>
+    <Compile Include="Migrations\201904171415424_removedColorSettings.cs" />
+    <Compile Include="Migrations\201904171415424_removedColorSettings.Designer.cs">
+      <DependentUpon>201904171415424_removedColorSettings.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity.cs" />
@@ -92,11 +91,11 @@
     <Compile Include="UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201904050919409_1.resx">
-      <DependentUpon>201904050919409_1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904080540012_initial.resx">
+      <DependentUpon>201904080540012_initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201904060503119_2.resx">
-      <DependentUpon>201904060503119_2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201904171415424_removedColorSettings.resx">
+      <DependentUpon>201904171415424_removedColorSettings.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
