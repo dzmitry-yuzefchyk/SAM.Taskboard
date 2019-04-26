@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security.DataProtection;
 using SAM.Taskboard.DataProvider.Identity;
 using SAM.Taskboard.DataProvider.Models;
 using SAM.Taskboard.DataProvider.Repository;
@@ -7,7 +10,7 @@ namespace SAM.Taskboard.DataProvider
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private TaskboardContext context;
+        private readonly TaskboardContext context;
 
         public UnitOfWork()
         {
@@ -29,6 +32,10 @@ namespace SAM.Taskboard.DataProvider
             Users = new GenericRepository<User>(context);
             UserProfiles = new GenericRepository<UserProfile>(context);
             UserSettings = new GenericRepository<UserSettings>(context);
+
+            var provider = new DpapiDataProtectionProvider("SAM.Taskboard");
+            UserManager.UserTokenProvider = new DataProtectorTokenProvider<User, string>(provider.Create("UserToken"))
+                as IUserTokenProvider<User, string>;
         }
 
         public TaskboardUserManager UserManager { get; }

@@ -1,16 +1,21 @@
 ﻿using Microsoft.Owin.Security;
 using SAM.Taskboard.Logic.Utility;
 using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace SAM.Taskboard.Logic.Services
 {
     public interface IUserService : IDisposable
     {
-        Task<Result> Register(string userName, string email, string password);
-        void LogIn(UserData userData, IAuthenticationManager authenticationManager, string providerKey = null, bool isPersistent = false);
+        Task<UserServiceResult> Register(string userName, string email, string password);
+        ClaimsIdentity PasswordEmailSignIn(string email, string password);
+        UserServiceResult IsUserEmailConfirmed(string email);
         void LogOut(IAuthenticationManager authenticationManager);
-        string GetUserId(string email);
-        Result SendConfirmationEmail(string userName, string email, string confirmationLink);
+        string GetUserIdByEmail(string email);
+        string GetUserNameByEmail(string email);
+        UserServiceResult SendConfirmationEmail(string userName, string email, string confirmationLink);
+        UserServiceResult ConfirmEmail(string userId, string token);
+        string GenerateEmailConfirmationToken(string userId);
     }
 }

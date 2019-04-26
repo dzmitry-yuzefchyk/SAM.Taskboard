@@ -248,9 +248,18 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Account\EmptyLayout.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
+    <Content Include="Views\Account\ConfirmationSent.cshtml" />
+    <Content Include="Views\Account\ResendConfirmation.cshtml" />
+    <Content Include="settings.json" />
+    <Content Include="Views\Account\ConfirmEmail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Board\" />
+    <Folder Include="Views\Profile\" />
+    <Folder Include="Views\Project\" />
+    <Folder Include="Views\Task\" />
+    <Folder Include="Views\Team\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -43,3 +43,13 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\SAM.Ta
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Owin.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Newtonsoft.Json.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Newtonsoft.Json.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.Cookies.xml

@@ -1,26 +1,37 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SAM.Taskboard.DataProvider;
 using SAM.Taskboard.DataProvider.Models;
 using SAM.Taskboard.Logic.Utility;
-using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace SAM.Taskboard.Logic.Services
 {
     public class UserService : IUserService
     {
+        private readonly string serviceEmail;
+        private readonly string servicePassword;
         private readonly IUnitOfWork unitOfWork;
 
         public UserService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
+
+            using (StreamReader stream = File.OpenText($"{HttpRuntime.AppDomainAppPath}\\..\\SAM.Taskboard.Logic\\settings.json"))
+            {
+                JObject settings = (JObject)JToken.ReadFrom(new JsonTextReader(stream));
+                this.serviceEmail = (string)settings["email"];
+                this.servicePassword = (string)settings["password"];
+            }
         }
 
-        public async Task<Result> Register(string userName, string email, string password)
+        public async Task<UserServiceResult> Register(string userName, string email, string password)
         {
             try
             {
@@ -37,72 +48,138 @@ namespace SAM.Taskboard.Logic.Services
 
                     if (result.Succeeded)
                     {
-                        return Result.success;
+                        return UserServiceResult.success;
                     }
 
                     else
                     {
-                        return Result.error;
+                        return UserServiceResult.error;
                     }
                 }
             }
 
             catch
             {
-                return Result.error;
+                return UserServiceResult.error;
             }
 
-            return Result.userAlreadyExists;
+            return UserServiceResult.userAlreadyExists;
         }
 
-        public Result SendConfirmationEmail(string userName, string email, string confirmationLink)
+        public UserServiceResult SendConfirmationEmail(string userName, string email, string confirmationLink)
         {
+            User user = unitOfWork.UserManager.FindByEmail(email);
+            if (user.EmailConfirmed)
+            {
+                return UserServiceResult.emailAlreadyConfirmed;
+            }
+
             try
             {
                 MailMessage m = new MailMessage(
-                new MailAddress("DTaskboard@gmail.com", "Registration"),
+                new MailAddress(serviceEmail, "Registration"),
                 new MailAddress(email));
                 m.Subject = "Email confirmation";
                 m.Body = $"Dear {userName}." +
-                         $"<br/ > Thank you for your registration, please click on below link to complete your registration: " +
-                         $"<a href =\"{confirmationLink}\"";
+                        $"<br/ >Thank you for your registration, please click on below link to complete your registration: " +
+                        $"<a href=\"{confirmationLink}\">click me</a>";
                 m.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient("smtp.gmail.com");
-                smtp.Credentials = new System.Net.NetworkCredential("DTaskboard@gmail.com", "greener0511");
+                smtp.Credentials = new System.Net.NetworkCredential(serviceEmail, servicePassword);
                 smtp.EnableSsl = true;
                 smtp.Send(m);
             }
 
             catch
             {
-                return Result.emailNotSent;
+                return UserServiceResult.emailNotSent;
             }
 
-            return Result.success;
+            return UserServiceResult.success;
         }
 
-        public string GetUserId(string email)
+        public string GenerateEmailConfirmationToken(string userId)
         {
-            return unitOfWork.UserManager.FindByEmail(email).Id;
+            return unitOfWork.UserManager.GenerateEmailConfirmationToken(userId);
         }
 
-        public void LogIn(UserData userData, IAuthenticationManager authenticationManager, string providerKey = null, bool isPersistent = false)
+        public UserServiceResult ConfirmEmail(string userId, string token)
         {
-            var claims = new List<Claim>();
+            User user = unitOfWork.UserManager.FindById(userId);
 
-            claims.Add(new Claim(ClaimTypes.NameIdentifier, userData.UserId));
-            claims.Add(new Claim(ClaimTypes.Name, userData.Name));
-
-            claims.Add(new Claim("userState", userData.ToString()));
-
-            var identity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
-
-            authenticationManager.SignIn(new AuthenticationProperties()
+            if (user != null)
             {
-                AllowRefresh = true,
-                IsPersistent = isPersistent,
-                ExpiresUtc = DateTime.UtcNow.AddDays(7)
-            }, identity);
+                if (user.EmailConfirmed)
+                {
+                    return UserServiceResult.emailAlreadyConfirmed;
+                }
+
+                unitOfWork.UserManager.ConfirmEmail(userId, token);
+                return UserServiceResult.success;
+            }
+
+            return UserServiceResult.userNotExist;
+        }
+
+        public string GetUserIdByEmail(string email)
+        {
+            string id;
+
+            try
+            {
+                id = unitOfWork.UserManager.FindByEmail(email).Id;
+            }
+
+            catch
+            {
+                id = null;
+            }
+
+            return id;
+        }
+
+        public string GetUserNameByEmail(string email)
+        {
+            string id = GetUserIdByEmail(email);
+
+            if (id == null)
+            {
+                return null;
+            }
+
+            return unitOfWork.ClientManager.GetProfile(id).Name;
+        }
+
+        public ClaimsIdentity LogIn(string userName, string password)
+        {
+            ClaimsIdentity claim = null;
+
+            User user = unitOfWork.UserManager.Find(userName, password);
+            if (user != null)
+            {
+                claim = unitOfWork.UserManager.CreateIdentity(user,
+                                            DefaultAuthenticationTypes.ApplicationCookie);
+            }
+
+            return claim;
+        }
+
+        public UserServiceResult IsUserEmailConfirmed(string email)
+        {
+            User user = unitOfWork.UserManager.FindByEmail(email);
+
+            if (!user.EmailConfirmed)
+            {
+                return UserServiceResult.emailNotConfirmed;
+            }
+
+            return UserServiceResult.emailAlreadyConfirmed;
+        }
+
+        public ClaimsIdentity PasswordEmailSignIn(string email, string password)
+        {
+            User user = unitOfWork.UserManager.FindByEmail(email);
+            return LogIn(user.UserName, password);
         }
 
         public void LogOut(IAuthenticationManager authenticationManager)

@@ -4,11 +4,14 @@ namespace SAM.Taskboard.Model
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "Поле не может быть пустым")]
+        [Required(ErrorMessage = "Please specify field")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "Поле не может быть пустым")]
+        [Required(ErrorMessage = "Please specify field")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        [Required]
+        public bool RememberMe { get; set; }
     }
 }

@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "EmptyLayout.cshtml";
+}
+
+@model SAM.Taskboard.Model.ResendConfirmationEmailViewModel
+
+<div class="blur">
+    <div class="d-flex justify-content-center h-100">
+        <div class="d-flex flex-column justify-content-center align-self-center rounded w-auto bg-light" style="opacity: 0.9">
+
+            <div class="row justify-content-center m-3">
+                Email @Model.Email was successfuly confirmed.
+                <p/>You may now sign-in
+            </div>
+
+            <div class="row justify-content-center mb-3">
+                @Html.ActionLink("Sign-in", "Login", null, new { @class = "btn btn-outline-primary" })
+            </div>
+
+        </div>
+    </div>
+</div>

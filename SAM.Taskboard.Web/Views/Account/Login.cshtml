@@ -12,29 +12,38 @@
                 {
                     @Html.AntiForgeryToken()
                     <div class="row justify-content-center">
-                        <label class="mb-3">Добро пожаловать</label>
+                        <label class="mb-3">Welcome</label>
                     </div>
 
                     <div class="row justify-content-center">
                         <div class="form-group">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Электронная почта" })
+                            @Html.TextBoxFor(m => m.Email, new { type = "email", @class = "form-control", placeholder = "Email" })
                             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger small" })
                         </div>
                     </div>
 
                     <div class="row justify-content-center">
                         <div class="form-group">
-                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Пароль" })
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "Password" })
                             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger small" })
                         </div>
                     </div>
 
-                    <div class="row justify-content-center text-danger small">
-                        @Html.ValidationSummary()
+                    <div class="row justify-content-center">
+                        <div class="form-check">
+                            @Html.CheckBoxFor(m => m.RememberMe, new { @class = "form-check-input" })
+                            <label class="form-check-label">
+                                Remember me
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="row justify-content-center mt-1 mb-2 text-danger small">
+                        @Html.ValidationMessage("Error")
                     </div>
 
                     <div class="row justify-content-center">
-                        <button type="submit" class="btn btn-outline-primary ml-2 mr-2">Войти</button>
+                        <button type="submit" class="btn btn-outline-primary ml-2 mr-2">Sign-in</button>
                     </div>
                 }
             </div>
@@ -42,11 +51,15 @@
             <div class="d-flex rounded-right p-4 flex-column justify-content-center align-items-center bg-primary text-light">
 
                 <div class="row justify-content-center pb-5">
-                    @Html.ActionLink("Зарегистрироваться", "Register", "Account", new { @class = "border-0 btn btn-outline-light" })
+                    @Html.ActionLink("Sign-up", "Register", null, new { @class = "border-0 btn btn-outline-light" })
+                </div>
+
+                <div class="row justify-content-center mb-3">
+                    @Html.ActionLink("Resend email", "ResendConfirmation", null, new { @class = "border-0 btn btn-outline-light" })
                 </div>
 
                 <div class="row justify-content-center">
-                    @Html.ActionLink("Восстановить пароль", "ResetPassword", "Account", new { @class = "border-0 btn btn-outline-light" })
+                    @Html.ActionLink("Forgot password?", "ResetPassword", null, new { @class = "border-0 btn btn-outline-light" })
                 </div>
 
             </div>
