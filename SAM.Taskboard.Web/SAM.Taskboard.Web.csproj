@@ -250,8 +250,9 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Account\ConfirmationSent.cshtml" />
     <Content Include="Views\Account\ResendConfirmation.cshtml" />
-    <Content Include="settings.json" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\ErrorHandler\Default.cshtml" />
+    <Content Include="Views\ErrorHandler\NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

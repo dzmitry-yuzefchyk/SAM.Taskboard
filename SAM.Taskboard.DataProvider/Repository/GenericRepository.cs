@@ -1,4 +1,6 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
+using System.Linq;
 
 namespace SAM.Taskboard.DataProvider.Repository
 {
@@ -17,6 +19,11 @@ namespace SAM.Taskboard.DataProvider.Repository
         {
             model.Add(item);
             context.SaveChanges();
+        }
+
+        public List<TEntity> Get(int amount, int skip)
+        {
+            return model.Skip(skip).Take(amount).ToList();
         }
 
         public void Delete(int id)

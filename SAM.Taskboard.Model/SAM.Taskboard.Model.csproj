@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="LoginViewModel.cs" />
+    <Compile Include="ProjectsViewModel.cs" />
     <Compile Include="RegisterViewModel.cs" />
     <Compile Include="ResendConfirmationEmailViewModel.cs" />
   </ItemGroup>
