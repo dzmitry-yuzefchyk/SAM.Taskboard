@@ -1,5 +1,4 @@
-﻿using Microsoft.Owin.Security;
-using SAM.Taskboard.Logic.Utility;
+﻿using SAM.Taskboard.Logic.Utility;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -11,7 +10,6 @@ namespace SAM.Taskboard.Logic.Services
         Task<UserServiceResult> Register(string userName, string email, string password);
         ClaimsIdentity PasswordEmailSignIn(string email, string password);
         UserServiceResult IsUserEmailConfirmed(string email);
-        void LogOut(IAuthenticationManager authenticationManager);
         string GetUserIdByEmail(string email);
         string GetUserNameByEmail(string email);
         UserServiceResult SendConfirmationEmail(string userName, string email, string confirmationLink);

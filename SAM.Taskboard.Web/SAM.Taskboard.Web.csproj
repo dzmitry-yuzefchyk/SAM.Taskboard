@@ -273,7 +273,7 @@
       <Name>SAM.Taskboard.IoC</Name>
     </ProjectReference>
     <ProjectReference Include="..\SAM.Taskboard.Logic\SAM.Taskboard.Logic.csproj">
-      <Project>{1DD4647F-821C-4881-8A82-031764B9BB61}</Project>
+      <Project>{B1EE1E24-4511-48F0-91AE-F92A9FC53EA7}</Project>
       <Name>SAM.Taskboard.Logic</Name>
     </ProjectReference>
     <ProjectReference Include="..\SAM.Taskboard.Model\SAM.Taskboard.Model.csproj">

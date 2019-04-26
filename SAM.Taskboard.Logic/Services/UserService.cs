@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SAM.Taskboard.DataProvider;
@@ -180,11 +179,6 @@ namespace SAM.Taskboard.Logic.Services
         {
             User user = unitOfWork.UserManager.FindByEmail(email);
             return LogIn(user.UserName, password);
-        }
-
-        public void LogOut(IAuthenticationManager authenticationManager)
-        {
-            authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
         }
 
         public void Dispose()
