@@ -33,7 +33,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: AzureRmWebAppDeployment
+- task: AzureRmWebAppDeployment@3
   inputs:
     azureSubscription: 'AzureWebApp'
     WebAppName: 'SAM-DTaskboard'
