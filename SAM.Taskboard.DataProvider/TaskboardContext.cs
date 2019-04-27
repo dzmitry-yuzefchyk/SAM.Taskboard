@@ -7,7 +7,7 @@ namespace SAM.Taskboard.DataProvider
     public class TaskboardContext : IdentityDbContext<User>, ITaskboardContext
     {
         public TaskboardContext()
-            : base("Taskboard")
+            : base("AzureTaskboard")
         { }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Board> Boards { get; set; }
