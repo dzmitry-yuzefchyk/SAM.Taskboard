@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using SAM.Taskboard.DataProvider;
 using SAM.Taskboard.DataProvider.Models;
 using SAM.Taskboard.Logic.Utility;
+using System;
 using System.IO;
 using System.Net.Mail;
 using System.Security.Claims;
@@ -22,11 +23,23 @@ namespace SAM.Taskboard.Logic.Services
         {
             this.unitOfWork = unitOfWork;
 
-            using (StreamReader stream = File.OpenText($"{HttpRuntime.AppDomainAppPath}\\..\\SAM.Taskboard.Logic\\settings.json"))
+            string email = Environment.GetEnvironmentVariable("email");
+            string password = Environment.GetEnvironmentVariable("password");
+
+            if (email != null && password != null)
             {
-                JObject settings = (JObject)JToken.ReadFrom(new JsonTextReader(stream));
-                this.serviceEmail = (string)settings["email"];
-                this.servicePassword = (string)settings["password"];
+                this.serviceEmail = email;
+                this.servicePassword = password;
+            }
+
+            else
+            {
+                using (StreamReader stream = File.OpenText($"{HttpRuntime.AppDomainAppPath}\\..\\SAM.Taskboard.Logic\\settings.json"))
+                {
+                    JObject settings = (JObject)JToken.ReadFrom(new JsonTextReader(stream));
+                    this.serviceEmail = (string)settings["email"];
+                    this.servicePassword = (string)settings["password"];
+                }
             }
         }
 
