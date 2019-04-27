@@ -33,8 +33,7 @@ steps:
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
-- task: AzureRmWebAppDeployment@3
+- task: AzureRmWebAppDeployment
   inputs:
     azureSubscription: 'AzureWebApp'
     WebAppName: 'SAM-DTaskboard'
-    Package: $(System.ArtifactsDirectory)/**/*.zip
