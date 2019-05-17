@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAM.Taskboard.DataProvider.Repository
 {
     public interface IRepository<TEntity> : IDisposable where TEntity : class
     {
         TEntity Get(int id);
-        List<TEntity> Get(int amount, int skip);
+        IEnumerable<TEntity> Get(int amount, int skip, Func<TEntity, object> orderBy, Func<TEntity, bool> where);
+        int Count(Func<TEntity, bool> where);
+        TEntity GetFirstOrDefaultWhere(Func<TEntity, bool> where);
         void Create(TEntity item);
         void Update(TEntity item);
         void Delete(int id);

@@ -40,10 +40,14 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="LoginViewModel.cs" />
-    <Compile Include="ProjectsViewModel.cs" />
-    <Compile Include="RegisterViewModel.cs" />
-    <Compile Include="ResendConfirmationEmailViewModel.cs" />
+    <Compile Include="Account\LoginViewModel.cs" />
+    <Compile Include="CustomRoles.cs" />
+    <Compile Include="PaginationModel.cs" />
+    <Compile Include="Project\CreateProjectViewModel.cs" />
+    <Compile Include="Project\ProjectsViewModel.cs" />
+    <Compile Include="Account\RegisterViewModel.cs" />
+    <Compile Include="Account\ResendConfirmationEmailViewModel.cs" />
+    <Compile Include="Project\ProjectViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -68,6 +72,12 @@
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SAM.Taskboard.DataProvider\SAM.Taskboard.DataProvider.csproj">
+      <Project>{EBC29B68-078D-458B-8C29-CEEA77044F67}</Project>
+      <Name>SAM.Taskboard.DataProvider</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

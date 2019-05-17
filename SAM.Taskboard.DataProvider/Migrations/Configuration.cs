@@ -1,10 +1,6 @@
 namespace SAM.Taskboard.DataProvider.Migrations
 {
-    using SAM.Taskboard.DataProvider.Models;
-    using System;
-    using System.Data.Entity;
     using System.Data.Entity.Migrations;
-    using System.Linq;
 
     internal sealed class Configuration : DbMigrationsConfiguration<SAM.Taskboard.DataProvider.TaskboardContext>
     {
@@ -19,15 +15,15 @@ namespace SAM.Taskboard.DataProvider.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
-            Role administrator = new Role { Id = 0, RoleType = "ADMINISTRATOR" };
-            Role creator = new Role { Id = 1, RoleType = "CREATOR" };
-            Role user = new Role { Id = 2, RoleType = "USER" };
-            Role viewer = new Role { Id = 3, RoleType = "VIEWER" };
+            //Role administrator = new Role { Id = 0, RoleType = "ADMINISTRATOR" };
+            //Role creator = new Role { Id = 1, RoleType = "CREATOR" };
+            //Role user = new Role { Id = 2, RoleType = "USER" };
+            //Role viewer = new Role { Id = 3, RoleType = "VIEWER" };
 
-            context.Roles.AddOrUpdate(administrator);
-            context.Roles.AddOrUpdate(creator);
-            context.Roles.AddOrUpdate(user);
-            context.Roles.AddOrUpdate(viewer);
+            //context.Roles.AddOrUpdate(administrator);
+            //context.Roles.AddOrUpdate(creator);
+            //context.Roles.AddOrUpdate(user);
+            //context.Roles.AddOrUpdate(viewer);
         }
     }
 }

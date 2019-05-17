@@ -77,6 +77,14 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Migrations\201905151735468_changedRolesToEnum.cs" />
+    <Compile Include="Migrations\201905151735468_changedRolesToEnum.Designer.cs">
+      <DependentUpon>201905151735468_changedRolesToEnum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905151745093_changedSettingsRolesToEnum.cs" />
+    <Compile Include="Migrations\201905151745093_changedSettingsRolesToEnum.Designer.cs">
+      <DependentUpon>201905151745093_changedSettingsRolesToEnum.cs</DependentUpon>
+    </Compile>
     <Compile Include="Identity\ITaskboardClientManager.cs" />
     <Compile Include="Identity\TaskboardClientManager.cs" />
     <Compile Include="Identity\TaskboardUserManager.cs" />
@@ -90,6 +98,38 @@
     <Compile Include="Migrations\201904171415424_removedColorSettings.Designer.cs">
       <DependentUpon>201904171415424_removedColorSettings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905150729160_removed_teams.cs" />
+    <Compile Include="Migrations\201905150729160_removed_teams.Designer.cs">
+      <DependentUpon>201905150729160_removed_teams.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905150733597_addedUniqueIndexToRoles.cs" />
+    <Compile Include="Migrations\201905150733597_addedUniqueIndexToRoles.Designer.cs">
+      <DependentUpon>201905150733597_addedUniqueIndexToRoles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905151240486_removedRolesTable.cs" />
+    <Compile Include="Migrations\201905151240486_removedRolesTable.Designer.cs">
+      <DependentUpon>201905151240486_removedRolesTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905151307339_removedActivityRelation.cs" />
+    <Compile Include="Migrations\201905151307339_removedActivityRelation.Designer.cs">
+      <DependentUpon>201905151307339_removedActivityRelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905151341065_addedId.cs" />
+    <Compile Include="Migrations\201905151341065_addedId.Designer.cs">
+      <DependentUpon>201905151341065_addedId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905151529475_addedBoardId.cs" />
+    <Compile Include="Migrations\201905151529475_addedBoardId.Designer.cs">
+      <DependentUpon>201905151529475_addedBoardId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905151531112_addedUserId.cs" />
+    <Compile Include="Migrations\201905151531112_addedUserId.Designer.cs">
+      <DependentUpon>201905151531112_addedUserId.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905161057276_changedCustomRoleToInt.cs" />
+    <Compile Include="Migrations\201905161057276_changedCustomRoleToInt.Designer.cs">
+      <DependentUpon>201905161057276_changedCustomRoleToInt.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Board.cs" />
@@ -99,10 +139,7 @@
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectSettings.cs" />
     <Compile Include="Models\ProjectUser.cs" />
-    <Compile Include="Models\Role.cs" />
     <Compile Include="Models\Task.cs" />
-    <Compile Include="Models\Team.cs" />
-    <Compile Include="Models\TeamUser.cs" />
     <Compile Include="Repository\GenericRepository.cs" />
     <Compile Include="Repository\IRepository.cs" />
     <Compile Include="TaskboardContext.cs" />
@@ -117,6 +154,36 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201904171415424_removedColorSettings.resx">
       <DependentUpon>201904171415424_removedColorSettings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905150729160_removed_teams.resx">
+      <DependentUpon>201905150729160_removed_teams.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905150733597_addedUniqueIndexToRoles.resx">
+      <DependentUpon>201905150733597_addedUniqueIndexToRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905151240486_removedRolesTable.resx">
+      <DependentUpon>201905151240486_removedRolesTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905151307339_removedActivityRelation.resx">
+      <DependentUpon>201905151307339_removedActivityRelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905151341065_addedId.resx">
+      <DependentUpon>201905151341065_addedId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905151529475_addedBoardId.resx">
+      <DependentUpon>201905151529475_addedBoardId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905151531112_addedUserId.resx">
+      <DependentUpon>201905151531112_addedUserId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905151735468_changedRolesToEnum.resx">
+      <DependentUpon>201905151735468_changedRolesToEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905151745093_changedSettingsRolesToEnum.resx">
+      <DependentUpon>201905151745093_changedSettingsRolesToEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905161057276_changedCustomRoleToInt.resx">
+      <DependentUpon>201905161057276_changedCustomRoleToInt.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -30,3 +30,13 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Deb
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\Microsoft.Owin.Security.Cookies.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\Microsoft.Owin.Security.OAuth.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\Newtonsoft.Json.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.removed_teams.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.addedUniqueIndexToRoles.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.removedRolesTable.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.removedActivityRelation.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.addedId.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.addedBoardId.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.addedUserId.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.changedRolesToEnum.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.changedSettingsRolesToEnum.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.changedCustomRoleToInt.resources

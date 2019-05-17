@@ -25,10 +25,7 @@ namespace SAM.Taskboard.DataProvider
             Projects = new GenericRepository<Project>(context);
             ProjectSettings = new GenericRepository<ProjectSettings>(context);
             ProjectUser = new GenericRepository<ProjectUser>(context);
-            Roles = new GenericRepository<Role>(context);
             Tasks = new GenericRepository<Task>(context);
-            Teams = new GenericRepository<Team>(context);
-            TeamUser = new GenericRepository<TeamUser>(context);
             Users = new GenericRepository<User>(context);
             UserProfiles = new GenericRepository<UserProfile>(context);
             UserSettings = new GenericRepository<UserSettings>(context);
@@ -58,13 +55,7 @@ namespace SAM.Taskboard.DataProvider
 
         public IRepository<ProjectUser> ProjectUser { get; }
 
-        public IRepository<Role> Roles { get; }
-
         public IRepository<Task> Tasks { get; }
-
-        public IRepository<Team> Teams { get; }
-
-        public IRepository<TeamUser> TeamUser { get; }
 
         public IRepository<User> Users { get; }
 
@@ -84,10 +75,7 @@ namespace SAM.Taskboard.DataProvider
             Projects.Dispose();
             ProjectSettings.Dispose();
             ProjectUser.Dispose();
-            Roles.Dispose();
             Tasks.Dispose();
-            Teams.Dispose();
-            TeamUser.Dispose();
             Users.Dispose();
             UserProfiles.Dispose();
             UserSettings.Dispose();
