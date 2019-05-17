@@ -59,8 +59,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IProjectService.cs" />
     <Compile Include="Services\IUserService.cs" />
+    <Compile Include="Services\ProjectService.cs" />
     <Compile Include="Services\UserService.cs" />
+    <Compile Include="Utility\GenericServiceResult.cs" />
     <Compile Include="Utility\UserServiceResult.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +75,10 @@
     <ProjectReference Include="..\SAM.Taskboard.DataProvider\SAM.Taskboard.DataProvider.csproj">
       <Project>{EBC29B68-078D-458B-8C29-CEEA77044F67}</Project>
       <Name>SAM.Taskboard.DataProvider</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SAM.Taskboard.Model\SAM.Taskboard.Model.csproj">
+      <Project>{E33FEFCA-73BD-46FB-997C-61678A67139A}</Project>
+      <Name>SAM.Taskboard.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

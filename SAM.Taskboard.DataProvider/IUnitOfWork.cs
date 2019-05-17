@@ -17,10 +17,7 @@ namespace SAM.Taskboard.DataProvider
         IRepository<Project> Projects { get; }
         IRepository<ProjectSettings> ProjectSettings { get; }
         IRepository<ProjectUser> ProjectUser { get; }
-        IRepository<Role> Roles { get; }
         IRepository<Task> Tasks { get; }
-        IRepository<Team> Teams { get; }
-        IRepository<TeamUser> TeamUser { get; }
         IRepository<User> Users { get; }
         IRepository<UserProfile> UserProfiles { get; }
         IRepository<UserSettings> UserSettings { get; }

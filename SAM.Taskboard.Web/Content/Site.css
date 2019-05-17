@@ -33,6 +33,9 @@ body
     -ms-filter: blur(0.5px);
     filter: blur(0.5px);
     transform: scale(1.1);
+    z-index: -1;
+    left: 0;
+    top: 0;
 }
 
 .input-length
@@ -50,4 +53,15 @@ body
     height: 100%;
     width: 100%;
     display: block;
+}
+
+.hover-effect
+{
+    transition: ease-in-out 0.3s !important;
+}
+
+.hover-effect:hover
+{
+    transform: scale(1.05);
+    transition: ease-in-out 0.3s !important;
 }

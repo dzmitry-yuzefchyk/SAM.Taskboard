@@ -53,3 +53,6 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Micros
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.OAuth.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.Cookies.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\SAM.Taskboard.Model.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\SAM.Taskboard.Model.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\SAM.Taskboard.Model.dll.config
