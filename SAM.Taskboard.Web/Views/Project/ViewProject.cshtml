@@ -7,53 +7,50 @@
 <div class="container w-100">
     <div class="d-flex flex-column align-items-center justify-content-center w-100">
         <div class="row mt-4">
-            @Model.ProjectTitle
+            Projects
         </div>
-        @{
-            if (Model.Boards.Count == 0)
-            {
-                <div class="row">
-                    <h5 class="mt-4">
-                        There is no boards yet.
-                    </h5>
-                </div>
-            }
-            else
-            {
-                <div class="d-flex flex-wrap justify-content-around">
-                    @foreach (var board in Model.Boards)
-                    {
-                        <div class="card mt-4 mb-4 hover-effect" style="width: 200px; height: 50px">
-                            <div class="card-body">
-                                @board.Title
-                            </div>
-                            @Html.ActionLink("View", "ViewBoard", "Board", new { boardId = board.Id }, new { @class = "border-0 btn btn-outline-primary ml-2 mr-2 mb-2" })
-                        </div>
-                    }
-                </div>
-            }
-        }
 
-        @Html.ActionLink("Create new board", "Create", "Board", null, new { @class = "border-0 btn btn-outline-primary mt-4 mb-4" })
+        @Html.Partial("BoardsList", Model)
+
+
+        <button type="button" class="btn btn-primary m-4" data-toggle="modal" data-target="#exampleModalCenter">
+            Create new board
+        </button>
+
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Create new project</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+
+                    @Html.Partial("CreateBoard", new SAM.Taskboard.Model.Project.CreateProjectViewModel())
+
+                </div>
+            </div>
+        </div>
 
         @if (Model.Boards.Count != 0)
         {
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href=@Url.Action("ViewProject", new { page = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 })>
+                    <a class="page-link" href=@Url.Action("AllProjects", new { page = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 })>
                         Previous
                     </a>
                 </li>
                 @foreach (int pageNumber in Model.Pages)
                 {
                     <li class='page-item @(Model.CurrentPage == pageNumber ? "active" : String.Empty)'>
-                        <a class="page-link" href=@Url.Action("ViewProject", new { page = pageNumber })>
+                        <a class="page-link" href=@Url.Action("AllProjects", new { page = pageNumber })>
                             @pageNumber
                         </a>
                     </li>
                 }
                 <li class="page-item">
-                    <a class="page-link" href=@Url.Action("ViewProject", new { page = Model.CurrentPage < Model.PagesCount ? Model.CurrentPage + 1 : Model.PagesCount })>
+                    <a class="page-link" href=@Url.Action("AllProjects", new { page = Model.CurrentPage < Model.PagesCount ? Model.CurrentPage + 1 : Model.PagesCount })>
                         Next
                     </a>
                 </li>
