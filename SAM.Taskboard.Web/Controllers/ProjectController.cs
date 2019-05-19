@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using SAM.Taskboard.Logic.Services;
 using SAM.Taskboard.Logic.Utility;
-using SAM.Taskboard.Model;
 using SAM.Taskboard.Model.Project;
 using System.Web.Mvc;
 
@@ -19,28 +18,30 @@ namespace SAM.Taskboard.Web.Controllers
         public ActionResult AllProjects(int page = 0)
         {
             string userId = User.Identity.GetUserId();
-            ProjectsViewModel projectsViewModel = projectService.GetProjects(userId, page);
-            return View(projectsViewModel);
+            ProjectsViewModel model = projectService.GetProjects(userId, page);
+            return View(model);
         }
         [HttpGet]
-        public ActionResult View(int projectId, int page)
+        public ActionResult ProjectsList(int page)
         {
             string userId = User.Identity.GetUserId();
-            projectService.GetBoards(userId, projectId, page);
-            return View();
+            ProjectsViewModel model = projectService.GetProjects(userId, page);
+            return PartialView(model);
         }
         [HttpGet]
-        public ActionResult Create()
+        public ActionResult ViewProject(int projectId, int page = 0)
         {
-            return View();
+            string userId = User.Identity.GetUserId();
+            ProjectViewModel model = projectService.GetBoards(userId, projectId, page);
+            return View(model);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateProjectViewModel model)
+        public ActionResult CreateProject(CreateProjectViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return PartialView(model);
             }
 
             string userId = User.Identity.GetUserId();
@@ -49,12 +50,12 @@ namespace SAM.Taskboard.Web.Controllers
             if (result == GenericServiceResult.Error)
             {
                 ModelState.AddModelError("Error", "Unknown error");
-                return View(model);
+                return PartialView(model);
             }
 
             else
             {
-                return RedirectToAction("AllProjects");
+                return Json(new { success = true } );
             }
         }
     }

@@ -1,4 +1,8 @@
-﻿@model SAM.Taskboard.Model.Project.ProjectsViewModel
+﻿@{
+    Layout = "~/Views/Shared/ProjectLayout.cshtml";
+}
+
+@model SAM.Taskboard.Model.Project.ProjectViewModel
 
 <div class="container w-100">
     <div class="d-flex flex-column align-items-center justify-content-center w-100">
@@ -6,11 +10,11 @@
             Projects
         </div>
 
-        @Html.Partial("ProjectsList", Model)
+        @Html.Partial("BoardsList", Model)
 
 
         <button type="button" class="btn btn-primary m-4" data-toggle="modal" data-target="#exampleModalCenter">
-            Create new project
+            Create new board
         </button>
 
         <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -23,13 +27,13 @@
                         </button>
                     </div>
 
-                    @Html.Partial("CreateProject", new SAM.Taskboard.Model.Project.CreateProjectViewModel())
+                    @Html.Partial("CreateBoard", new SAM.Taskboard.Model.Project.CreateProjectViewModel())
 
                 </div>
             </div>
         </div>
 
-        @if (Model.Projects.Count != 0)
+        @if (Model.Boards.Count != 0)
         {
             <ul class="pagination">
                 <li class="page-item">

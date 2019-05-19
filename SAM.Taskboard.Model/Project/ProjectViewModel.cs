@@ -2,7 +2,7 @@
 
 namespace SAM.Taskboard.Model.Project
 {
-    public class ProjectViewModel
+    public class ProjectViewModel : PaginationModel
     {
         public string ProjectTitle { get; set; }
         public List<BoardInfo> Boards { get; set; }
