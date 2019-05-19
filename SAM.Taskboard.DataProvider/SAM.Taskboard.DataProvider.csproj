@@ -130,6 +130,14 @@
     <Compile Include="Migrations\201905161057276_changedCustomRoleToInt.Designer.cs">
       <DependentUpon>201905161057276_changedCustomRoleToInt.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201905191457518_addedColumnPosition.cs" />
+    <Compile Include="Migrations\201905191457518_addedColumnPosition.Designer.cs">
+      <DependentUpon>201905191457518_addedColumnPosition.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905191506469_changedTaskFields.cs" />
+    <Compile Include="Migrations\201905191506469_changedTaskFields.Designer.cs">
+      <DependentUpon>201905191506469_changedTaskFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Board.cs" />
@@ -184,6 +192,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201905161057276_changedCustomRoleToInt.resx">
       <DependentUpon>201905161057276_changedCustomRoleToInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905191457518_addedColumnPosition.resx">
+      <DependentUpon>201905191457518_addedColumnPosition.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905191506469_changedTaskFields.resx">
+      <DependentUpon>201905191506469_changedTaskFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

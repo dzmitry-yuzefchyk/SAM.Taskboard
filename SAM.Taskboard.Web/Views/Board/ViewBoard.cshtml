@@ -1,0 +1,40 @@
+﻿@model SAM.Taskboard.Model.Board.BoardViewModel
+
+<div class="container w-100">
+    <div class="d-flex flex-column align-items-center justify-content-center w-100">
+        <div class="row mt-4">
+            @Model.ProjectTitle
+        </div>
+
+        @Html.Partial("~/Views/Board/BoardList.cshtml", Model)
+
+        <button type="button" class="btn btn-primary m-4" data-toggle="modal" data-target="#exampleModalCenter">
+            Add column
+        </button>
+
+        @if (Model.CanUserChangeProject)
+        {
+            <div>Настройки</div>
+        }
+
+        @if (Model.CanUserCreateBoard)
+        {
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Create new board</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        @Html.Partial("~/Views/Board/CreateBoard.cshtml", new SAM.Taskboard.Model.Board.CreateBoardViewModel { ProjectId = Model.ProjectId })
+
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

@@ -7,6 +7,7 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Micr
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Newtonsoft.Json.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.DataProvider.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.Security.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.dll
@@ -15,6 +16,8 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Micr
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.Security.Cookies.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.DataProvider.pdb
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.DataProvider.dll.config
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.dll.config
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\EntityFramework.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\EntityFramework.SqlServer.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.Identity.Core.xml
@@ -30,6 +33,3 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.csproj.CopyComplete
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.pdb
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.dll
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.pdb
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.dll.config

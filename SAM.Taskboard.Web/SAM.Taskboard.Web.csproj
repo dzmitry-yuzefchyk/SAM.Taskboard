@@ -282,10 +282,12 @@
     <Content Include="Views\Shared\ProjectLayout.cshtml" />
     <Content Include="Views\Project\CreateProject.cshtml" />
     <Content Include="Views\Project\ProjectsList.cshtml" />
+    <Content Include="Views\Board\BoardList.cshtml" />
+    <Content Include="Views\Board\CreateBoard.cshtml" />
+    <Content Include="Views\Board\ViewBoard.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Board\" />
     <Folder Include="Views\Profile\" />
     <Folder Include="Views\Task\" />
     <Folder Include="Views\Team\" />

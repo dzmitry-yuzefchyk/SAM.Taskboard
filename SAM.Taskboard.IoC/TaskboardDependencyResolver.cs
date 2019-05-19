@@ -17,6 +17,7 @@ namespace SAM.Taskboard.IoC
             container.RegisterType<IUnitOfWork, UnitOfWork>();
             container.RegisterType<IUserService, UserService>();
             container.RegisterType<IProjectService, ProjectService>();
+            container.RegisterType<IBoardService, BoardService>();
         }
 
         public object GetService(Type serviceType)
