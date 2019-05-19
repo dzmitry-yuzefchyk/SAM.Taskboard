@@ -30,3 +30,6 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.csproj.CopyComplete
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.dll.config

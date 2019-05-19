@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 
@@ -21,9 +22,19 @@ namespace SAM.Taskboard.DataProvider.Repository
             context.SaveChanges();
         }
 
-        public List<TEntity> Get(int amount, int skip)
+        public int Count(Func<TEntity, bool> where)
         {
-            return model.Skip(skip).Take(amount).ToList();
+            return model.Where(where).Count();
+        }
+
+        public IEnumerable<TEntity> Get(int amount, int skip, Func<TEntity, object> orderBy, Func<TEntity, bool> where)
+        {
+            return model.Where(where).OrderBy(orderBy).Skip(skip).Take(amount);
+        }
+
+        public TEntity GetFirstOrDefaultWhere(Func<TEntity, bool> where)
+        {
+            return model.Where(where).FirstOrDefault();
         }
 
         public void Delete(int id)

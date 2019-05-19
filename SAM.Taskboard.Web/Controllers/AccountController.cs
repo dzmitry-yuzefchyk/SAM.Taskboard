@@ -57,13 +57,14 @@ namespace SAM.Taskboard.Web.Controllers
                         IsPersistent = model.RememberMe,
                     }, claim);
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("AllProjects", "Project");
                 }
             }
 
             return View(model);
         }
 
+        [Authorize]
         public ActionResult Logout()
         {
             AuthenticationManager.SignOut();
@@ -178,7 +179,7 @@ namespace SAM.Taskboard.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult ConfirmEmail(string token, string userId, string email)//TODO: maybe remove email from parameters
+        public ActionResult ConfirmEmail(string token, string userId, string email)
         {
             UserServiceResult result = UserService.ConfirmEmail(userId, token);
 
@@ -189,18 +190,19 @@ namespace SAM.Taskboard.Web.Controllers
 
             if (result == UserServiceResult.emailAlreadyConfirmed)
             {
-                return View();// TODO: error handling
+                return View();// TODO: Error handling
             }
 
             else
             {
-                return View(); // TODO: error handling
+                return View(); // TODO: Error handling
             }
         }
 
         #endregion
 
-        #region ResetPassword // TODO: reset password
+        //TODO: Reset password
+        #region ResetPassword 
         public ActionResult ResetPassword()
         {
             return View();

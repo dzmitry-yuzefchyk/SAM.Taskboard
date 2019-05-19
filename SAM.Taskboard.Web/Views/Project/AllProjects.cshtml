@@ -1,0 +1,62 @@
+﻿@model SAM.Taskboard.Model.ProjectsViewModel
+
+<div class="container w-100">
+    <div class="d-flex flex-column align-items-center justify-content-center w-100">
+        <div class="row mt-4">
+            Projects
+        </div>
+        @{
+            if (Model.Projects.Count == 0)
+            {
+                <div class="row">
+                    <h5 class="mt-4">
+                        There is no projects yet.
+                    </h5>
+                </div>
+            }
+            else
+            {
+                <div class="d-flex flex-wrap justify-content-around">
+                    @foreach (var project in Model.Projects)
+                    {
+                        <div class="card mt-4 mb-4 ml-3 mr-3 hover-effect" style="width: 300px">
+                            <h5 class="card-header">
+                                @project.ProjectName
+                            </h5>
+                            <div class="card-body">
+                                @project.About
+                            </div>
+                            @Html.ActionLink("View", "View", new { projectId = project.Id }, new { @class = "border-0 btn btn-outline-primary ml-2 mr-2 mb-2" })
+                        </div>
+                    }
+                </div>
+            }
+        }
+
+        @Html.ActionLink("Create new project", "Create", null, new { @class = "border-0 btn btn-outline-primary mt-4 mb-4" })
+
+        @if (Model.Projects.Count != 0)
+        {
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href=@Url.Action("AllProjects", new { page = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 })>
+                        Previous
+                    </a>
+                </li>
+                    @foreach (int pageNumber in Model.Pages)
+                    {
+                        <li class='page-item @(Model.CurrentPage == pageNumber ? "active" : String.Empty)'>
+                            <a class="page-link" href=@Url.Action("AllProjects", new { page = pageNumber })>
+                                @pageNumber
+                            </a>
+                        </li>
+                    }
+                <li class="page-item">
+                    <a class="page-link" href=@Url.Action("AllProjects", new { page = Model.CurrentPage < Model.PagesCount ? Model.CurrentPage + 1 : Model.PagesCount })>
+                        Next
+                    </a>
+                </li>
+            </ul>
+         }
+    </div>
+</div>

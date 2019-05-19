@@ -14,12 +14,12 @@ namespace SAM.Taskboard.DataProvider.Models
         public byte[] Background { get; set; }
 
         [Required]
-        public string AccessToDeleteBoard { get; set; } = "Creator";
+        public int AccessToDeleteBoard { get; set; }
 
         [Required]
-        public string AccessToChangeProject { get; set; } = "Creator";
+        public int AccessToChangeProject { get; set; }
 
         [Required]
-        public string AccessToCreateBoard { get; set; } = "Creator";
+        public int AccessToCreateBoard { get; set; }
     }
 }

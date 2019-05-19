@@ -14,8 +14,6 @@ namespace SAM.Taskboard.DataProvider
          DbSet<ProjectSettings> ProjectSettings { get; set; }
          DbSet<ProjectUser> ProjectsUsers { get; set; }
          DbSet<Task> Tasks { get; set; }
-         DbSet<Team> Teams { get; set; }
-         DbSet<TeamUser> TeamsUsers { get; set; }
          DbSet<UserProfile> UserProfiles { get; set; }
          DbSet<UserSettings> UserSettings { get; set; }
     }

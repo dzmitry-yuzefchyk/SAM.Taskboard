@@ -14,12 +14,12 @@ namespace SAM.Taskboard.DataProvider.Models
         public byte[] Background { get; set; }
 
         [Required]
-        public string AccessToDeleteTask { get; set; } = "Admin";
+        public int AccessToDeleteTask { get; set; }
 
         [Required]
-        public string AccessToChangeTask { get; set; } = "User";
+        public int AccessToChangeTask { get; set; }
 
         [Required]
-        public string AccessToCreateTask { get; set; } = "User";
+        public int AccessToCreateTask { get; set; }
     }
 }

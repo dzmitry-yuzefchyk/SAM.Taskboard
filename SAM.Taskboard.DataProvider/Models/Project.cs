@@ -18,10 +18,6 @@ namespace SAM.Taskboard.DataProvider.Models
 
         public ProjectSettings Settings { get; set; }
 
-        public int TeamId { get; set; }
-
-        public Team Team { get; set; }
-
         public Project()
         {
             Boards = new List<Board>();
