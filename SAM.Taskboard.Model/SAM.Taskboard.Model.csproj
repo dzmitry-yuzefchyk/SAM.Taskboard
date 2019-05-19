@@ -46,11 +46,14 @@
     <Compile Include="Board\CreateBoardViewModel.cs" />
     <Compile Include="CustomRoles.cs" />
     <Compile Include="PaginationModel.cs" />
+    <Compile Include="Priority.cs" />
     <Compile Include="Project\CreateProjectViewModel.cs" />
     <Compile Include="Project\ProjectsViewModel.cs" />
     <Compile Include="Account\RegisterViewModel.cs" />
     <Compile Include="Account\ResendConfirmationEmailViewModel.cs" />
     <Compile Include="Project\ProjectViewModel.cs" />
+    <Compile Include="Severity.cs" />
+    <Compile Include="TaskType.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

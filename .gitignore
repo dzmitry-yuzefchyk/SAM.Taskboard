@@ -1,3 +1,4 @@
 /packages
 /.vs/SAM.Taskboard
 settings.json
+/SAM.Taskboard.Web/Web.config

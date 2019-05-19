@@ -1,56 +1,59 @@
-﻿@{
-    Layout = "~/Views/Shared/ProjectLayout.cshtml";
-}
-
-@model SAM.Taskboard.Model.Project.ProjectViewModel
+﻿@model SAM.Taskboard.Model.Project.ProjectViewModel
 
 <div class="container w-100">
     <div class="d-flex flex-column align-items-center justify-content-center w-100">
         <div class="row mt-4">
-            Projects
+            @Model.ProjectTitle
         </div>
 
-        @Html.Partial("BoardsList", Model)
-
+        @Html.Partial("~/Views/Board/BoardList.cshtml", Model)
 
         <button type="button" class="btn btn-primary m-4" data-toggle="modal" data-target="#exampleModalCenter">
             Create new board
         </button>
 
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Create new project</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+        @if (Model.CanUserChangeProject)
+        {
+            <div>Настройки</div>
+        }
+
+        @if (Model.CanUserCreateBoard)
+        {
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLongTitle">Create new board</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+
+                        @Html.Partial("~/Views/Board/CreateBoard.cshtml", new SAM.Taskboard.Model.Board.CreateBoardViewModel { ProjectId = Model.ProjectId })
+
                     </div>
-
-                    @Html.Partial("CreateBoard", new SAM.Taskboard.Model.Project.CreateProjectViewModel())
-
                 </div>
             </div>
-        </div>
+         }
 
-        @if (Model.Boards.Count != 0)
+        @if (Model.Boards.Count > Model.PageSize)
         {
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href=@Url.Action("AllProjects", new { page = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 })>
+                    <a class="page-link" href=@Url.Action("ViewProject", new { projectId = Model.ProjectId, page = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 })>
                         Previous
                     </a>
                 </li>
                 @foreach (int pageNumber in Model.Pages)
                 {
                     <li class='page-item @(Model.CurrentPage == pageNumber ? "active" : String.Empty)'>
-                        <a class="page-link" href=@Url.Action("AllProjects", new { page = pageNumber })>
+                        <a class="page-link" href=@Url.Action("ViewProject", new { projectId = Model.ProjectId, page = pageNumber })>
                             @pageNumber
                         </a>
                     </li>
                 }
                 <li class="page-item">
-                    <a class="page-link" href=@Url.Action("AllProjects", new { page = Model.CurrentPage < Model.PagesCount ? Model.CurrentPage + 1 : Model.PagesCount })>
+                    <a class="page-link" href=@Url.Action("ViewProject", new { projectId = Model.ProjectId, page = Model.CurrentPage < Model.PagesCount ? Model.CurrentPage + 1 : Model.PagesCount })>
                         Next
                     </a>
                 </li>

@@ -16,14 +16,15 @@ namespace SAM.Taskboard.DataProvider.Models
         public byte[] Attachments { get; set; }
 
         [Required]
-        public string Type { get; set; } = "BUG";
-
+        public int Type { get; set; }
         [Required]
-        public string Priority { get; set; } = "LOW";
+        public int Priority { get; set; }
 
-        public string Severity { get; set; } = "LOW";
+        public int Severity { get; set; }
 
-        public string Asignee { get; set; }
+        public string UserId { get; set; }
+
+        public User User { get; set; }
 
         public TimeSpan TimeToComplete { get; set; }
 

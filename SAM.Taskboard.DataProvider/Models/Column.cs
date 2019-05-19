@@ -11,6 +11,7 @@ namespace SAM.Taskboard.DataProvider.Models
         public string Title { get; set; } = "Column";
 
         public ICollection<Task> Tasks { get; set; }
+        public int Position { get; set; }
 
         public int BoardId { get; set; }
 
