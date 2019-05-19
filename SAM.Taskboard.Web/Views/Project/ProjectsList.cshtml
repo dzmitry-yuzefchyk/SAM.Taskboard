@@ -1,0 +1,31 @@
+﻿@model SAM.Taskboard.Model.Project.ProjectsViewModel
+
+<div id="projects">
+    @{
+        if (Model.Projects.Count == 0)
+        {
+            <div class="row">
+                <h5 class="mt-4">
+                    There is no projects yet.
+                </h5>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex flex-wrap justify-content-around">
+                @foreach (var project in Model.Projects)
+                {
+                    <div class="card mt-4 mb-4 ml-3 mr-3 hover-effect" style="width: 300px">
+                        <h5 class="card-header">
+                            @project.ProjectName
+                        </h5>
+                        <div class="card-body">
+                            @project.About
+                        </div>
+                        @Html.ActionLink("View", "ViewProject", new { projectId = project.Id }, new { @class = "border-0 btn btn-outline-primary ml-2 mr-2 mb-2" })
+                    </div>
+                }
+            </div>
+        }
+    }
+</div>

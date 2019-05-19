@@ -1,0 +1,78 @@
+﻿@model SAM.Taskboard.Model.Project.CreateProjectViewModel
+
+<div id="modalForm">
+    @using (Html.BeginForm("CreateProject", "Project", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Title, new { type = "text", @class = "form-control", placeholder = "Project name", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    @Html.TextAreaFor(m => m.About, new { type = "text", @class = "form-control", placeholder = "Quick project summary", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.About, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <label>Who can change project?</label>
+                    @Html.DropDownListFor(m => m.AccessToChangeProject, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.AccessToChangeProject, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <label>Who can create board?</label>
+                    @Html.DropDownListFor(m => m.AccessToCreateBoard, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.AccessToCreateBoard, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <label>Who can delete boards?</label>
+                    @Html.DropDownListFor(m => m.AccessToDeleteBoard, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.AccessToDeleteBoard, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-1 mb-2 text-danger small">
+                @Html.ValidationMessage("Error")
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="createProject" type="button" class="btn btn-primary">Create</button>
+        </div>
+    }
+</div>
+
+<script>
+    $('#createProject').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CreateProject", "Project")',
+            data: $('form').serialize(),
+            success: function (result) {
+                if (result.success) {
+                    $('#closeModal').click();
+                    location.reload();
+                } else {
+                    $("#modalForm").html(result);
+                }
+            },
+            error: function () {
+                $("#modalForm").html(result);
+            }
+        });
+    });
+</script>
