@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace SAM.Taskboard.Model
+namespace SAM.Taskboard.Model.Project
 {
     public class ProjectsViewModel : PaginationModel
     {

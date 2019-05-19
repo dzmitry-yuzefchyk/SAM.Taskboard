@@ -13,7 +13,7 @@ namespace SAM.Taskboard.Logic.Services
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly int projectsPageSize = 9;
-        private readonly int boardsPageSize = 9;
+        private readonly int boardsPageSize = 20;
         public ProjectService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
@@ -101,7 +101,14 @@ namespace SAM.Taskboard.Logic.Services
                     boards.Add(new BoardInfo { Id = boardId, Title = boardTitle });
                 }
 
-                ProjectViewModel projectViewModel = new ProjectViewModel { Boards = boards };
+                int rowsCount = unitOfWork.ProjectUser.Count(u => u.UserId == userId);
+                ProjectViewModel projectViewModel = new ProjectViewModel {
+                    Boards = boards,
+                    CurrentPage = currentPage,
+                    PageSize = boardsPageSize,
+                    RowsCount = rowsCount
+                };
+                projectViewModel.GetPages();
 
                 return projectViewModel;
             }
