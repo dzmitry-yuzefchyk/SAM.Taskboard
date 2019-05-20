@@ -1,0 +1,49 @@
+﻿@model SAM.Taskboard.Model.Board.CreateColumnViewModel
+
+<div id="modalForm">
+    @using (Html.BeginForm("CreateProject", "Project", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Title, new { type = "text", @class = "form-control", placeholder = "Column name", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-1 mb-2 text-danger small">
+                @Html.ValidationMessage("Error")
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="addColumn" type="button" class="btn btn-primary">Create</button>
+        </div>
+    }
+</div>
+
+<script>
+    const model = @Html.Raw(Json.Encode(Model));
+    $('#addColumn').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("AddColumn", "Board")?boardId=' + model.BoardId,
+            data: $('form').serialize(),
+            success: function (result) {
+                if (result.success) {
+                    $('#closeModal').click();
+                    location.reload();
+                } else {
+                    $("#modalForm").html(result);
+                }
+            },
+            error: function () {
+                $("#modalForm").html(result);
+            }
+        });
+    });
+</script>
+

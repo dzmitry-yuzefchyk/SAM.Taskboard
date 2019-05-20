@@ -2,7 +2,6 @@
 using SAM.Taskboard.Logic.Services;
 using SAM.Taskboard.Logic.Utility;
 using SAM.Taskboard.Model.Board;
-using System.Web;
 using System.Web.Mvc;
 
 namespace SAM.Taskboard.Web.Controllers
@@ -11,12 +10,29 @@ namespace SAM.Taskboard.Web.Controllers
     public class BoardController : Controller
     {
         private readonly IBoardService boardService;
+
         public BoardController(IBoardService boardService)
         {
             this.boardService = boardService;
         }
 
+        [HttpGet]
+        public ActionResult ViewBoard(int boardId)
+        {
+            string userId = User.Identity.GetUserId();
+            bool isUserHaveAccess = boardService.IsUserHaveAccess(userId, boardId);
+
+            if (!isUserHaveAccess)
+            {
+                return RedirectToAction("AllProjects", "Project");
+            }
+
+            BoardViewModel model = boardService.GetBoard(userId, boardId);
+            return View(model);
+        }
+
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult CreateBoard(CreateBoardViewModel model, int projectId)
         {
             if (!ModelState.IsValid)
@@ -26,6 +42,32 @@ namespace SAM.Taskboard.Web.Controllers
 
             string userId = User.Identity.GetUserId();
             GenericServiceResult result = boardService.CreateBoard(model, userId, projectId);
+
+            if (result == GenericServiceResult.Error)
+            {
+                ModelState.AddModelError("Error", "Unknown error");
+                return PartialView(model);
+            }
+
+            else
+            {
+                return Json(new { success = true });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddColumn(CreateColumnViewModel model, int boardId)
+        {
+            string userId = User.Identity.GetUserId();
+            bool isUserHaveAccess = boardService.IsUserHaveAccess(userId, boardId);
+
+            if (!isUserHaveAccess)
+            {
+                return RedirectToAction("AllProjects", "Project");
+            }
+
+            GenericServiceResult result = boardService.AddColumn(model, boardId);
 
             if (result == GenericServiceResult.Error)
             {

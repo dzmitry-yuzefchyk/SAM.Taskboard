@@ -1,0 +1,94 @@
+﻿@model SAM.Taskboard.Model.Task.CreateTaskViewModel
+
+<div id="modalForm">
+    @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+    <div class="modal-body">
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.Title, new { type = "text", @class = "form-control", placeholder = "Task name", style = "width: 250px" })
+                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                @Html.TextAreaFor(m => m.Content, new { type = "text", @class = "form-control", placeholder = "Task description", style = "width: 250px" })
+                @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                <label>Type</label>
+                @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskType))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                @Html.ValidationMessageFor(m => m.Type, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                <label>Severity</label>
+                @Html.DropDownListFor(m => m.Severity, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.Severity))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                @Html.ValidationMessageFor(m => m.Severity, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                <label>Priority</label>
+                @Html.DropDownListFor(m => m.Priority, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.Priority))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                <label>Assignee</label>
+                @Html.DropDownListFor(m => m.AssigneeId, Model.TeamMembers, new { type = "text", @class = "form-control", style = "width: 250px" })
+                @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                <label>Attachments</label>
+                <input type="file" />
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-1 mb-2 text-danger small">
+            @Html.ValidationMessage("Error")
+        </div>
+    </div>
+
+        <div class="modal-footer">
+            <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="createProject" type="button" class="btn btn-primary">Create</button>
+        </div>
+    }
+</div>
+
+<script>
+    $('#createProject').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CreateTask", "Task")',
+            data: $('form').serialize(),
+            success: function (result) {
+                if (result.success) {
+                    $('#closeModal').click();
+                    location.reload();
+                } else {
+                    $("#modalForm").html(result);
+                }
+            },
+            error: function () {
+                $("#modalForm").html(result);
+            }
+        });
+    });
+</script>
+

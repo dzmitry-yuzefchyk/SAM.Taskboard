@@ -9,5 +9,6 @@ namespace SAM.Taskboard.Logic.Services
         ProjectsViewModel GetProjects(string userId, int currentPage);
         GenericServiceResult CreateNewProject(string userId, CreateProjectViewModel model);
         ProjectViewModel GetBoards(string userId, int projectId, int currentPage);
+        bool IsUserHaveAccess(string userId, int projectId);
     }
 }
