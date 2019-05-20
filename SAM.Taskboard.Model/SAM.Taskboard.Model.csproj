@@ -44,6 +44,7 @@
     <Compile Include="Board\BoardsViewModel.cs" />
     <Compile Include="Board\BoardViewModel.cs" />
     <Compile Include="Board\CreateBoardViewModel.cs" />
+    <Compile Include="Board\CreateColumnViewModel.cs" />
     <Compile Include="CustomRoles.cs" />
     <Compile Include="PaginationModel.cs" />
     <Compile Include="Priority.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Project\ProjectViewModel.cs" />
     <Compile Include="Severity.cs" />
     <Compile Include="TaskType.cs" />
+    <Compile Include="Task\CreateTaskViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

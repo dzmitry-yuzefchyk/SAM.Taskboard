@@ -32,6 +32,11 @@ namespace SAM.Taskboard.DataProvider.Repository
             return model.Where(where).OrderBy(orderBy).Skip(skip).Take(amount);
         }
 
+        public IEnumerable<TEntity> Get(Func<TEntity, bool> where)
+        {
+            return model.Where(where);
+        }
+
         public TEntity GetFirstOrDefaultWhere(Func<TEntity, bool> where)
         {
             return model.Where(where).FirstOrDefault();

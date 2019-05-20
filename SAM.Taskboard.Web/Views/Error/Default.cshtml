@@ -1,0 +1,16 @@
+﻿@{
+    Layout = "~/Views/Shared/EmptyLayout.cshtml";
+}
+
+<div class="d-flex justify-content-center flex-column h-100 bg-primary">
+    <div class="row justify-content-center">
+        <h5 class="text-light">
+            An error occuried
+        </h5>
+    </div>
+    <div class="row justify-content-center">
+        <h5 class="text-light">
+            @Html.ActionLink("Return", "AllProjects", "Project", null, new { @class = "border-0 btn btn-outline-light" })
+        </h5>
+    </div>
+</div>

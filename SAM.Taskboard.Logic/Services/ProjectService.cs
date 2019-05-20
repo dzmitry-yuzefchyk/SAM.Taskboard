@@ -41,7 +41,8 @@ namespace SAM.Taskboard.Logic.Services
                 }
 
                 int rowsCount = unitOfWork.ProjectUser.Count(u => u.UserId == userId);
-                ProjectsViewModel projectsViewModel = new ProjectsViewModel {
+                ProjectsViewModel projectsViewModel = new ProjectsViewModel
+                {
                     Projects = projects,
                     CurrentPage = currentPage,
                     PageSize = projectsPageSize,
@@ -112,7 +113,8 @@ namespace SAM.Taskboard.Logic.Services
                 int rowsCount = unitOfWork.Boards.Count(u => u.ProjectId == projectId);
                 bool canUserCreateBoard = roleNumber <= roleToCreateBoard;
                 bool canUserChangeProject = roleNumber <= roleToChangeProject;
-                ProjectViewModel projectViewModel = new ProjectViewModel {
+                ProjectViewModel projectViewModel = new ProjectViewModel
+                {
                     ProjectId = projectId,
                     ProjectTitle = projectTitle,
                     CanUserChangeProject = canUserChangeProject,
@@ -130,7 +132,19 @@ namespace SAM.Taskboard.Logic.Services
             //TODO: Error handling
             catch (SystemException e)
             {
-                return null;
+                return new ProjectViewModel();
+            }
+        }
+
+        public bool IsUserHaveAccess(string userId, int projectId)
+        {
+            try
+            {
+                return unitOfWork.ProjectUser.GetFirstOrDefaultWhere(u => u.UserId == userId && u.ProjectId == projectId) != null;
+            }
+            catch
+            {
+                return false;
             }
         }
 

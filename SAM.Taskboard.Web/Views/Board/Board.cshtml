@@ -1,0 +1,61 @@
+﻿@model SAM.Taskboard.Model.Board.BoardViewModel
+
+
+@if (Model.Columns.Count == 0)
+{
+    <div class="row">
+        <h5 class="mt-4">
+            Board is empty.
+        </h5>
+    </div>
+}
+else
+{
+    <div class="d-flex">
+        @foreach (var column in Model.Columns)
+        {
+        <div class="d-flex flex-column shadow-lg m-4 rounded">
+            <div class="row justify-content-center" style="width: 250px">
+                <h5 class="mt-3">
+                    @column.Title
+                </h5>
+            </div>
+
+            @foreach (var task in column.Tasks)
+            {
+                <div class="card mt-2 mb-2 ml-2 mr-2 hover-effect" style="width: 200px">
+
+                    <div class="card-header">
+                        @task.Title
+                    </div>
+
+                    <div class="card-body">
+                        @task.CreationTime
+                    </div>
+
+                    @Html.ActionLink("View", "ViewTask", "Task", new { taskId = task.Id }, new { @class = "border-0 btn btn-outline-primary ml-2 mr-2 mb-2" })
+                </div>
+
+            }
+
+            @if (Model.CanUserCreateTask)
+            {
+                <button type="button" class="btn btn-primary m-4" data-toggle="modal" data-target="#modalTask">
+                    Create task
+                </button>
+
+                <div class="modal fade" id="modalTask" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered" style="width: 300px;" role="document">
+                        <div class="modal-content">
+
+                            @Html.Partial("~/Views/Task/AddTask.cshtml", new SAM.Taskboard.Model.Task.CreateTaskViewModel())
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+        }
+    </div>
+}

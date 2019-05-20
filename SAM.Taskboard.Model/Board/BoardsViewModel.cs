@@ -8,10 +8,10 @@ namespace SAM.Taskboard.Model.Board
 {
     public class BoardsViewModel : PaginationModel
     {
-        public List<Board> Boards { get; set; }
+        public List<BoardInfo> Boards { get; set; }
     }
 
-    public class Board
+    public class BoardInfo
     {
         public string Title { get; set; }
     }
