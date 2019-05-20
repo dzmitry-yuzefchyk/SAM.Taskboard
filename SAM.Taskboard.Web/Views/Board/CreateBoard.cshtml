@@ -1,0 +1,72 @@
+﻿@model SAM.Taskboard.Model.Board.CreateBoardViewModel
+
+<div id="modalForm">
+    @using (Html.BeginForm("CreateBoard", "Board", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Title, new { type = "text", @class = "form-control", placeholder = "Board name", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <label>Who can create task?</label>
+                    @Html.DropDownListFor(m => m.AccessToCreateTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.AccessToCreateTask, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <label>Who can change task?</label>
+                    @Html.DropDownListFor(m => m.AccessToChangeTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.AccessToChangeTask, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group">
+                    <label>Who can delete task?</label>
+                    @Html.DropDownListFor(m => m.AccessToDeleteTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.AccessToDeleteTask, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center mt-1 mb-2 text-danger small">
+                @Html.ValidationMessage("Error")
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="createBoard" type="button" class="btn btn-primary">Create</button>
+        </div>
+    }
+</div>
+
+<script>
+    const model = @Html.Raw(Json.Encode(Model));
+    $('#createBoard').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CreateBoard", "Board")?projectId=' + model.ProjectId,
+            data: $('form').serialize(),
+            success: function (result) {
+                if (result.success) {
+                    $('#closeModal').click();
+                    location.reload();
+                } else {
+                    $("#modalForm").html(result);
+                }
+            },
+            error: function () {
+                $("#modalForm").html(result);
+            }
+        });
+    });
+</script>

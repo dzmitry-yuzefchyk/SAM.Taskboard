@@ -4,17 +4,15 @@ namespace SAM.Taskboard.Model.Board
 {
     public class CreateBoardViewModel
     {
+        public int ProjectId { get; set; }
         [MaxLength(64, ErrorMessage = "Maximum 64 symbols")]
         [Required(ErrorMessage = "Please specify field")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Please specify field")]
-        [MaxLength(512, ErrorMessage = "Maximum 512 symbols")]
-        public string About { get; set; }
+        public CustomRoles AccessToDeleteTask { get; set; }
         [Required(ErrorMessage = "Please specify field")]
-        public CustomRoles AccessToDeleteBoard { get; set; }
+        public CustomRoles AccessToChangeTask { get; set; }
         [Required(ErrorMessage = "Please specify field")]
-        public CustomRoles AccessToChangeProject { get; set; }
-        [Required(ErrorMessage = "Please specify field")]
-        public CustomRoles AccessToCreateBoard { get; set; }
+        public CustomRoles AccessToCreateTask { get; set; }
     }
 }

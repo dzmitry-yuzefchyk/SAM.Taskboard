@@ -32,6 +32,13 @@ namespace SAM.Taskboard.Web.Controllers
         public ActionResult ViewProject(int projectId, int page = 0)
         {
             string userId = User.Identity.GetUserId();
+            bool isUserHaveAccess = projectService.IsUserHaveAccess(userId, projectId);
+
+            if (!isUserHaveAccess)
+            {
+                return RedirectToAction("AllProjects");
+            }
+
             ProjectViewModel model = projectService.GetBoards(userId, projectId, page);
             return View(model);
         }
@@ -55,7 +62,7 @@ namespace SAM.Taskboard.Web.Controllers
 
             else
             {
-                return Json(new { success = true } );
+                return Json(new { success = true });
             }
         }
     }

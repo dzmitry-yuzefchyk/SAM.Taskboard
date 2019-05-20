@@ -1,0 +1,31 @@
+﻿@model SAM.Taskboard.Model.Board.BoardViewModel
+
+<div class="container w-100">
+    <div class="d-flex flex-column align-items-center justify-content-center w-100">
+        <div class="row mt-4">
+            @Model.Title
+        </div>
+
+        @Html.Partial("Board", Model)
+
+        <button type="button" class="btn btn-primary m-4" data-toggle="modal" data-target="#modalColumn">
+            Add column
+        </button>
+
+        @if (Model.CanUserChangeProject)
+        {
+            <div class="modal fade" id="modalColumn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" style="width: 300px;" role="document">
+                    <div class="modal-content">
+
+                        @Html.Partial("AddColumn", new SAM.Taskboard.Model.Board.CreateColumnViewModel { BoardId = Model.BoardId })
+
+                    </div>
+                </div>
+            </div>
+
+            <div>#Тут будут настройки</div>
+        }
+
+    </div>
+</div>

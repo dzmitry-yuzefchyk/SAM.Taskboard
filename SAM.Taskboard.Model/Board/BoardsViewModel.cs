@@ -6,7 +6,13 @@ using System.Threading.Tasks;
 
 namespace SAM.Taskboard.Model.Board
 {
-    class BoardsViewModel
+    public class BoardsViewModel : PaginationModel
     {
+        public List<BoardInfo> Boards { get; set; }
+    }
+
+    public class BoardInfo
+    {
+        public string Title { get; set; }
     }
 }

@@ -41,7 +41,13 @@ namespace SAM.Taskboard.Logic.Services
                 }
 
                 int rowsCount = unitOfWork.ProjectUser.Count(u => u.UserId == userId);
-                ProjectsViewModel projectsViewModel = new ProjectsViewModel { Projects = projects, CurrentPage = currentPage, PageSize = 9, RowsCount = rowsCount };
+                ProjectsViewModel projectsViewModel = new ProjectsViewModel
+                {
+                    Projects = projects,
+                    CurrentPage = currentPage,
+                    PageSize = projectsPageSize,
+                    RowsCount = rowsCount
+                };
                 projectsViewModel.GetPages();
 
                 return projectsViewModel;
@@ -82,27 +88,37 @@ namespace SAM.Taskboard.Logic.Services
         {
             try
             {
-                var result = unitOfWork.BoardUser.Get(
+                var result = unitOfWork.Boards.Get
+                (
                     boardsPageSize,
                     (currentPage - 1) * boardsPageSize,
                     x => x.Id,
-                    u => u.UserId == userId && u.Board.ProjectId == projectId
-                    ).ToList();
+                    u => u.ProjectId == projectId
+                ).ToList();
 
                 List<BoardInfo> boards = new List<BoardInfo>();
 
                 int roleNumber = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
-                CustomRoles userProjectRole = (CustomRoles)roleNumber;
+                int roleToChangeProject = unitOfWork.ProjectSettings.GetFirstOrDefaultWhere(x => x.Id == projectId).AccessToChangeProject;
+                int roleToCreateBoard = unitOfWork.ProjectSettings.GetFirstOrDefaultWhere(x => x.Id == projectId).AccessToCreateBoard;
 
-                foreach (var boardUser in result)
+                foreach (var board in result)
                 {
-                    int boardId = boardUser.BoardId;
-                    string boardTitle = unitOfWork.Boards.Get(boardId).Title;
+                    int boardId = board.Id;
+                    string boardTitle = board.Title;
                     boards.Add(new BoardInfo { Id = boardId, Title = boardTitle });
                 }
 
-                int rowsCount = unitOfWork.ProjectUser.Count(u => u.UserId == userId);
-                ProjectViewModel projectViewModel = new ProjectViewModel {
+                string projectTitle = unitOfWork.Projects.Get(projectId).Title;
+                int rowsCount = unitOfWork.Boards.Count(u => u.ProjectId == projectId);
+                bool canUserCreateBoard = roleNumber <= roleToCreateBoard;
+                bool canUserChangeProject = roleNumber <= roleToChangeProject;
+                ProjectViewModel projectViewModel = new ProjectViewModel
+                {
+                    ProjectId = projectId,
+                    ProjectTitle = projectTitle,
+                    CanUserChangeProject = canUserChangeProject,
+                    CanUserCreateBoard = canUserCreateBoard,
                     Boards = boards,
                     CurrentPage = currentPage,
                     PageSize = boardsPageSize,
@@ -116,7 +132,19 @@ namespace SAM.Taskboard.Logic.Services
             //TODO: Error handling
             catch (SystemException e)
             {
-                return null;
+                return new ProjectViewModel();
+            }
+        }
+
+        public bool IsUserHaveAccess(string userId, int projectId)
+        {
+            try
+            {
+                return unitOfWork.ProjectUser.GetFirstOrDefaultWhere(u => u.UserId == userId && u.ProjectId == projectId) != null;
+            }
+            catch
+            {
+                return false;
             }
         }
 

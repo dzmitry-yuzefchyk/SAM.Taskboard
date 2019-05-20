@@ -4,9 +4,11 @@ namespace SAM.Taskboard.Model.Project
 {
     public class ProjectViewModel : PaginationModel
     {
+        public int ProjectId { get; set; }
         public string ProjectTitle { get; set; }
+        public bool CanUserChangeProject { get; set; }
         public List<BoardInfo> Boards { get; set; }
-        public bool CanUserCreateBoar { get; set; } = false;
+        public bool CanUserCreateBoard { get; set; } = false;
     }
 
     public class BoardInfo

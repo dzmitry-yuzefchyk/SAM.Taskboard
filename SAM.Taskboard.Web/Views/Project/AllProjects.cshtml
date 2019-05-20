@@ -29,7 +29,7 @@
             </div>
         </div>
 
-        @if (Model.Projects.Count != 0)
+        @if (Model.Projects.Count > Model.PageSize)
         {
             <ul class="pagination">
                 <li class="page-item">

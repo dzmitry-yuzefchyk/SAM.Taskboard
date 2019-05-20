@@ -65,3 +65,16 @@ body
     transform: scale(1.05);
     transition: ease-in-out 0.3s !important;
 }
+
+.icon-plus
+{
+    background-image: url(../Content/plus.svg);
+    background-size: 50px 50px;
+    background-repeat: no-repeat;
+    color: red;
+}
+
+.icon-plus:hover
+{
+    color: blue
+}
