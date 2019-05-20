@@ -36,6 +36,12 @@ namespace SAM.Taskboard.Web.Controllers
             {
                 UserServiceResult result = UserService.IsUserEmailConfirmed(model.Email);
 
+                if (result == UserServiceResult.userNotExist)
+                {
+                    ModelState.AddModelError("Error", "User not exists");
+                    return View(model);
+                }
+
                 if (result == UserServiceResult.emailNotConfirmed)
                 {
                     ModelState.AddModelError("Error", "Your email not confirmed");

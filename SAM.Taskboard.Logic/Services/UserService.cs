@@ -178,9 +178,16 @@ namespace SAM.Taskboard.Logic.Services
 
         public UserServiceResult IsUserEmailConfirmed(string email)
         {
+
             try
             {
-                User user = unitOfWork.UserManager.FindByEmail(email);
+                User user = new User();
+                user = unitOfWork.UserManager.FindByEmail(email);
+
+                if (user == null)
+                {
+                    return UserServiceResult.userNotExist;
+                }
 
                 if (!user.EmailConfirmed)
                 {
@@ -189,10 +196,9 @@ namespace SAM.Taskboard.Logic.Services
 
                 return UserServiceResult.emailAlreadyConfirmed;
             }
-
             catch
             {
-                return UserServiceResult.emailNotConfirmed;
+                return UserServiceResult.emailAlreadyConfirmed;
             }
         }
 
