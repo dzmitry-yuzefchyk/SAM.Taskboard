@@ -8,7 +8,9 @@ namespace SAM.Taskboard.DataProvider
     {
         public TaskboardContext()
             : base("AzureTaskboard")
-        { }
+        {
+            Database.SetInitializer<TaskboardContext>(new DropCreateDatabaseIfModelChanges<TaskboardContext>());
+        }
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Board> Boards { get; set; }
         public DbSet<BoardSettings> BoardSettings { get; set; }
