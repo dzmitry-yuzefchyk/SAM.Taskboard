@@ -7,7 +7,7 @@ namespace SAM.Taskboard.DataProvider
     public class TaskboardContext : IdentityDbContext<User>, ITaskboardContext
     {
         public TaskboardContext()
-            : base("Taskboard")
+            : base("AzureTaskboard")
         {
             Database.SetInitializer<TaskboardContext>(new DropCreateDatabaseIfModelChanges<TaskboardContext>());
         }
