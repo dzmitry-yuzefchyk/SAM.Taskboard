@@ -7,7 +7,7 @@ namespace SAM.Taskboard.Logic.Services
     {
         GenericServiceResult CreateBoard(CreateBoardViewModel model, string userId, int projectId);
         BoardViewModel GetBoard(string userId, int boardId);
-        GenericServiceResult AddColumn(CreateColumnViewModel model, int boadId);
+        GenericServiceResult AddColumn(CreateColumnViewModel model);
         bool IsUserHaveAccess(string userId, int boardId);
     }
 }

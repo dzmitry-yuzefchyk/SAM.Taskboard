@@ -22,6 +22,7 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Deb
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\Microsoft.Owin.Security.Cookies.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\Microsoft.Owin.Security.OAuth.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\bin\Debug\Newtonsoft.Json.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.csprojAssemblyReference.cache
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.initial.resources
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.removedColorSettings.resources
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.removed_teams.resources
@@ -41,4 +42,4 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Deb
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.csproj.CopyComplete
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.pdb
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.csprojAssemblyReference.cache
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.theme.resources

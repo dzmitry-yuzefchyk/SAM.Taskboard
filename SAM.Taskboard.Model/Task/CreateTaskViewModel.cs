@@ -7,33 +7,35 @@ namespace SAM.Taskboard.Model.Task
 {
     public class CreateTaskViewModel
     {
-        [Required]
-        [MaxLength(32, ErrorMessage = "Please specify this field")]
+        public int BoardId { get; set; }
+
+        public int ColumnId { get; set; }
+
+        [Required(ErrorMessage = "Please specify this field")]
+        [MaxLength(32, ErrorMessage = "Maximum length is 32 symbols")]
         public string Title { get; set; }
 
-        [MaxLength(1024, ErrorMessage = "Please specify this field")]
+        [MaxLength(1024, ErrorMessage = "Maximum length is 1024 symbols")]
         public string Content { get; set; }
 
         [Required]
-        public int Type { get; set; }
+        public TaskType Type { get; set; }
 
         [Required]
-        public int Severity { get; set; }
+        public Severity Severity { get; set; }
 
         [Required]
-        public int Priority { get; set; }
+        public Priority Priority { get; set; }
 
-        public byte[] Attachments { get; set; }
+        public List<byte[]> Attachments { get; set; }
 
         public IEnumerable<SelectListItem> TeamMembers { get; set; } = new SelectList(new[]
-    {
-        new { AssigneeId="1", Name="name1" },
-        new { AssigneeId="2", Name="name2" },
-        new { AssigneeId="3", Name="name3" },
-    }, "AssigneeId", "Name", 1);
+            {
+                new { AssigneeId="1", Name="name1" },
+                new { AssigneeId="2", Name="name2" },
+                new { AssigneeId="3", Name="name3" },
+            }, "AssigneeId", "Name", 1);
 
-        public SelectListItem AssigneeId { get; set; }
-
-        public DateTime TimToComplete { get; set; }
+        public string AssigneeEmail { get; set; }
     }
 }

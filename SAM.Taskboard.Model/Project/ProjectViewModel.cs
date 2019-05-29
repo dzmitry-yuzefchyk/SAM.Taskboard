@@ -8,7 +8,7 @@ namespace SAM.Taskboard.Model.Project
         public string ProjectTitle { get; set; }
         public bool CanUserChangeProject { get; set; }
         public List<BoardInfo> Boards { get; set; }
-        public bool CanUserCreateBoard { get; set; } = false;
+        public bool CanUserCreateBoard { get; set; }
     }
 
     public class BoardInfo

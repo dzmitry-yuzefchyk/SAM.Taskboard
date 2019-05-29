@@ -4,40 +4,82 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - DTaskboard</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/popper")
     @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/bootstrap")
 </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-primary pl-xl-5" style="opacity: 0.85; z-index: 9999">
-            <a class="navbar-brand text-light" href="@Url.Action("AllProjects", "Project")">DTaskboard</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+<body>
+    @*<div class="container-fluid h-100">
+            <div class="row h-100">
+                <aside class="col-auto col-md-auto p-0 m-0 bg-primary">
+                    <nav class="navbar navbar-expand navbar-light bg-primary flex-md-column flex-row align-items-start">
+                        <div class="collapse navbar-collapse">
 
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-auto">
+                            <ul class="flex-md-column flex-row navbar-nav w-100 justify-content-between">
+                                <li class="nav-item">
+                                    <a class="navbar-brand text-light" href="@Url.Action("AllProjects", "Project")">DTaskboard</a>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        @{Html.RenderAction("GetUserName", "Profile");}
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#">Settings</a>
+                                        <a class="dropdown-item" href="#">My tasks</a>
+                                        <a class="dropdown-item" href="@Url.Action("Logout", "Account")">Logout</a>
+                                    </div>
+                                </li>
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            @{Html.RenderAction("GetUserName", "Profile");}
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Settings</a>
-                            <a class="dropdown-item" href="#">My tasks</a>
-                            <a class="dropdown-item" href="@Url.Action("Logout", "Account")">Logout</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Notifications  <span class="text-warning">105</span>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="#">1</a>
+                                        <a class="dropdown-item" href="#">2</a>
+                                        <a class="dropdown-item" href="#">3</a>
+                                    </div>
+                                </li>
+                            </ul>
                         </div>
-                    </li>
-
-                </ul>
+                    </nav>
+                </aside>
+                <main class="col d-flex flex-column justify-content-center">
+                    @RenderBody()
+                </main>
             </div>
-        </nav>
+        </div>*@
 
-        <div class="container w-100 h-75">
-            @RenderBody()
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary pl-xl-5 opacity" style="z-index: 9999">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+                <li class="nav-item">
+                    <a class="navbar-brand text-light" href="@Url.Action("AllProjects", "Project")">DTaskboard</a>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @{Html.RenderAction("GetUserName", "Profile");}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="#">My tasks</a>
+                        <a class="dropdown-item" href="@Url.Action("Logout", "Account")">Logout</a>
+                    </div>
+                </li>
+
+            </ul>
         </div>
+    </nav>
 
-        @RenderSection("scripts", required: false)
-    </body>
+    @RenderBody()
+
+    @RenderSection("scripts", required: false)
+</body>
 </html>

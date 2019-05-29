@@ -5,6 +5,7 @@ using Microsoft.Owin.Security.DataProtection;
 using SAM.Taskboard.DataProvider.Identity;
 using SAM.Taskboard.DataProvider.Models;
 using SAM.Taskboard.DataProvider.Repository;
+using System;
 
 namespace SAM.Taskboard.DataProvider
 {
@@ -14,7 +15,8 @@ namespace SAM.Taskboard.DataProvider
 
         public UnitOfWork()
         {
-            context = new TaskboardContext();
+            string connectionString = Environment.GetEnvironmentVariable("IsAzure") == null ? "Taskboard" : "AzureTaskboard";
+            context = new TaskboardContext(connectionString);
             UserManager = new TaskboardUserManager(new UserStore<User>(context));
             ClientManager = new TaskboardClientManager(context);
             Activities = new GenericRepository<Activity>(context);

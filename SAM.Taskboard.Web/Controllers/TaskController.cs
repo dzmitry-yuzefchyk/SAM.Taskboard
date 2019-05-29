@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SAM.Taskboard.Model.Task;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,10 +9,15 @@ namespace SAM.Taskboard.Web.Controllers
 {
     public class TaskController : Controller
     {
-        // GET: Task
-        public ActionResult Index()
+        [HttpPost]
+        public ActionResult CreateTask(CreateTaskViewModel model)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return PartialView(model);
+            }
+
+            return Json(new { success = true });
         }
     }
 }

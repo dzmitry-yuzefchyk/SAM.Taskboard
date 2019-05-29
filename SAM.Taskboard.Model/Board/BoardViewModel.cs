@@ -14,6 +14,7 @@ namespace SAM.Taskboard.Model.Board
 
     public class ColumnInfo
     {
+        public int Id { get; set; }
         public string Title { get; set; }
         public List<TaskInfo> Tasks { get; set; }
     }

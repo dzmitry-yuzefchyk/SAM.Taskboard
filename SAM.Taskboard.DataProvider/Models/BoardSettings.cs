@@ -11,8 +11,6 @@ namespace SAM.Taskboard.DataProvider.Models
 
         public Board Board { get; set; }
 
-        public byte[] Background { get; set; }
-
         [Required]
         public int AccessToDeleteTask { get; set; }
 

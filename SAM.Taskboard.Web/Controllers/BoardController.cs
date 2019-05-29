@@ -57,17 +57,18 @@ namespace SAM.Taskboard.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddColumn(CreateColumnViewModel model, int boardId)
+        public ActionResult AddColumn(CreateColumnViewModel model)
         {
             string userId = User.Identity.GetUserId();
-            bool isUserHaveAccess = boardService.IsUserHaveAccess(userId, boardId);
+            bool isUserHaveAccess = boardService.IsUserHaveAccess(userId, model.BoardId);
 
             if (!isUserHaveAccess)
             {
-                return RedirectToAction("AllProjects", "Project");
+                ModelState.AddModelError("Error", "You dont have rights to create a column");
+                return PartialView(model);
             }
 
-            GenericServiceResult result = boardService.AddColumn(model, boardId);
+            GenericServiceResult result = boardService.AddColumn(model);
 
             if (result == GenericServiceResult.Error)
             {

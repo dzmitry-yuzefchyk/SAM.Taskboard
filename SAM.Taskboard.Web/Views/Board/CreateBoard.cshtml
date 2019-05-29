@@ -44,14 +44,14 @@
 
         <div class="modal-footer">
             <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="createBoard" type="button" class="btn btn-primary">Create</button>
+            <button id="createBoard" type="submit" class="btn btn-primary">Create</button>
         </div>
     }
 </div>
 
 <script>
-    const model = @Html.Raw(Json.Encode(Model));
     $('#createBoard').click(function () {
+        const model = @Html.Raw(Json.Encode(Model));
         $.ajax({
             type: "POST",
             url: '@Url.Action("CreateBoard", "Board")?projectId=' + model.ProjectId,
@@ -64,9 +64,12 @@
                     $("#modalForm").html(result);
                 }
             },
-            error: function () {
+            error: function (result) {
                 $("#modalForm").html(result);
             }
         });
+    });
+    $('#createBoard').click(function(e){
+        e.preventDefault();
     });
 </script>

@@ -12,8 +12,8 @@ namespace SAM.Taskboard.Logic.Services
     public class ProjectService : IProjectService
     {
         private readonly IUnitOfWork unitOfWork;
-        private readonly int projectsPageSize = 9;
-        private readonly int boardsPageSize = 20;
+        private readonly int projectsPageSize = 8;
+        private readonly int boardsPageSize = 19;
         public ProjectService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;

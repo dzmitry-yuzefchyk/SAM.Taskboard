@@ -1,0 +1,135 @@
+﻿@model SAM.Taskboard.Model.Task.CreateTaskViewModel
+
+<div id="modalForm">
+    @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { id = "addTaskColumn" }))
+    {
+        @Html.AntiForgeryToken()
+    <div class="modal-body">
+
+        <div class="d-flex flex-row justify-content-around w-100 h-100">
+            @Html.HiddenFor(m => m.BoardId)
+            @Html.HiddenFor(m => m.ColumnId)
+
+            <div class="container w-75">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Title, new { type = "text", @class = "form-control", placeholder = "Task name" })
+                            @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row h-50">
+                    <div class="col h-100">
+                        <div class="form-group h-100">
+                            @Html.TextAreaFor(m => m.Content, new { type = "text", @class = "form-control h-100", placeholder = "Task description" })
+                            @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger small" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="pt-2">Attachments</label>
+                            <div id="dropArea" class="rounded" ondrop="dropFile(event)" ondragover="dragOverHandler(event)">
+                                Drop your files here
+                            </div>
+                            <ul class="list-group" id="uploadList"></ul>
+
+                            @*<input type="file" />*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+                <div class="container w-25">
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Type</label>
+                                @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskType))), new { type = "text", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Type, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Severity</label>
+                                @Html.DropDownListFor(m => m.Severity, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.Severity))), new { type = "text", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Severity, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Priority</label>
+                                @Html.DropDownListFor(m => m.Priority, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.Priority))), new { type = "text", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label>Assignee</label>
+                                @Html.DropDownListFor(m => m.AssigneeEmail, Model.TeamMembers, new { type = "text", @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button id="createTask" type="submit" class="btn btn-primary">Create</button>
+            <div class="row justify-content-center mt-1 mb-2 text-danger small">
+                @Html.ValidationMessage("Error")
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+    $('#createTask').click(function () {
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("CreateTask", "Task")',
+            data: $('#addTaskColumn').serialize(),
+            success: function (result) {
+                if (result.success) {
+                    $('#closeModal').click();
+                    location.reload();
+                } else {
+                    $("#modalForm").html(result);
+                }
+            },
+            error: function () {
+                $("#modalForm").html(result);
+            }
+        });
+    });
+    $('#createTask').click(function(e){
+        e.preventDefault();
+    });
+
+    function dropFile(event) {
+        const formString = JSON.stringify($('#addTaskColumn').serializeArray());
+        const formData = JSON.parse(formString);
+        event.preventDefault();
+    }
+
+    function dragOverHandler(event) {
+        event.preventDefault();
+    }
+</script>

@@ -55,7 +55,7 @@ namespace SAM.Taskboard.Logic.Services
                     IdentityResult result = await unitOfWork.UserManager.CreateAsync(user, password);
 
                     UserProfile profile = new UserProfile { Id = user.Id, Name = userName };
-                    UserSettings settings = new UserSettings { Id = user.Id, EmailNotification = false };
+                    UserSettings settings = new UserSettings { Id = user.Id, EmailNotification = false, Theme = (int)Theme.Light };
                     unitOfWork.ClientManager.Create(profile, settings);
 
                     if (result.Succeeded)

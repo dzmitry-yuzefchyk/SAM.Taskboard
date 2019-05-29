@@ -2,20 +2,34 @@
 
 <div class="container w-100">
     <div class="d-flex flex-column align-items-center justify-content-center w-100">
-        <div class="row mt-4">
-            @Model.Title
+
+        <div class="btn-group pt-1 pb-1 pl-2 pr-2 mt-4 mb-2" role="group">
+            <button type="button" class="btn btn-primary">#Project name</button>
+
+            @if (Model.CanUserChangeProject)
+            {
+                <div class="btn-group" role="group">
+                    <button id="dropDown" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @Model.Title
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropDown">
+                        <a class="dropdown-item" href="#">boardSettings</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <button type="button" class="btn btn-outline-primary">@Model.Title</button>
+            }
+
         </div>
 
         @Html.Partial("Board", Model)
 
-        <button type="button" class="btn btn-primary m-4" data-toggle="modal" data-target="#modalColumn">
-            Add column
-        </button>
-
-        @if (Model.CanUserChangeProject)
+        @if (Model.CanUserChangeProject && Model.Columns.Count < 6)
         {
             <div class="modal fade" id="modalColumn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" style="width: 300px;" role="document">
+                <div class="modal-dialog modal-dialog-centered w-300" role="document">
                     <div class="modal-content">
 
                         @Html.Partial("AddColumn", new SAM.Taskboard.Model.Board.CreateColumnViewModel { BoardId = Model.BoardId })
@@ -23,8 +37,6 @@
                     </div>
                 </div>
             </div>
-
-            <div>#Тут будут настройки</div>
         }
 
     </div>

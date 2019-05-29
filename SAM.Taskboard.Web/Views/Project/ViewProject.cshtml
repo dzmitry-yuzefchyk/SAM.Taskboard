@@ -2,24 +2,30 @@
 
 <div class="container w-100">
     <div class="d-flex flex-column align-items-center justify-content-center w-100">
-        <div class="row mt-4">
-            @Model.ProjectTitle
+
+        <div class="btn-group pt-1 pb-1 pl-2 pr-2 mt-4 mb-2" role="group">
+            @if (Model.CanUserChangeProject)
+            {
+                <div class="btn-group" role="group">
+                    <button id="dropDown" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @Model.ProjectTitle
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropDown">
+                        <a class="dropdown-item" href="#">projectSettings</a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <button type="button" class="btn btn-outline-primary">@Model.ProjectTitle</button>
+            }
         </div>
 
         @Html.Partial("~/Views/Board/BoardList.cshtml", Model)
 
-        <button type="button" class="btn btn-primary m-4" data-toggle="modal" data-target="#exampleModalCenter">
-            Create new board
-        </button>
-
-        @if (Model.CanUserChangeProject)
-        {
-            <div>#Тут будут настройки</div>
-        }
-
         @if (Model.CanUserCreateBoard)
         {
-            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal fade" id="createBoardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -34,7 +40,7 @@
                     </div>
                 </div>
             </div>
-         }
+        }
 
         @if (Model.PagesCount > 1)
         {

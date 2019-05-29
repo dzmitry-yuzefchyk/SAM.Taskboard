@@ -26,7 +26,7 @@ namespace SAM.Taskboard.Logic.Services
                 int projectId = board.ProjectId;
 
                 int roleProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
-                int roleBoard = unitOfWork.BoardUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
+                int roleBoard = unitOfWork.BoardUser.GetFirstOrDefaultWhere(x => x.UserId == userId && x.BoardId == boardId).Role;
 
                 int roleToChangeProject = unitOfWork.ProjectSettings.GetFirstOrDefaultWhere(x => x.Id == projectId).AccessToChangeProject;
                 int roleToCreateTask = unitOfWork.BoardSettings.GetFirstOrDefaultWhere(b => b.Id == boardId).AccessToCreateTask;
@@ -34,7 +34,7 @@ namespace SAM.Taskboard.Logic.Services
                 bool canUserChangeProject = roleProject <= roleToChangeProject;
                 bool canUserCreateTask = roleBoard <= roleToCreateTask;
 
-                List<Column> columns = unitOfWork.Columns.Get(c => c.BoardId == boardId).ToList();
+                List<Column> columns = unitOfWork.Columns.Get(c => c.BoardId == boardId).OrderBy(c => c.Position).ToList();
                 List<ColumnInfo> columnInfos = new List<ColumnInfo>();
 
                 foreach (var column in columns)
@@ -54,6 +54,7 @@ namespace SAM.Taskboard.Logic.Services
 
                     columnInfos.Add(new ColumnInfo
                     {
+                        Id = column.Id,
                         Title = column.Title,
                         Tasks = taskInfos
                     });
@@ -82,12 +83,14 @@ namespace SAM.Taskboard.Logic.Services
         {
             try
             {
+                ProjectUser projectUser = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == projectId && p.UserId == userId);
+                CustomRoles userBoardRole = projectUser == null ? CustomRoles.Creator : CustomRoles.Administrator;
+
                 BoardSettings boardSettings = new BoardSettings
                 {
                     AccessToChangeTask = (int)model.AccessToChangeTask,
                     AccessToCreateTask = (int)model.AccessToCreateTask,
                     AccessToDeleteTask = (int)model.AccessToDeleteTask,
-                    Background = null
                 };
 
                 Board board = new Board
@@ -101,7 +104,7 @@ namespace SAM.Taskboard.Logic.Services
                 {
                     Board = board,
                     UserId = userId,
-                    Role = (int)CustomRoles.Creator
+                    Role = (int)userBoardRole
                 };
                 unitOfWork.BoardUser.Create(boardUser);
 
@@ -115,11 +118,13 @@ namespace SAM.Taskboard.Logic.Services
             }
         }
 
-        public GenericServiceResult AddColumn(CreateColumnViewModel model, int boardId)
+        public GenericServiceResult AddColumn(CreateColumnViewModel model)
         {
             try
             {
-                Column column = new Column { Title = model.Title, BoardId = boardId };
+                Column lastColumn = unitOfWork.Columns.Get(c => c.BoardId == model.BoardId).OrderBy(c => c.Position).LastOrDefault();
+                int newColumnPosition = lastColumn == null ? 0 : lastColumn.Position + 1;
+                Column column = new Column { Title = model.Title, BoardId = model.BoardId, Position = newColumnPosition };
                 unitOfWork.Columns.Create(column);
 
                 return GenericServiceResult.Success;
