@@ -37,6 +37,20 @@ namespace SAM.Taskboard.DataProvider.Repository
             return model.Where(where);
         }
 
+        public IEnumerable<TEntity> Get(Func<TEntity, bool> where, Func<TEntity, object> orderBy, string orderDirection)
+        {
+            string direction = orderDirection.ToUpper();
+
+            if (direction == "ASC")
+            {
+                return model.Where(where).OrderBy(orderBy);
+            }
+            else
+            {
+                return model.Where(where).OrderByDescending(orderBy);
+            }
+        }
+
         public TEntity GetFirstOrDefaultWhere(Func<TEntity, bool> where)
         {
             return model.Where(where).FirstOrDefault();

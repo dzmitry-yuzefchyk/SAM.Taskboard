@@ -1,17 +1,24 @@
-﻿using System.Web.Mvc;
+﻿using Microsoft.AspNet.Identity;
+using SAM.Taskboard.Logic.Services;
+using System.Web.Mvc;
 
 namespace SAM.Taskboard.Web.Controllers
 {
     [Authorize]
     public class ProfileController : Controller
     {
-        public ActionResult Index()
+        private readonly IProfileService profileService;
+
+        public ProfileController(IProfileService profileService)
         {
-            return View();
+            this.profileService = profileService;
         }
+
+        [HttpGet]
         public string GetUserName()
         {
-            return User.Identity.Name;
+            string userId = User.Identity.GetUserId();
+            return profileService.GetUserName(userId);
         }
     }
 }

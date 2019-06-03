@@ -9,10 +9,12 @@ namespace SAM.Taskboard.Model.Board
         [Required(ErrorMessage = "Please specify field")]
         public string Title { get; set; }
         [Required(ErrorMessage = "Please specify field")]
-        public CustomRoles AccessToDeleteTask { get; set; }
+        public TaskSettingsRole AccessToDeleteTask { get; set; }
         [Required(ErrorMessage = "Please specify field")]
-        public CustomRoles AccessToChangeTask { get; set; }
+        public TaskSettingsRole AccessToChangeTask { get; set; }
         [Required(ErrorMessage = "Please specify field")]
-        public CustomRoles AccessToCreateTask { get; set; }
+        public TaskSettingsRole AccessToCreateTask { get; set; }
+        [Required(ErrorMessage = "Please specify field")]
+        public TaskSettingsRole AccessToChangeBoard { get; set; }
     }
 }

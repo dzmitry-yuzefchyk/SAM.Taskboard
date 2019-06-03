@@ -2,6 +2,8 @@
 using SAM.Taskboard.Logic.Services;
 using SAM.Taskboard.Logic.Utility;
 using SAM.Taskboard.Model.Project;
+using System.Collections.Generic;
+using System.Net;
 using System.Web.Mvc;
 
 namespace SAM.Taskboard.Web.Controllers
@@ -14,6 +16,7 @@ namespace SAM.Taskboard.Web.Controllers
         {
             this.projectService = projectService;
         }
+
         [HttpGet]
         public ActionResult AllProjects(int page = 0)
         {
@@ -21,6 +24,7 @@ namespace SAM.Taskboard.Web.Controllers
             ProjectsViewModel model = projectService.GetProjects(userId, page);
             return View(model);
         }
+
         [HttpGet]
         public ActionResult ProjectsList(int page)
         {
@@ -28,26 +32,33 @@ namespace SAM.Taskboard.Web.Controllers
             ProjectsViewModel model = projectService.GetProjects(userId, page);
             return PartialView(model);
         }
+
         [HttpGet]
         public ActionResult ViewProject(int projectId, int page = 0)
         {
             string userId = User.Identity.GetUserId();
-            bool isUserHaveAccess = projectService.IsUserHaveAccess(userId, projectId);
+            OperationResult<ProjectViewModel> result = projectService.GetBoards(userId, projectId, page);
 
-            if (!isUserHaveAccess)
+            if (result.Message == GenericServiceResult.Error)
             {
-                return RedirectToAction("AllProjects");
+                return RedirectToAction("Default", "Error");
             }
 
-            ProjectViewModel model = projectService.GetBoards(userId, projectId, page);
-            return View(model);
+            if (result.Message == GenericServiceResult.AccessDenied)
+            {
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            return View(result.Model);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateProject(CreateProjectViewModel model)
         {
             if (!ModelState.IsValid)
             {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return PartialView(model);
             }
 
@@ -56,14 +67,33 @@ namespace SAM.Taskboard.Web.Controllers
 
             if (result == GenericServiceResult.Error)
             {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 ModelState.AddModelError("Error", "Unknown error");
                 return PartialView(model);
             }
 
-            else
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        public JsonResult GetProjectUsers(int projectId)
+        {
+            string userId = User.Identity.GetUserId();
+            OperationResult<Dictionary<string, string>> result = projectService.GetProjectUsers(userId, projectId);
+
+            if (result.Message == GenericServiceResult.Error)
             {
-                return Json(new { success = true });
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return Json(new { success = false });
             }
+
+            if (result.Message == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return Json(new { accessDenied = true });
+            }
+
+            return Json(new { success = true,  users = result.Model }, JsonRequestBehavior.AllowGet);
         }
     }
 }

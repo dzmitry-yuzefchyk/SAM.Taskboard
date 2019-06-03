@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/EmptyLayout.cshtml";
+}
+
+<div class="d-flex justify-content-center flex-column h-100 bg-primary">
+    <div class="row justify-content-center">
+        <h1 class="text-light" style="font-size: 300px">
+            403
+        </h1>
+    </div>
+    <div class="row justify-content-center">
+        <h1 class="text-light" style="font-size: 50px">
+            Forbidden access
+        </h1>
+    </div>
+    <div class="row justify-content-center">
+        <h5 class="text-light">
+            @Html.ActionLink("Return", "AllProjects", "Project", null, new { @class = "border-0 btn btn-outline-light", style = "font-size: 50px" })
+        </h5>
+    </div>
+</div>

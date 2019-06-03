@@ -3,7 +3,6 @@ using SAM.Taskboard.DataProvider.Models;
 using SAM.Taskboard.Logic.Utility;
 using SAM.Taskboard.Model;
 using SAM.Taskboard.Model.Project;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,10 +13,12 @@ namespace SAM.Taskboard.Logic.Services
         private readonly IUnitOfWork unitOfWork;
         private readonly int projectsPageSize = 8;
         private readonly int boardsPageSize = 19;
+
         public ProjectService(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
+
         public ProjectsViewModel GetProjects(string userId, int currentPage)
         {
             try
@@ -52,13 +53,12 @@ namespace SAM.Taskboard.Logic.Services
 
                 return projectsViewModel;
             }
-
-            //TODO: Error handling
-            catch (SystemException e)
+            catch
             {
                 return null;
             }
         }
+
         public GenericServiceResult CreateNewProject(string userId, CreateProjectViewModel model)
         {
             try
@@ -73,7 +73,7 @@ namespace SAM.Taskboard.Logic.Services
                 Project project = new Project { Title = model.Title, About = model.About, Settings = projectSettings };
                 User user = unitOfWork.UserManager.Users.FirstOrDefault(x => x.Id == userId);
 
-                ProjectUser projectUser = new ProjectUser { Project = project, Role = (int)CustomRoles.Administrator, User = user };
+                ProjectUser projectUser = new ProjectUser { Project = project, Role = (int)ProjectRoles.Administrator, User = user };
                 unitOfWork.ProjectUser.Create(projectUser);
 
                 return GenericServiceResult.Success;
@@ -84,10 +84,17 @@ namespace SAM.Taskboard.Logic.Services
                 return GenericServiceResult.Error;
             }
         }
-        public ProjectViewModel GetBoards(string userId, int projectId, int currentPage)
+
+        public OperationResult<ProjectViewModel> GetBoards(string userId, int projectId, int currentPage)
         {
             try
             {
+                bool isUserCanViewProject = IsUserHaveAccess(userId, projectId);
+                if (!isUserCanViewProject)
+                {
+                    return new OperationResult<ProjectViewModel> { Message = GenericServiceResult.AccessDenied, Model = null };
+                }
+
                 var result = unitOfWork.Boards.Get
                 (
                     boardsPageSize,
@@ -97,11 +104,6 @@ namespace SAM.Taskboard.Logic.Services
                 ).ToList();
 
                 List<BoardInfo> boards = new List<BoardInfo>();
-
-                int roleNumber = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
-                int roleToChangeProject = unitOfWork.ProjectSettings.GetFirstOrDefaultWhere(x => x.Id == projectId).AccessToChangeProject;
-                int roleToCreateBoard = unitOfWork.ProjectSettings.GetFirstOrDefaultWhere(x => x.Id == projectId).AccessToCreateBoard;
-
                 foreach (var board in result)
                 {
                     int boardId = board.Id;
@@ -111,8 +113,8 @@ namespace SAM.Taskboard.Logic.Services
 
                 string projectTitle = unitOfWork.Projects.Get(projectId).Title;
                 int rowsCount = unitOfWork.Boards.Count(u => u.ProjectId == projectId);
-                bool canUserCreateBoard = roleNumber <= roleToCreateBoard;
-                bool canUserChangeProject = roleNumber <= roleToChangeProject;
+                bool canUserCreateBoard = CanUserCreateBoard(userId, projectId);
+                bool canUserChangeProject = CanUserChangeProject(userId, projectId);
                 ProjectViewModel projectViewModel = new ProjectViewModel
                 {
                     ProjectId = projectId,
@@ -126,17 +128,15 @@ namespace SAM.Taskboard.Logic.Services
                 };
                 projectViewModel.GetPages();
 
-                return projectViewModel;
+                return new OperationResult<ProjectViewModel> { Model = projectViewModel, Message = GenericServiceResult.Success };
             }
-
-            //TODO: Error handling
-            catch (SystemException e)
+            catch
             {
-                return new ProjectViewModel();
+                return new OperationResult<ProjectViewModel> { Model = null, Message = GenericServiceResult.Error };
             }
         }
 
-        public bool IsUserHaveAccess(string userId, int projectId)
+        private bool IsUserHaveAccess(string userId, int projectId)
         {
             try
             {
@@ -148,9 +148,66 @@ namespace SAM.Taskboard.Logic.Services
             }
         }
 
+        private bool CanUserChangeProject(string userId, int projectId)
+        {
+            try
+            {
+                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
+                int roleToChangeProject = unitOfWork.ProjectSettings.GetFirstOrDefaultWhere(x => x.Id == projectId).AccessToChangeProject;
+
+                return roleUserProject <= roleToChangeProject;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool CanUserCreateBoard(string userId, int projectId)
+        {
+            try
+            {
+                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
+                int roleToCreateBoard = unitOfWork.ProjectSettings.GetFirstOrDefaultWhere(x => x.Id == projectId).AccessToCreateBoard;
+
+                return roleUserProject <= roleToCreateBoard;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         //TODO: Activities
         public void GetRecentActivities()
         {
+        }
+
+        public OperationResult<Dictionary<string, string>> GetProjectUsers(string userId, int projectId)
+        {
+            try
+            {
+                bool isUserCanViewProject = IsUserHaveAccess(userId, projectId);
+                if (!isUserCanViewProject)
+                {
+                    new OperationResult<ProjectViewModel> { Message = GenericServiceResult.AccessDenied, Model = null };
+                }
+
+                var projectUsers = unitOfWork.ProjectUser.Get(u => u.ProjectId == projectId).ToList();
+                Dictionary<string, string> users = new Dictionary<string, string>();
+
+                foreach (var projectUser in projectUsers)
+                {
+                    User user = unitOfWork.Users.GetFirstOrDefaultWhere(u => u.Id == projectUser.UserId);
+                    users.Add(user.Id, user.Email);
+                }
+
+                return new OperationResult<Dictionary<string, string>> { Model = users, Message = GenericServiceResult.Success };
+            }
+            catch
+            {
+                return new OperationResult<Dictionary<string, string>> { Model = null, Message = GenericServiceResult.Error };
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using SAM.Taskboard.Logic.Services;
 using SAM.Taskboard.Logic.Utility;
 using SAM.Taskboard.Model.Board;
+using System.Net;
 using System.Web.Mvc;
 
 namespace SAM.Taskboard.Web.Controllers
@@ -20,15 +21,15 @@ namespace SAM.Taskboard.Web.Controllers
         public ActionResult ViewBoard(int boardId)
         {
             string userId = User.Identity.GetUserId();
-            bool isUserHaveAccess = boardService.IsUserHaveAccess(userId, boardId);
+            OperationResult<BoardViewModel> result = boardService.GetBoard(userId, boardId);
 
-            if (!isUserHaveAccess)
+            if (result.Message == GenericServiceResult.AccessDenied)
             {
-                return RedirectToAction("AllProjects", "Project");
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
             }
 
-            BoardViewModel model = boardService.GetBoard(userId, boardId);
-            return View(model);
+            return View(result.Model);
         }
 
         [HttpPost]
@@ -37,6 +38,7 @@ namespace SAM.Taskboard.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return PartialView(model);
             }
 
@@ -45,41 +47,47 @@ namespace SAM.Taskboard.Web.Controllers
 
             if (result == GenericServiceResult.Error)
             {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 ModelState.AddModelError("Error", "Unknown error");
                 return PartialView(model);
             }
 
-            else
+            if (result == GenericServiceResult.AccessDenied)
             {
-                return Json(new { success = true });
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
             }
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult AddColumn(CreateColumnViewModel model)
+        public ActionResult CreateColumn(CreateColumnViewModel model)
         {
-            string userId = User.Identity.GetUserId();
-            bool isUserHaveAccess = boardService.IsUserHaveAccess(userId, model.BoardId);
-
-            if (!isUserHaveAccess)
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("Error", "You dont have rights to create a column");
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 return PartialView(model);
             }
 
-            GenericServiceResult result = boardService.AddColumn(model);
+            string userId = User.Identity.GetUserId();
+            GenericServiceResult result = boardService.AddColumn(model, userId);
 
             if (result == GenericServiceResult.Error)
             {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
                 ModelState.AddModelError("Error", "Unknown error");
                 return PartialView(model);
             }
 
-            else
+            if (result == GenericServiceResult.AccessDenied)
             {
-                return Json(new { success = true });
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
             }
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
     }
 }

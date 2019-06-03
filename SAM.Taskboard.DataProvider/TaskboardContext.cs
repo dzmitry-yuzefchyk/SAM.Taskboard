@@ -19,7 +19,7 @@ namespace SAM.Taskboard.DataProvider
         public DbSet<Activity> Activities { get; set; }
         public DbSet<Board> Boards { get; set; }
         public DbSet<BoardSettings> BoardSettings { get; set; }
-        public DbSet<BoardUser> BoardsUsers { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Column> Columns { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectSettings> ProjectSettings { get; set; }

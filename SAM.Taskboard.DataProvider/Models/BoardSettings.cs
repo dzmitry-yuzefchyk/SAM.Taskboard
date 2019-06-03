@@ -19,5 +19,8 @@ namespace SAM.Taskboard.DataProvider.Models
 
         [Required]
         public int AccessToCreateTask { get; set; }
+
+        [Required]
+        public int AccessToChangeBoard { get; set; }
     }
 }

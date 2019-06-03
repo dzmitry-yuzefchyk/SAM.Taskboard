@@ -18,12 +18,13 @@ namespace SAM.Taskboard.DataProvider.Models
 
         public BoardSettings Settings { get; set; }
 
-        public ICollection<BoardUser> BoardUser { get; set; }
+        public string CreatorId { get; set; }
+
+        public User Creator { get; set; }
 
         public Board()
         {
             Columns = new List<Column>();
-            BoardUser = new List<BoardUser>();
         }
     }
 }

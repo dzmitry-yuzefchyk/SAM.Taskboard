@@ -51,22 +51,24 @@ namespace SAM.Taskboard.Logic.Services
 
                 if (user == null)
                 {
-                    user = new User { UserName = userName, Email = email, EmailConfirmed = false };
+                    user = new User { UserName = email, Email = email, EmailConfirmed = false };
                     IdentityResult result = await unitOfWork.UserManager.CreateAsync(user, password);
 
-                    UserProfile profile = new UserProfile { Id = user.Id, Name = userName };
-                    UserSettings settings = new UserSettings { Id = user.Id, EmailNotification = false, Theme = (int)Theme.Light };
-                    unitOfWork.ClientManager.Create(profile, settings);
+                    string pathToDefaultIcon = $"{HttpRuntime.AppDomainAppPath}\\..\\SAM.Taskboard.Logic\\Utility\\defaultAccountIcon.svg";
+                    FileStream fs = new FileStream(pathToDefaultIcon, FileMode.Open, FileAccess.Read);
+                    byte[] bimage = new byte[fs.Length];
+                    fs.Read(bimage, 0, Convert.ToInt32(fs.Length));
 
-                    if (result.Succeeded)
-                    {
-                        return UserServiceResult.success;
-                    }
-
-                    else
+                    if (!result.Succeeded)
                     {
                         return UserServiceResult.error;
                     }
+
+                    UserProfile profile = new UserProfile { Id = user.Id, Name = userName, Icon = bimage };
+                    UserSettings settings = new UserSettings { Id = user.Id, EmailNotification = false, Theme = (int)Theme.Light };
+                    unitOfWork.ClientManager.Create(profile, settings);
+
+                    return UserServiceResult.success;
                 }
             }
 
@@ -77,6 +79,8 @@ namespace SAM.Taskboard.Logic.Services
 
             return UserServiceResult.userAlreadyExists;
         }
+
+        
 
         public UserServiceResult SendConfirmationEmail(string userName, string email, string confirmationLink)
         {

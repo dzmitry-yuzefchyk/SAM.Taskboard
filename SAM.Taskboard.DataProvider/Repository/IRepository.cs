@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 namespace SAM.Taskboard.DataProvider.Repository
@@ -10,6 +11,7 @@ namespace SAM.Taskboard.DataProvider.Repository
         int Count(Func<TEntity, bool> where);
         TEntity GetFirstOrDefaultWhere(Func<TEntity, bool> where);
         IEnumerable<TEntity> Get(Func<TEntity, bool> where);
+        IEnumerable<TEntity> Get(Func<TEntity, bool> where, Func<TEntity, object> orderBy, string orderDirection);
         void Create(TEntity item);
         void Update(TEntity item);
         void Delete(int id);

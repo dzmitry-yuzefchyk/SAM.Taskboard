@@ -12,11 +12,11 @@ namespace SAM.Taskboard.DataProvider
         IRepository<Activity> Activities { get; }
         IRepository<Board> Boards { get; }
         IRepository<BoardSettings> BoardSettings { get; }
-        IRepository<BoardUser> BoardUser { get; }
         IRepository<Column> Columns { get; }
         IRepository<Project> Projects { get; }
         IRepository<ProjectSettings> ProjectSettings { get; }
         IRepository<ProjectUser> ProjectUser { get; }
+        IRepository<Attachment> Attachments { get; }
         IRepository<Task> Tasks { get; }
         IRepository<User> Users { get; }
         IRepository<UserProfile> UserProfiles { get; }

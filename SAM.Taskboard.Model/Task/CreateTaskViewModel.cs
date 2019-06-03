@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace SAM.Taskboard.Model.Task
 {
     public class CreateTaskViewModel
     {
+        public int ProjectId { get; set; }
+
         public int BoardId { get; set; }
 
         public int ColumnId { get; set; }
 
         [Required(ErrorMessage = "Please specify this field")]
-        [MaxLength(32, ErrorMessage = "Maximum length is 32 symbols")]
+        [MaxLength(64, ErrorMessage = "Maximum length is 64 symbols")]
         public string Title { get; set; }
 
         [MaxLength(1024, ErrorMessage = "Maximum length is 1024 symbols")]
@@ -29,13 +32,6 @@ namespace SAM.Taskboard.Model.Task
 
         public List<byte[]> Attachments { get; set; }
 
-        public IEnumerable<SelectListItem> TeamMembers { get; set; } = new SelectList(new[]
-            {
-                new { AssigneeId="1", Name="name1" },
-                new { AssigneeId="2", Name="name2" },
-                new { AssigneeId="3", Name="name3" },
-            }, "AssigneeId", "Name", 1);
-
-        public string AssigneeEmail { get; set; }
+        public string AssigneeId { get; set; }
     }
 }

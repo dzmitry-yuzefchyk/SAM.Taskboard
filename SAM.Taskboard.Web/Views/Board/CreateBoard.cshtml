@@ -15,8 +15,16 @@
 
             <div class="row justify-content-center">
                 <div class="form-group">
+                    <label>Who can change board?</label>
+                    @Html.DropDownListFor(m => m.AccessToChangeBoard, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.BoardSettingsRole))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.ValidationMessageFor(m => m.AccessToChangeBoard, "", new { @class = "text-danger small" })
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="form-group">
                     <label>Who can create task?</label>
-                    @Html.DropDownListFor(m => m.AccessToCreateTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.DropDownListFor(m => m.AccessToCreateTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskSettingsRole))), new { type = "text", @class = "form-control", style = "width: 250px" })
                     @Html.ValidationMessageFor(m => m.AccessToCreateTask, "", new { @class = "text-danger small" })
                 </div>
             </div>
@@ -24,7 +32,7 @@
             <div class="row justify-content-center">
                 <div class="form-group">
                     <label>Who can change task?</label>
-                    @Html.DropDownListFor(m => m.AccessToChangeTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.DropDownListFor(m => m.AccessToChangeTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskSettingsRole))), new { type = "text", @class = "form-control", style = "width: 250px" })
                     @Html.ValidationMessageFor(m => m.AccessToChangeTask, "", new { @class = "text-danger small" })
                 </div>
             </div>
@@ -32,7 +40,7 @@
             <div class="row justify-content-center">
                 <div class="form-group">
                     <label>Who can delete task?</label>
-                    @Html.DropDownListFor(m => m.AccessToDeleteTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.DropDownListFor(m => m.AccessToDeleteTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskSettingsRole))), new { type = "text", @class = "form-control", style = "width: 250px" })
                     @Html.ValidationMessageFor(m => m.AccessToDeleteTask, "", new { @class = "text-danger small" })
                 </div>
             </div>
@@ -52,20 +60,20 @@
 <script>
     $('#createBoard').click(function () {
         const model = @Html.Raw(Json.Encode(Model));
-        $.ajax({
+        const request = $.ajax({
             type: "POST",
             url: '@Url.Action("CreateBoard", "Board")?projectId=' + model.ProjectId,
-            data: $('form').serialize(),
-            success: function (result) {
-                if (result.success) {
-                    $('#closeModal').click();
-                    location.reload();
-                } else {
-                    $("#modalForm").html(result);
-                }
-            },
-            error: function (result) {
-                $("#modalForm").html(result);
+            data: $('form').serialize()
+        });
+
+        request.done(function () {
+            $('#closeModal').click();
+            location.reload();
+        });
+
+        request.fail(function (jqXHR) {
+            if (jqXHR.status == 400) {
+                $("#modalForm").html(jqXHR.responseText);
             }
         });
     });

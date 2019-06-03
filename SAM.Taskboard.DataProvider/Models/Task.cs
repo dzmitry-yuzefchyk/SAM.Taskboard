@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,8 +14,6 @@ namespace SAM.Taskboard.DataProvider.Models
 
         public string Content { get; set; }
 
-        public byte[] Attachments { get; set; }
-
         [Required]
         public int Type { get; set; }
         [Required]
@@ -22,9 +21,13 @@ namespace SAM.Taskboard.DataProvider.Models
 
         public int Severity { get; set; }
 
-        public string UserId { get; set; }
+        public string AssigneeId { get; set; }
 
-        public User User { get; set; }
+        public User Assignee { get; set; }
+
+        public string CreatorId { get; set; }
+
+        public User Creator { get; set; }
 
         public TimeSpan TimeToComplete { get; set; }
 
@@ -33,5 +36,12 @@ namespace SAM.Taskboard.DataProvider.Models
         public int ColumnId { get; set; }
 
         public Column Column { get; set; }
+
+        public ICollection<Attachment> Attachments { get; set; }
+
+        public Task()
+        {
+            Attachments = new List<Attachment>();
+        }
     }
 }

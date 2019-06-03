@@ -14,8 +14,8 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Model\bin\Debug\Micr
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Model\bin\Debug\Microsoft.Owin.Security.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Model\bin\Debug\Microsoft.AspNet.Identity.Core.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Model\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Model\bin\Debug\Microsoft.Owin.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Model\bin\Debug\Owin.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Model\bin\Debug\Microsoft.Owin.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Model\bin\Debug\Microsoft.Owin.Security.OAuth.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Model\bin\Debug\Microsoft.Owin.Security.Cookies.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Model\bin\Debug\Newtonsoft.Json.dll

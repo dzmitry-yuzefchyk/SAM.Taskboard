@@ -1,72 +1,204 @@
 ﻿@model SAM.Taskboard.Model.Board.BoardViewModel
 
-    <div class="d-flex mh-100 overflow-auto">
-        @foreach (var column in Model.Columns)
-        {
-            @Html.Hidden("ColumnId", column.Id)
-            <div class="d-flex flex-column m-4 rounded shadow-light">
-                <div class="row justify-content-center w-250">
+<div id="taskBoard" class="d-flex h-100 max-width-by-viewport overflow-x">
+    @foreach (var column in Model.Columns)
+    {
+        @Html.Hidden("ColumnId", column.Id)
+        <div class="d-flex flex-column mt-3 ml-3 mr-3 w-300 flex-shrink-0 mb-4 max-height rounded shadow-light"
+             id="taskDropOver"
+             data-columnId="@column.Id"
+             ondrop="onTaskDrop(event, this)"
+             ondragover="onTaskOver(event)"
+             ondragenter="onTaskEnter(event, this)">
+            <div class="row justify-content-center">
+                <div>
                     <h5 class="mt-3">
-                        @column.Title
+                        @column.Title:
+                        <span class="font-weight-light">
+                            @column.Tasks.Count
+                        </span>
                     </h5>
                 </div>
+            </div>
 
+            <div class="overflow-y"
+                 id="taskDropArea">
                 @foreach (var task in column.Tasks)
                 {
-                    <div class="card mt-2 mb-2 ml-2 mr-2 hover-effect w-200" draggable="true" ondragstart="return false;">
+                    <div class="card mt-2 mb-2 ml-4 mr-4 w-250"
+                         data-taskId="@task.Id"
+                         data-columnId="@column.Id"
+                         draggable="@task.CanUserChangeTask.ToString()"
+                         ondragstart="onTaskDragStart(event, this)">
                         @Html.Hidden("TaskId", task.Id)
 
                         <div class="card-header">
                             @task.Title
                         </div>
 
-                        <div class="card-body">
-                            @task.CreationTime
+                        <div class="card-body pb-2 pt-2 small ml-2">
+                            <div class="row">
+                                <span data-toggle="tooltip" data-placement="top" title="@task.CreatorEmail">
+                                    Creator: @task.CreatorIcon
+                                </span>
+                            </div>
+                            <div class="row">
+                                @if (task.AssigneeIcon == null)
+                                {
+                                    <span>Assignee: @task.AssigneeEmail</span>
+                                }
+                                else
+                                {
+                                    <span data-toggle="tooltip" data-placement="top" title="@task.AssigneeEmail">
+                                        Assignee: @task.AssigneeIcon
+                                    </span>
+                                }
+                            </div>
+                            <div class="row text-">
+                                Priority:&nbsp;<span class="text-@task.Priority font-weight-bold text-uppercase"> @task.Priority </span>
+                            </div>
+                            <div class="row text-">
+                                Severity:&nbsp;<span class="text-@task.Severity font-weight-bold text-uppercase"> @task.Severity </span>
+                            </div>
+                            <div class="row text-">
+                                Type:&nbsp;<span class="text-@task.Type font-weight-bold text-uppercase"> @task.Type </span>
+                            </div>
                         </div>
 
-                        @Html.ActionLink("View", "ViewTask", "Task", new { taskId = task.Id }, new { @class = "border-0 btn btn-outline-primary ml-2 mr-2 mb-2" })
+                        @Html.ActionLink("View", "ViewTask", "Task", new { taskId = task.Id }, new { @class = "border-0 btn btn-outline-primary ml-2 mr-2 mb-2", draggable = "false" })
                     </div>
                 }
+            </div>
 
-                @if (Model.CanUserCreateTask)
-                {
-                    <button id="createTaskButton" type="button" class="btn btn-outline-primary m-4" data-toggle="modal" data-target="#modalTask" data-columnId="@column.Id">
+            @if (Model.CanUserCreateTask)
+            {
+                <div class="row justify-content-center mt-2 mb-2">
+                    <button id="createTaskButton"
+                            type="button"
+                            class="btn btn-outline-primary w-200"
+                            data-toggle="modal"
+                            data-target="#modalTask"
+                            data-columnId="@column.Id"
+                            data-projectId="@Model.ProjectId">
                         +
                     </button>
-                }
+                </div>
+            }
 
+        </div>
+    }
+
+    @if (Model.CanUserChangeBoard && Model.Columns.Count < 6)
+    {
+        <div class="d-flex mt-3 mb-4 ml-2 mr-2 rounded action-outline-light w-250" data-toggle="modal" data-target="#modalColumn">
+            <div class="d-flex flex-column justify-content-center align-items-center card-body text-light">
+                <h5>
+                    +
+                </h5>
             </div>
-        }
+        </div>
+    }
+    @if (Model.CanUserCreateTask)
+    {
+        <div class="modal fade" id="modalTask" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                <div class="modal-content">
 
-        @if (Model.CanUserChangeProject && Model.Columns.Count < 6)
-        {
-            <div class="d-flex mt-4 mb-4 ml-2 mr-2 rounded action-outline-light w-200" data-toggle="modal" data-target="#modalColumn">
-                <div class="d-flex flex-column justify-content-center align-items-center card-body text-light">
-                    <h5>
-                        +
-                    </h5>
+                    @Html.Partial("~/Views/Task/CreateTask.cshtml", new SAM.Taskboard.Model.Task.CreateTaskViewModel { BoardId = Model.BoardId })
+
                 </div>
             </div>
-        }
-        @if (Model.CanUserCreateTask)
-        {
-            <div class="modal fade" id="modalTask" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content">
-
-                        @Html.Partial("~/Views/Task/CreateTask.cshtml", new SAM.Taskboard.Model.Task.CreateTaskViewModel { BoardId = Model.BoardId })
-
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+        </div>
+    }
+</div>
 
 <script>
+    let currentColumnId;
+
     $('#modalTask').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
         const columnId = button.data('columnid');
+        const projectId = button.data('projectid');
         const modal = $(this);
+
+        const request = $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetProjectUsers", "Project")?projectId=' + projectId
+        });
+
+        request.done(function (result) {
+            let usersList = [];
+
+            for (let user in result.users) {
+                let option = '<option value="' + user + '">' + result.users[user] + '</option>';
+                usersList.push(option);
+            }
+
+            const emptyAssigneeOption = '<option value=""/>';
+            $('#AssigneeId').empty();
+            $('#AssigneeId').append(emptyAssigneeOption);
+            $('#AssigneeId').append(usersList);
+        });
+
+        request.fail(function (jqXHR) {
+            if (jqXHR.statusCode == 400) {
+                window.location.replace = '@Url.Action("Default", "Error")';
+            }
+
+            if (jqXHR.statusCode == 403) {
+                window.location.replace = '@Url.Action("Forbidden", "Error")';
+            }
+        });
+
         modal.find('#ColumnId').val(columnId);
     });
+
+    function onTaskDragStart(event, element) {
+        const taskId = element.getAttribute('data-taskid');
+        event.dataTransfer.setData('text/plain', taskId);
+    }
+
+    function onTaskDrop(event, element) {
+        event.preventDefault();
+
+        const boardId = (@Html.Raw(Json.Encode(Model))).BoardId;
+        const taskId = event.dataTransfer.getData("text/plain");;
+        const column = $(element);
+        const columnId = String(column.data('columnid'));
+
+        const request = $.ajax({
+            type: 'POST',
+            url: '@Url.Action("MoveTaskToColumn", "Task")?taskId=' + taskId + '&columnId=' + columnId + '&boardId=' + boardId
+        });
+
+        request.done(function () {
+            location.reload();
+        });
+
+        $('div').find('#temporaryTask').remove();
+    }
+
+    function onTaskOver(event) {
+        event.preventDefault();
+    }
+
+    function onTaskEnter(event, element) {
+        const column = $(element);
+        const columnId = String(column.data('columnid'));
+        const taskHolder = "<div id='temporaryTask' class='bg-primary h-150 opacity-30 card mt-2 mb-2 ml-4 mr-4 w-250'><div/>";
+        const dropZone = column.find('#taskDropArea');
+        const isTaskHolderExists = dropZone.find('#temporaryTask').length > 0;
+
+        if (currentColumnId == columnId) {
+            return;
+        }
+
+        currentColumnId = columnId;
+
+        $('div').find('#temporaryTask').remove();
+
+        if (!isTaskHolderExists) {
+            dropZone.prepend(taskHolder);
+        }
+    }
 </script>

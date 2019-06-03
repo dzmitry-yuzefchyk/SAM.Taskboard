@@ -81,7 +81,7 @@
                         <div class="col">
                             <div class="form-group">
                                 <label>Assignee</label>
-                                @Html.DropDownListFor(m => m.AssigneeEmail, Model.TeamMembers, new { type = "text", @class = "form-control" })
+                                @Html.DropDownListFor(m => m.AssigneeId, Enumerable.Empty<SelectListItem>(), new { type = "text", @class = "form-control" })
                                 @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
                             </div>
                         </div>
@@ -102,20 +102,20 @@
 
 <script>
     $('#createTask').click(function () {
-        $.ajax({
+        const request = $.ajax({
             type: "POST",
             url: '@Url.Action("CreateTask", "Task")',
-            data: $('#addTaskColumn').serialize(),
-            success: function (result) {
-                if (result.success) {
-                    $('#closeModal').click();
-                    location.reload();
-                } else {
-                    $("#modalForm").html(result);
-                }
-            },
-            error: function () {
-                $("#modalForm").html(result);
+            data: $('#addTaskColumn').serialize()
+        });
+
+        request.done(function () {
+            $('#closeModal').click();
+            location.reload();
+        });
+
+        request.fail(function (jqXHR) {
+            if (jqXHR.status == 400) {
+                $("#modalForm").html(jqXHR.responseText);
             }
         });
     });

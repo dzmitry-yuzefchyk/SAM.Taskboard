@@ -22,7 +22,6 @@ namespace SAM.Taskboard.DataProvider
             Activities = new GenericRepository<Activity>(context);
             Boards = new GenericRepository<Board>(context);
             BoardSettings = new GenericRepository<BoardSettings>(context);
-            BoardUser = new GenericRepository<BoardUser>(context);
             Columns = new GenericRepository<Column>(context);
             Projects = new GenericRepository<Project>(context);
             ProjectSettings = new GenericRepository<ProjectSettings>(context);
@@ -31,6 +30,7 @@ namespace SAM.Taskboard.DataProvider
             Users = new GenericRepository<User>(context);
             UserProfiles = new GenericRepository<UserProfile>(context);
             UserSettings = new GenericRepository<UserSettings>(context);
+            Attachments = new GenericRepository<Attachment>(context);
 
             var provider = new DpapiDataProtectionProvider("SAM.Taskboard");
             UserManager.UserTokenProvider = new DataProtectorTokenProvider<User, string>(provider.Create("UserToken"))
@@ -47,8 +47,6 @@ namespace SAM.Taskboard.DataProvider
 
         public IRepository<BoardSettings> BoardSettings { get; }
 
-        public IRepository<BoardUser> BoardUser { get; }
-
         public IRepository<Column> Columns { get; }
 
         public IRepository<Project> Projects { get; }
@@ -58,6 +56,8 @@ namespace SAM.Taskboard.DataProvider
         public IRepository<ProjectUser> ProjectUser { get; }
 
         public IRepository<Task> Tasks { get; }
+
+        public IRepository<Attachment> Attachments { get; }
 
         public IRepository<User> Users { get; }
 
@@ -72,8 +72,8 @@ namespace SAM.Taskboard.DataProvider
             Activities.Dispose();
             Boards.Dispose();
             BoardSettings.Dispose();
-            BoardUser.Dispose();
             Columns.Dispose();
+            Attachments.Dispose();
             Projects.Dispose();
             ProjectSettings.Dispose();
             ProjectUser.Dispose();

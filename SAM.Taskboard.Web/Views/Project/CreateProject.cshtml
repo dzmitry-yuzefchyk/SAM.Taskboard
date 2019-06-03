@@ -23,7 +23,7 @@
             <div class="row justify-content-center">
                 <div class="form-group">
                     <label>Who can change project?</label>
-                    @Html.DropDownListFor(m => m.AccessToChangeProject, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.DropDownListFor(m => m.AccessToChangeProject, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.ProjectSettingsRole))), new { type = "text", @class = "form-control", style = "width: 250px" })
                     @Html.ValidationMessageFor(m => m.AccessToChangeProject, "", new { @class = "text-danger small" })
                 </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="row justify-content-center">
                 <div class="form-group">
                     <label>Who can create board?</label>
-                    @Html.DropDownListFor(m => m.AccessToCreateBoard, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.DropDownListFor(m => m.AccessToCreateBoard, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.BoardSettingsRole))), new { type = "text", @class = "form-control", style = "width: 250px" })
                     @Html.ValidationMessageFor(m => m.AccessToCreateBoard, "", new { @class = "text-danger small" })
                 </div>
             </div>
@@ -39,7 +39,7 @@
             <div class="row justify-content-center">
                 <div class="form-group">
                     <label>Who can delete boards?</label>
-                    @Html.DropDownListFor(m => m.AccessToDeleteBoard, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.CustomRoles))), new { type = "text", @class = "form-control", style = "width: 250px" })
+                    @Html.DropDownListFor(m => m.AccessToDeleteBoard, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.BoardSettingsRole))), new { type = "text", @class = "form-control", style = "width: 250px" })
                     @Html.ValidationMessageFor(m => m.AccessToDeleteBoard, "", new { @class = "text-danger small" })
                 </div>
             </div>
@@ -58,20 +58,21 @@
 
 <script>
     $('#createProject').click(function () {
-        $.ajax({
+        const request = $.ajax({
             type: "POST",
             url: '@Url.Action("CreateProject", "Project")',
-            data: $('form').serialize(),
-            success: function (result) {
-                if (result.success) {
-                    $('#closeModal').click();
-                    location.reload();
-                } else {
-                    $("#modalForm").html(result);
-                }
-            },
-            error: function () {
-                $("#modalForm").html(result);
+            data: $('form').serialize()
+        });
+
+        request.done(function () {
+            $('#closeModal').click();
+            location.reload();
+        });
+
+        request.fail(function (jqXHR) {
+            console.log(jqXHR);
+            if (jqXHR.status == 400) {
+                $("#modalForm").html(jqXHR.responseText);
             }
         });
     });

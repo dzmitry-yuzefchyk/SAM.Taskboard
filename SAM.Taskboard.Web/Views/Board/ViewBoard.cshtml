@@ -4,9 +4,9 @@
     <div class="d-flex flex-column align-items-center justify-content-center w-100">
 
         <div class="btn-group pt-1 pb-1 pl-2 pr-2 mt-4 mb-2" role="group">
-            <button type="button" class="btn btn-primary">#Project name</button>
+            @Html.ActionLink(Model.ProjectTitle, "ViewProject", "Project", new { projectId = Model.ProjectId }, new { @class = "btn btn-primary" })
 
-            @if (Model.CanUserChangeProject)
+            @if (Model.CanUserChangeBoard)
             {
                 <div class="btn-group" role="group">
                     <button id="dropDown" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -26,13 +26,13 @@
 
         @Html.Partial("Board", Model)
 
-        @if (Model.CanUserChangeProject && Model.Columns.Count < 6)
+        @if (Model.CanUserChangeBoard && Model.Columns.Count < 6)
         {
             <div class="modal fade" id="modalColumn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered w-300" role="document">
                     <div class="modal-content">
 
-                        @Html.Partial("AddColumn", new SAM.Taskboard.Model.Board.CreateColumnViewModel { BoardId = Model.BoardId })
+                        @Html.Partial("CreateColumn", new SAM.Taskboard.Model.Board.CreateColumnViewModel { BoardId = Model.BoardId })
 
                     </div>
                 </div>

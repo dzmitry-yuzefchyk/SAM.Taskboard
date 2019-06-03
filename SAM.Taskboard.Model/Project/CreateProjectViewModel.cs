@@ -11,10 +11,10 @@ namespace SAM.Taskboard.Model.Project
         [MaxLength(512, ErrorMessage = "Maximum 512 symbols")]
         public string About { get; set; }
         [Required(ErrorMessage = "Please specify field")]
-        public CustomRoles AccessToDeleteBoard { get; set; }
+        public BoardSettingsRole AccessToDeleteBoard { get; set; }
         [Required(ErrorMessage = "Please specify field")]
-        public CustomRoles AccessToChangeProject { get; set; }
+        public ProjectSettingsRole AccessToChangeProject { get; set; }
         [Required(ErrorMessage = "Please specify field")]
-        public CustomRoles AccessToCreateBoard { get; set; }
+        public BoardSettingsRole AccessToCreateBoard { get; set; }
     }
 }
