@@ -1,10 +1,17 @@
-﻿@model SAM.Taskboard.Model.Board.BoardViewModel
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
+
+@model SAM.Taskboard.Model.Board.BoardViewModel
 
 <div id="taskBoard" class="d-flex h-100 max-width-by-viewport overflow-x">
     @foreach (var column in Model.Columns)
     {
         @Html.Hidden("ColumnId", column.Id)
-        <div class="d-flex flex-column mt-3 ml-3 mr-3 w-300 flex-shrink-0 mb-4 max-height rounded shadow-light"
+        <div class="d-flex flex-column mt-3 ml-3 mr-3 w-300 flex-shrink-0 mb-4 max-height rounded shadow-@theme theme-background-@theme"
              id="taskDropOver"
              data-columnId="@column.Id"
              ondrop="onTaskDrop(event, this)"
@@ -12,7 +19,7 @@
              ondragenter="onTaskEnter(event, this)">
             <div class="row justify-content-center">
                 <div>
-                    <h5 class="mt-3">
+                    <h5 class="mt-3 textOnDark-@theme">
                         @column.Title:
                         <span class="font-weight-light">
                             @column.Tasks.Count
@@ -25,24 +32,24 @@
                  id="taskDropArea">
                 @foreach (var task in column.Tasks)
                 {
-                    <div class="card mt-2 mb-2 ml-4 mr-4 w-250"
+                    <div class="card mt-2 mb-2 ml-4 mr-4 theme-background-@theme theme-border-primary-@theme w-250"
                          data-taskId="@task.Id"
                          data-columnId="@column.Id"
                          draggable="@task.CanUserChangeTask.ToString()"
                          ondragstart="onTaskDragStart(event, this)">
                         @Html.Hidden("TaskId", task.Id)
 
-                        <div class="card-header">
+                        <div class="card-header theme-border-primary-@theme textOnDark-@theme">
                             @task.Title
                         </div>
 
                         <div class="card-body pb-2 pt-2 small ml-2">
-                            <div class="row">
+                            <div class="row textOnDark-@theme">
                                 <span data-toggle="tooltip" data-placement="top" title="@task.CreatorEmail">
                                     Creator: @task.CreatorIcon
                                 </span>
                             </div>
-                            <div class="row">
+                            <div class="row textOnDark-@theme">
                                 @if (task.AssigneeIcon == null)
                                 {
                                     <span>Assignee: @task.AssigneeEmail</span>
@@ -54,13 +61,13 @@
                                     </span>
                                 }
                             </div>
-                            <div class="row text-">
+                            <div class="row textOnDark-@theme">
                                 Priority:&nbsp;<span class="text-@task.Priority font-weight-bold text-uppercase"> @task.Priority </span>
                             </div>
-                            <div class="row text-">
+                            <div class="row textOnDark-@theme">
                                 Severity:&nbsp;<span class="text-@task.Severity font-weight-bold text-uppercase"> @task.Severity </span>
                             </div>
-                            <div class="row text-">
+                            <div class="row textOnDark-@theme">
                                 Type:&nbsp;<span class="text-@task.Type font-weight-bold text-uppercase"> @task.Type </span>
                             </div>
                         </div>
@@ -90,7 +97,7 @@
 
     @if (Model.CanUserChangeBoard && Model.Columns.Count < 6)
     {
-        <div class="d-flex mt-3 mb-4 ml-2 mr-2 rounded action-outline-light w-250" data-toggle="modal" data-target="#modalColumn">
+        <div class="d-flex mt-3 mb-4 ml-2 mr-2 rounded action-outline-@theme w-250" data-toggle="modal" data-target="#modalColumn">
             <div class="d-flex flex-column justify-content-center align-items-center card-body text-light">
                 <h5>
                     +
@@ -101,13 +108,7 @@
     @if (Model.CanUserCreateTask)
     {
         <div class="modal fade" id="modalTask" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                <div class="modal-content">
-
-                    @Html.Partial("~/Views/Task/CreateTask.cshtml", new SAM.Taskboard.Model.Task.CreateTaskViewModel { BoardId = Model.BoardId })
-
-                </div>
-            </div>
+            @Html.Partial("~/Views/Task/CreateTask.cshtml", new SAM.Taskboard.Model.Task.CreateTaskViewModel { BoardId = Model.BoardId, ProjectId = Model.ProjectId })
         </div>
     }
 </div>

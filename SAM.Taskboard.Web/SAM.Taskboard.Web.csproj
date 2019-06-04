@@ -271,7 +271,6 @@
     <Content Include="Views\Error\Default.cshtml" />
     <Content Include="Views\Error\NotFound.cshtml" />
     <Content Include="Views\Project\ViewProject.cshtml" />
-    <Content Include="Views\Shared\ProjectLayout.cshtml" />
     <Content Include="Views\Project\CreateProject.cshtml" />
     <Content Include="Views\Project\ProjectsList.cshtml" />
     <Content Include="Views\Board\BoardList.cshtml" />

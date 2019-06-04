@@ -1,29 +1,38 @@
-﻿@model SAM.Taskboard.Model.Board.CreateColumnViewModel
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
 
-<div id="addColumnModalForm">
-    @using (Html.BeginForm("AddColumn", "Board", FormMethod.Post, new { id = "addColumnForm" }))
-    {
-        @Html.AntiForgeryToken()
-        <div class="modal-body">
-            @Html.HiddenFor(m => m.BoardId)
+@model SAM.Taskboard.Model.Board.CreateColumnViewModel
 
-            <div class="row justify-content-center">
-                <div class="form-group">
-                    @Html.TextBoxFor(m => m.Title, new { type = "text", @class = "form-control", placeholder = "Column name", style = "width: 250px" })
-                    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+<div id="addColumnModalForm" class="modal-dialog modal-dialog-centered w-300" role="document">
+    <div class="modal-content theme-background-@theme theme-border-@theme">
+        @using (Html.BeginForm("AddColumn", "Board", FormMethod.Post, new { id = "addColumnForm" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="modal-body">
+                @Html.HiddenFor(m => m.BoardId)
+
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Title, new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme} w-250", placeholder = "Column name" })
+                        @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-1 mb-2 text-danger small">
+                    @Html.ValidationMessage("Error")
                 </div>
             </div>
 
-            <div class="row justify-content-center mt-1 mb-2 text-danger small">
-                @Html.ValidationMessage("Error")
+            <div class="modal-footer theme-background-@theme theme-border-@theme">
+                <button id="closeColumnModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="addColumn" type="submit" class="btn btn-primary">Create</button>
             </div>
-        </div>
-
-        <div class="modal-footer">
-            <button id="closeColumnModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="addColumn" type="submit" class="btn btn-primary">Create</button>
-        </div>
-    }
+        }
+    </div>
 </div>
 
 <script>
@@ -41,7 +50,7 @@
 
         request.fail(function (jqXHR) {
             if (jqXHR.status == 400) {
-                $("#addColumnModalForm").html(jqXHR.responseText);
+                $("#addColumnModalForm").replaceWith(jqXHR.responseText);
             }
         });
     });

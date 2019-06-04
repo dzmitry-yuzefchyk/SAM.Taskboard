@@ -14,6 +14,6 @@ namespace SAM.Taskboard.DataProvider.Models
         [Required]
         public bool EmailNotification { get; set; } = false;
 
-        public int Theme { get; set; }
+        public string Theme { get; set; }
     }
 }

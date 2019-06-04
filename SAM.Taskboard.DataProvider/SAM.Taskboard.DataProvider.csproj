@@ -146,6 +146,10 @@
     <Compile Include="Migrations\201906031017422_attachments_table_and_added_creatorIds_for_task_table.Designer.cs">
       <DependentUpon>201906031017422_attachments_table_and_added_creatorIds_for_task_table.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906041019563_theme_to_string.cs" />
+    <Compile Include="Migrations\201906041019563_theme_to_string.Designer.cs">
+      <DependentUpon>201906041019563_theme_to_string.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -212,6 +216,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906031017422_attachments_table_and_added_creatorIds_for_task_table.resx">
       <DependentUpon>201906031017422_attachments_table_and_added_creatorIds_for_task_table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906041019563_theme_to_string.resx">
+      <DependentUpon>201906041019563_theme_to_string.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

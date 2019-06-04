@@ -1,103 +1,114 @@
-﻿@model SAM.Taskboard.Model.Task.CreateTaskViewModel
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
 
-<div id="modalForm">
-    @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { id = "addTaskColumn" }))
-    {
-        @Html.AntiForgeryToken()
-    <div class="modal-body">
+@model SAM.Taskboard.Model.Task.CreateTaskViewModel
 
-        <div class="d-flex flex-row justify-content-around w-100 h-100">
-            @Html.HiddenFor(m => m.BoardId)
-            @Html.HiddenFor(m => m.ColumnId)
+<div id="modalForm" class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
 
-            <div class="container w-75">
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            @Html.TextBoxFor(m => m.Title, new { type = "text", @class = "form-control", placeholder = "Task name" })
-                            @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
-                        </div>
-                    </div>
-                </div>
+        @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { id = "addTaskColumn" }))
+        {
+            @Html.AntiForgeryToken()
+            <div class="modal-body theme-background-@theme">
 
-                <div class="row h-50">
-                    <div class="col h-100">
-                        <div class="form-group h-100">
-                            @Html.TextAreaFor(m => m.Content, new { type = "text", @class = "form-control h-100", placeholder = "Task description" })
-                            @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger small" })
-                        </div>
-                    </div>
-                </div>
+                <div class="d-flex flex-row justify-content-around w-100 h-100">
+                    @Html.HiddenFor(m => m.ProjectId)
+                    @Html.HiddenFor(m => m.BoardId)
+                    @Html.HiddenFor(m => m.ColumnId)
 
-                <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <label class="pt-2">Attachments</label>
-                            <div id="dropArea" class="rounded" ondrop="dropFile(event)" ondragover="dragOverHandler(event)">
-                                Drop your files here
+                    <div class="container w-75">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    @Html.TextBoxFor(m => m.Title, new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}", placeholder = "Task name" })
+                                    @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+                                </div>
                             </div>
-                            <ul class="list-group" id="uploadList"></ul>
+                        </div>
 
-                            @*<input type="file" />*@
+                        <div class="row h-50">
+                            <div class="col h-100">
+                                <div class="form-group h-100">
+                                    @Html.TextAreaFor(m => m.Content, new { type = "text", @class = $"form-control h-100 theme-background-{theme} textOnDark-{theme}", placeholder = "Task description" })
+                                    @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger small" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="pt-2">Attachments</label>
+                                    <div id="dropArea" class="rounded" ondrop="dropFile(event)" ondragover="dragOverHandler(event)">
+                                        <span class="textOnDark-@theme">Drop your files here</span>
+                                    </div>
+                                    <ul class="list-group" id="uploadList"></ul>
+
+                                    @*<input type="file" />*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="container w-25">
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="textOnDark-@theme">Type</label>
+                                    @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskType))), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}" })
+                                    @Html.ValidationMessageFor(m => m.Type, "", new { @class = "text-danger small" })
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="textOnDark-@theme">Severity</label>
+                                    @Html.DropDownListFor(m => m.Severity, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.Severity))), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}" })
+                                    @Html.ValidationMessageFor(m => m.Severity, "", new { @class = "text-danger small" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="textOnDark-@theme">Priority</label>
+                                    @Html.DropDownListFor(m => m.Priority, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.Priority))), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}" })
+                                    @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label class="textOnDark-@theme">Assignee</label>
+                                    @Html.DropDownListFor(m => m.AssigneeId, Enumerable.Empty<SelectListItem>(), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}" })
+                                    @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-                <div class="container w-25">
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Type</label>
-                                @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskType))), new { type = "text", @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Type, "", new { @class = "text-danger small" })
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Severity</label>
-                                @Html.DropDownListFor(m => m.Severity, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.Severity))), new { type = "text", @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Severity, "", new { @class = "text-danger small" })
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Priority</label>
-                                @Html.DropDownListFor(m => m.Priority, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.Priority))), new { type = "text", @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col">
-                            <div class="form-group">
-                                <label>Assignee</label>
-                                @Html.DropDownListFor(m => m.AssigneeId, Enumerable.Empty<SelectListItem>(), new { type = "text", @class = "form-control" })
-                                @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
-                            </div>
-                        </div>
-                    </div>
+            <div class="modal-footer theme-background-@theme theme-border-@theme">
+                <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="createTask" type="submit" class="btn btn-primary">Create</button>
+                <div class="row justify-content-center mt-1 mb-2 text-danger small">
+                    @Html.ValidationMessage("Error")
                 </div>
             </div>
-        </div>
-
-        <div class="modal-footer">
-            <button id="closeModal" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button id="createTask" type="submit" class="btn btn-primary">Create</button>
-            <div class="row justify-content-center mt-1 mb-2 text-danger small">
-                @Html.ValidationMessage("Error")
-            </div>
-        </div>
-    }
+        }
+    </div>
 </div>
 
 <script>
@@ -115,13 +126,49 @@
 
         request.fail(function (jqXHR) {
             if (jqXHR.status == 400) {
-                $("#modalForm").html(jqXHR.responseText);
+                $("#modalForm").replaceWith(jqXHR.responseText);
+                loadProjectUsers();
             }
         });
     });
     $('#createTask').click(function(e){
         e.preventDefault();
     });
+
+    function loadProjectUsers() {
+        const projectId = (@Html.Raw(Json.Encode(Model))).ProjectId;
+        console.log((@Html.Raw(Json.Encode(Model))));
+        const modal = $(this);
+
+        const request = $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetProjectUsers", "Project")?projectId=' + projectId
+        });
+
+        request.done(function (result) {
+            let usersList = [];
+
+            for (let user in result.users) {
+                let option = '<option value="' + user + '">' + result.users[user] + '</option>';
+                usersList.push(option);
+            }
+
+            const emptyAssigneeOption = '<option value=""/>';
+            $('#AssigneeId').empty();
+            $('#AssigneeId').append(emptyAssigneeOption);
+            $('#AssigneeId').append(usersList);
+        });
+
+        request.fail(function (jqXHR) {
+            if (jqXHR.statusCode == 400) {
+                window.location.replace = '@Url.Action("Default", "Error")';
+            }
+
+            if (jqXHR.statusCode == 403) {
+                window.location.replace = '@Url.Action("Forbidden", "Error")';
+            }
+        });
+    }
 
     function dropFile(event) {
         const formString = JSON.stringify($('#addTaskColumn').serializeArray());

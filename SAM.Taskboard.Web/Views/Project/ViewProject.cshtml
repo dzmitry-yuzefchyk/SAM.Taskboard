@@ -1,4 +1,11 @@
-﻿@model SAM.Taskboard.Model.Project.ProjectViewModel
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
+
+@model SAM.Taskboard.Model.Project.ProjectViewModel
 
 <div class="container w-100">
     <div class="d-flex flex-column align-items-center justify-content-center w-100">
@@ -10,8 +17,8 @@
                     <button id="dropDown" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @Model.ProjectTitle
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropDown">
-                        <a class="dropdown-item" href="#">projectSettings</a>
+                    <div class="dropdown-menu bg-dropdown-@theme" aria-labelledby="dropDown">
+                        <a class="dropdown-item dropdown-@theme" href="#">projectSettings</a>
                     </div>
                 </div>
             }
@@ -26,19 +33,7 @@
         @if (Model.CanUserCreateBoard)
         {
             <div class="modal fade" id="createBoardModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLongTitle">Create new board</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-
-                        @Html.Partial("~/Views/Board/CreateBoard.cshtml", new SAM.Taskboard.Model.Board.CreateBoardViewModel { ProjectId = Model.ProjectId })
-
-                    </div>
-                </div>
+                @Html.Partial("~/Views/Board/CreateBoard.cshtml", new SAM.Taskboard.Model.Board.CreateBoardViewModel { ProjectId = Model.ProjectId })
             </div>
         }
 
@@ -46,20 +41,20 @@
         {
             <ul class="pagination">
                 <li class="page-item">
-                    <a class="page-link" href=@Url.Action("ViewProject", new { projectId = Model.ProjectId, page = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 })>
+                    <a class="page-link theme-background-@theme theme-border-@theme" href=@Url.Action("ViewProject", new { projectId = Model.ProjectId, page = Model.CurrentPage > 1 ? Model.CurrentPage - 1 : 1 })>
                         Previous
                     </a>
                 </li>
                 @foreach (int pageNumber in Model.Pages)
                 {
                     <li class='page-item @(Model.CurrentPage == pageNumber ? "active" : String.Empty)'>
-                        <a class="page-link" href=@Url.Action("ViewProject", new { projectId = Model.ProjectId, page = pageNumber })>
+                        <a class="page-link theme-background-@theme theme-border-@theme" href=@Url.Action("ViewProject", new { projectId = Model.ProjectId, page = pageNumber })>
                             @pageNumber
                         </a>
                     </li>
                 }
                 <li class="page-item">
-                    <a class="page-link" href=@Url.Action("ViewProject", new { projectId = Model.ProjectId, page = Model.CurrentPage < Model.PagesCount ? Model.CurrentPage + 1 : Model.PagesCount })>
+                    <a class="page-link theme-background-@theme theme-border-@theme" href=@Url.Action("ViewProject", new { projectId = Model.ProjectId, page = Model.CurrentPage < Model.PagesCount ? Model.CurrentPage + 1 : Model.PagesCount })>
                         Next
                     </a>
                 </li>

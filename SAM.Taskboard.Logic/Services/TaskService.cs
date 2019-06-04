@@ -101,12 +101,21 @@ namespace SAM.Taskboard.Logic.Services
         {
             try
             {
+                Board board = unitOfWork.Boards.Get(boardId);
+                int projectId = board.ProjectId;
                 BoardSettings boardSettings = unitOfWork.BoardSettings.Get(boardId);
 
-                int accessToCreateTask = boardSettings.AccessToCreateTask;
-                int userAccessToBoard= 1;
+                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == projectId && p.UserId == userId).Role;
 
-                return userAccessToBoard >= accessToCreateTask;
+                if ((ProjectRoles)roleUserProject == ProjectRoles.Administrator)
+                {
+                    return true;
+                }
+
+                int accessToCreateTask = boardSettings.AccessToCreateTask;
+                int userAccessToBoard = userId == board.CreatorId ? (int)ProjectRoles.Creator : roleUserProject;
+
+                return userAccessToBoard <= accessToCreateTask;
             }
             catch
             {

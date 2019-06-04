@@ -65,7 +65,7 @@ namespace SAM.Taskboard.Logic.Services
                     }
 
                     UserProfile profile = new UserProfile { Id = user.Id, Name = userName, Icon = bimage };
-                    UserSettings settings = new UserSettings { Id = user.Id, EmailNotification = false, Theme = (int)Theme.Light };
+                    UserSettings settings = new UserSettings { Id = user.Id, EmailNotification = false, Theme = "light" };
                     unitOfWork.ClientManager.Create(profile, settings);
 
                     return UserServiceResult.success;
@@ -171,10 +171,17 @@ namespace SAM.Taskboard.Logic.Services
             ClaimsIdentity claim = null;
 
             User user = unitOfWork.UserManager.Find(userName, password);
+
             if (user != null)
             {
                 claim = unitOfWork.UserManager.CreateIdentity(user,
                                             DefaultAuthenticationTypes.ApplicationCookie);
+
+                string userId = user.Id;
+                UserSettings userSettings = unitOfWork.ClientManager.GetSettings(userId);
+                string theme = userSettings.Theme;
+
+                claim.AddClaim(new Claim("Theme", theme));
             }
 
             return claim;

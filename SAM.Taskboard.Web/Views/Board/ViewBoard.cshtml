@@ -1,4 +1,11 @@
-﻿@model SAM.Taskboard.Model.Board.BoardViewModel
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
+
+@model SAM.Taskboard.Model.Board.BoardViewModel
 
 <div class="container w-100">
     <div class="d-flex flex-column align-items-center justify-content-center w-100">
@@ -12,8 +19,8 @@
                     <button id="dropDown" type="button" class="btn btn-outline-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         @Model.Title
                     </button>
-                    <div class="dropdown-menu" aria-labelledby="dropDown">
-                        <a class="dropdown-item" href="#">boardSettings</a>
+                    <div class="dropdown-menu bg-dropdown-@theme" aria-labelledby="dropDown">
+                        <a class="dropdown-item dropdown-@theme" href="#">boardSettings</a>
                     </div>
                 </div>
             }
@@ -21,7 +28,6 @@
             {
                 <button type="button" class="btn btn-outline-primary">@Model.Title</button>
             }
-
         </div>
 
         @Html.Partial("Board", Model)
@@ -29,15 +35,8 @@
         @if (Model.CanUserChangeBoard && Model.Columns.Count < 6)
         {
             <div class="modal fade" id="modalColumn" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered w-300" role="document">
-                    <div class="modal-content">
-
-                        @Html.Partial("CreateColumn", new SAM.Taskboard.Model.Board.CreateColumnViewModel { BoardId = Model.BoardId })
-
-                    </div>
-                </div>
+                @Html.Partial("CreateColumn", new SAM.Taskboard.Model.Board.CreateColumnViewModel { BoardId = Model.BoardId })
             </div>
         }
-
     </div>
 </div>

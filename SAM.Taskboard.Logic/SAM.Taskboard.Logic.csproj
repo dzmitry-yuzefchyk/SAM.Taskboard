@@ -69,7 +69,6 @@
     <Compile Include="Services\ProjectService.cs" />
     <Compile Include="Services\TaskService.cs" />
     <Compile Include="Services\UserService.cs" />
-    <Compile Include="Theme.cs" />
     <Compile Include="Utility\GenericServiceResult.cs" />
     <Compile Include="Utility\OperationResult.cs" />
     <Compile Include="Utility\UserServiceResult.cs" />

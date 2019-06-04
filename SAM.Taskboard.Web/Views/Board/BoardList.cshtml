@@ -1,11 +1,18 @@
-﻿@model SAM.Taskboard.Model.Project.ProjectViewModel
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
+
+@model SAM.Taskboard.Model.Project.ProjectViewModel
 
 <div id="boards">
     <div class="d-flex flex-wrap justify-content-around">
         @foreach (var board in Model.Boards)
         {
-            <div class="card mt-2 mb-2 ml-2 mr-2 scale-effect w-200">
-                <div class="card-body">
+            <div class="card mt-2 mb-2 ml-2 mr-2 theme-background-@theme scale-effect-@theme w-200">
+                <div class="card-body textOnDark-@theme theme-border-@theme">
                     @board.Title
                 </div>
                 @Html.ActionLink("View", "ViewBoard", "Board", new { boardId = board.Id }, new { @class = "border-0 btn btn-outline-primary ml-2 mr-2 mb-2" })
@@ -14,7 +21,7 @@
 
         @if (Model.CanUserCreateBoard)
         {
-            <div class="card mt-2 mb-2 ml-2 mr-2 color-effect-light w-200" data-toggle="modal" data-target="#createBoardModal">
+            <div class="card mt-2 mb-2 ml-2 mr-2 color-effect-@theme  w-200" data-toggle="modal" data-target="#createBoardModal">
                 <div class="d-flex flex-column justify-content-center align-items-center card-body text-light">
                     <h5>
                         Add board

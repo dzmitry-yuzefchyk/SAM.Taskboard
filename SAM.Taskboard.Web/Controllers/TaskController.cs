@@ -39,8 +39,7 @@ namespace SAM.Taskboard.Web.Controllers
 
             if (result == GenericServiceResult.AccessDenied)
             {
-                Response.StatusCode = (int)HttpStatusCode.Forbidden;
-                return RedirectToAction("Forbidden", "Error");
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
