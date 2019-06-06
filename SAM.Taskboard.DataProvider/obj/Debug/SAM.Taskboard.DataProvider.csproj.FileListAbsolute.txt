@@ -45,3 +45,4 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Deb
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.pdb
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.attachments_table_and_added_creatorIds_for_task_table.resources
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.theme_to_string.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.byte_img_to_base64_string.resources

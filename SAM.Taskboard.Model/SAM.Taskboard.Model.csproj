@@ -46,6 +46,7 @@
     <Compile Include="Board\BoardViewModel.cs" />
     <Compile Include="Board\CreateBoardViewModel.cs" />
     <Compile Include="Board\CreateColumnViewModel.cs" />
+    <Compile Include="Profile\ProfileSettingsViewModel.cs" />
     <Compile Include="ProjectRoles.cs" />
     <Compile Include="ProjectSettingsRole.cs" />
     <Compile Include="PaginationModel.cs" />
@@ -90,5 +91,6 @@
       <Name>SAM.Taskboard.DataProvider</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

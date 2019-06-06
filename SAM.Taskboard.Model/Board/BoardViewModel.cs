@@ -26,9 +26,9 @@ namespace SAM.Taskboard.Model.Board
         public int Id { get; set; }
         public string Title { get; set; }
         public string AssigneeEmail { get; set; }
-        public byte[] AssigneeIcon { get; set; }
+        public string AssigneeIcon { get; set; }
         public string CreatorEmail { get; set; }
-        public byte[] CreatorIcon { get; set; }
+        public string CreatorIcon { get; set; }
         public bool CanUserChangeTask { get; set; }
         public Priority Priority { get; set; }
         public Severity Severity { get; set; }

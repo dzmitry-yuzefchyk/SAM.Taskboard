@@ -6,6 +6,7 @@ namespace SAM.Taskboard.Model
     public class RegisterViewModel
     {
         [Required(ErrorMessage = "Please specify field")]
+        [MaxLength(64, ErrorMessage = "Maximum 64 symbols")]
         public string UserName { get; set; }
 
         [Required(ErrorMessage = "Please specify field")]

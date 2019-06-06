@@ -3,6 +3,7 @@ using SAM.Taskboard.DataProvider.Models;
 using SAM.Taskboard.Logic.Utility;
 using SAM.Taskboard.Model;
 using SAM.Taskboard.Model.Board;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -103,7 +104,7 @@ namespace SAM.Taskboard.Logic.Services
                     {
                         Id = task.Id,
                         Title = task.Title,
-                        AssigneeIcon = assigneeProfile == null ? null : assigneeProfile.Icon,
+                        AssigneeIcon = assignee == null ? null : assigneeProfile.Icon,
                         AssigneeEmail = assignee == null ? "Unassigned" : assignee.Email,
                         CreatorIcon = creatorProfile.Icon,
                         CreatorEmail = creator.Email,

@@ -150,6 +150,10 @@
     <Compile Include="Migrations\201906041019563_theme_to_string.Designer.cs">
       <DependentUpon>201906041019563_theme_to_string.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906041639483_byte[]_img_to_base64_string.cs" />
+    <Compile Include="Migrations\201906041639483_byte[]_img_to_base64_string.Designer.cs">
+      <DependentUpon>201906041639483_byte[]_img_to_base64_string.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Attachment.cs" />
@@ -219,6 +223,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906041019563_theme_to_string.resx">
       <DependentUpon>201906041019563_theme_to_string.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906041639483_byte[]_img_to_base64_string.resx">
+      <DependentUpon>201906041639483_byte[]_img_to_base64_string.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

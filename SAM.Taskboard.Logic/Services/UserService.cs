@@ -54,17 +54,18 @@ namespace SAM.Taskboard.Logic.Services
                     user = new User { UserName = email, Email = email, EmailConfirmed = false };
                     IdentityResult result = await unitOfWork.UserManager.CreateAsync(user, password);
 
-                    string pathToDefaultIcon = $"{HttpRuntime.AppDomainAppPath}\\..\\SAM.Taskboard.Logic\\Utility\\defaultAccountIcon.svg";
+                    string pathToDefaultIcon = $"{HttpRuntime.AppDomainAppPath}\\..\\SAM.Taskboard.Logic\\Utility\\defaultAccountIcon.png";
                     FileStream fs = new FileStream(pathToDefaultIcon, FileMode.Open, FileAccess.Read);
                     byte[] bimage = new byte[fs.Length];
                     fs.Read(bimage, 0, Convert.ToInt32(fs.Length));
+                    string icon = $"data:image/png;charset=utf-8;base64,{Convert.ToBase64String(bimage, Base64FormattingOptions.None)}";
 
                     if (!result.Succeeded)
                     {
                         return UserServiceResult.error;
                     }
 
-                    UserProfile profile = new UserProfile { Id = user.Id, Name = userName, Icon = bimage };
+                    UserProfile profile = new UserProfile { Id = user.Id, Name = userName, Icon = icon };
                     UserSettings settings = new UserSettings { Id = user.Id, EmailNotification = false, Theme = "light" };
                     unitOfWork.ClientManager.Create(profile, settings);
 

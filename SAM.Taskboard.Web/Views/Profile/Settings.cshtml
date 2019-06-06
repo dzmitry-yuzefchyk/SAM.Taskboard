@@ -1,0 +1,104 @@
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
+
+@model SAM.Taskboard.Model.Profile.ProfileSettingsViewModel
+<div id="profileFormContainer" class="mt-2 overflow-hidden">
+    @using (Html.BeginForm("Settings", "Profile", FormMethod.Post, new { id = "profileForm" }))
+    {
+        @Html.AntiForgeryToken()
+
+        @Html.TextBox("fileInput", new { }, new { type = "file", id = "fileInput", style = "display: none;", accept = ".png", onchange = "loadFile(this)" })
+
+        @Html.HiddenFor(m => m.Icon);
+
+        <div class="row justify-content-center">
+            <img id="icon" src="@Model.Icon" class="rounded" width="200" height="200" onclick="openFileDialog()"/>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.Name, new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}", placeholder = "Name" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                @Html.TextAreaFor(m => m.About, new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}", placeholder = "Write something about yourself" })
+                @Html.ValidationMessageFor(m => m.About, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                <label class="textOnDark-@theme">Choose your theme</label>
+                <div class="row">
+                    <div class="col">
+                        @Html.RadioButtonFor(m => m.Theme, "light", new { id = "LightRadio", @class = $"form-check-input theme-background-{theme} textOnDark-{theme}", style = "width: 20px; height: 20px;" })
+                        <label class="form-check-label textOnDark-@theme" for="LightRadio"> Light </label>
+                    </div>
+
+                    <div class="col">
+                        @Html.RadioButtonFor(m => m.Theme, "dark", new { id = "DarkRadio", @class = $"form-check-input theme-background-{theme} textOnDark-{theme}", style = "width: 20px; height: 20px;" })
+                        <label class="form-check-label textOnDark-@theme" for="DarkRadio"> Dark </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-check">
+                @Html.CheckBoxFor(m => m.EmailNotifications, new { @class = $"form-check-input theme-background-{theme} textOnDark-{theme}" })
+                <label class="form-check-label textOnDark-@theme">
+                    Send email notifications?
+                </label>
+            </div>
+        </div>
+
+
+        <div class="row justify-content-center mt-1 mb-2 text-danger small">
+            @Html.ValidationMessage("Error")
+        </div>
+
+        <div class="row justify-content-center">
+            <button onclick="undo()" id="undoButton" type="button" class="btn btn-secondary">Undo</button>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+    }
+</div>
+
+<script>
+    const unchangedModel = $('#profileForm').html(); 
+
+    function undo() {
+        $('#profileFormContainer').html(unchangedModel);
+    }
+
+    function openFileDialog() {
+        $("#fileInput").click();
+    }
+
+    function loadFile(element) {
+        const file = element.files[0];
+
+        if (getFileExtension(file.name) != 'png') {
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            $('#Icon').attr('value', reader.result);
+            $('#icon').attr('src', reader.result);
+        }
+
+        reader.readAsDataURL(file);
+    }
+
+    function getFileExtension(fileName) {
+        return fileName.split('.').pop();
+    }
+</script>

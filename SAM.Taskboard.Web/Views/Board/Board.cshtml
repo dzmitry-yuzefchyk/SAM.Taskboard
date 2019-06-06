@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims;
+@using System.Text.RegularExpressions;
 @{
     var identity = (ClaimsIdentity)User.Identity;
     IEnumerable<Claim> claims = identity.Claims;
@@ -46,7 +47,7 @@
                         <div class="card-body pb-2 pt-2 small ml-2">
                             <div class="row textOnDark-@theme">
                                 <span data-toggle="tooltip" data-placement="top" title="@task.CreatorEmail">
-                                    Creator: @task.CreatorIcon
+                                    Creator: <img src="@task.CreatorIcon" class="rounded" width="23" height="23" />
                                 </span>
                             </div>
                             <div class="row textOnDark-@theme">
@@ -57,7 +58,7 @@
                                 else
                                 {
                                     <span data-toggle="tooltip" data-placement="top" title="@task.AssigneeEmail">
-                                        Assignee: @task.AssigneeIcon
+                                        Assignee: <img src="@task.AssigneeIcon" class="rounded" width="23" height="23" />
                                     </span>
                                 }
                             </div>

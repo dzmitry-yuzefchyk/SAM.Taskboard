@@ -16,6 +16,6 @@ namespace SAM.Taskboard.DataProvider.Models
 
         public string About { get; set; }
 
-        public byte[] Icon { get; set; }
+        public string Icon { get; set; }
     }
 }
