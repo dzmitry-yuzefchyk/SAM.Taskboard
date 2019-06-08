@@ -10,7 +10,7 @@
 <div id="modalForm" class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content theme-background-@theme">
 
-        @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { id = "addTaskColumn" }))
+        @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { id = "addTaskColumn", enctype = "multipart/form-data" }))
         {
             @Html.AntiForgeryToken()
             <div class="modal-body theme-background-@theme">
@@ -42,20 +42,19 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <label class="pt-2">Attachments</label>
+                                    <label class="pt-2 textOnDark-@theme">Attachments</label>
                                     <div id="dropArea" class="rounded" ondrop="dropFile(event)" ondragover="dragOverHandler(event)">
                                         <span class="textOnDark-@theme">Drop your files here</span>
                                     </div>
-                                    <ul class="list-group" id="uploadList"></ul>
+                                    <ul class="list-group textOnDark-@theme" id="uploadList"></ul>
 
-                                    @*<input type="file" />*@
+                                    <input style="visibility: hidden" id="fileSelect" type="file" name="attachment"/>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="container w-25">
-
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
@@ -65,7 +64,6 @@
                                 </div>
                             </div>
                         </div>
-
 
                         <div class="row">
                             <div class="col">
@@ -112,16 +110,34 @@
 </div>
 
 <script>
-    $('#createTask').click(function () {
+    $('#createTask').click(function (event) {
+        event.preventDefault();
+        var formData = new FormData($('form')[1]);
+
+        for (let i = 0; i < filesToUpload.length; i++) {
+            let file = filesToUpload[i];
+            formData.append('Attachments', file, file.name);
+        }
+
+        const title = $('#addTaskColumn').find('#Title').val();
+        const columnId = $('#addTaskColumn').find('#ColumnId').val();
+        const projectId = $('#addTaskColumn').find('#ProjectId').val();
+        formData.set('Title', title);
+        formData.set('ColumnId', columnId);
+        formData.set('ProjectId', projectId);
+
         const request = $.ajax({
             type: "POST",
             url: '@Url.Action("CreateTask", "Task")',
-            data: $('#addTaskColumn').serialize()
+            data: formData,
+            processData: false,
+            contentType: false
         });
 
         request.done(function () {
-            $('#closeModal').click();
-            location.reload();
+            $(".modal-backdrop").remove();
+            filesToUpload = [];
+            sendSortRequest();
         });
 
         request.fail(function (jqXHR) {
@@ -131,13 +147,10 @@
             }
         });
     });
-    $('#createTask').click(function(e){
-        e.preventDefault();
-    });
+
 
     function loadProjectUsers() {
         const projectId = (@Html.Raw(Json.Encode(Model))).ProjectId;
-        console.log((@Html.Raw(Json.Encode(Model))));
         const modal = $(this);
 
         const request = $.ajax({
@@ -171,12 +184,42 @@
     }
 
     function dropFile(event) {
-        const formString = JSON.stringify($('#addTaskColumn').serializeArray());
-        const formData = JSON.parse(formString);
         event.preventDefault();
+        const allowedExtensions = ['png', 'jpg', 'doc', 'docx', 'txt', 'xls', 'rtf', 'zip'];
+
+        if (event.dataTransfer.items) {
+
+            for (let i = 0; i < event.dataTransfer.items.length; i++) {
+
+                if (event.dataTransfer.items[i].kind === 'file') {
+                    let file = event.dataTransfer.items[i].getAsFile();
+                    let fileExtension = getFileExtension(file.name);
+
+                    if (!allowedExtensions.includes(fileExtension)) {
+                        continue;
+                    }
+
+                    filesToUpload.push(file);
+                    $('#uploadList').append('<li>' + file.name + '</li>');
+                }
+            }
+
+            $('#uploadList').append('<button class="btn text-danger" onclick="clearFiles()">Remove all</button>');
+        }
+
+        console.log(filesToUpload);
     }
 
     function dragOverHandler(event) {
         event.preventDefault();
+    }
+
+    function getFileExtension(fileName) {
+        return fileName.split('.').pop();
+        }
+
+    function clearFiles() {
+        filesToUpload = [];
+        $('#uploadList').empty();
     }
 </script>

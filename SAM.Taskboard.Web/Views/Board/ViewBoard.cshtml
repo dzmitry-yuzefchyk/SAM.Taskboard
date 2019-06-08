@@ -19,14 +19,14 @@
 
             @if (isOrderedByPriority)
             {
-                <button id="Priority" class="btn btn-outline-primary active" onclick="orderBy('Priority', 'Severity')">Priority @direction</button>
-                <button id="Severity" class="btn btn-outline-primary" onclick="orderBy('Severity', 'Priority')">Severity</button>
+                <button id="Priority" class="btn btn-outline-primary active nowrap" onclick="orderBy('Priority', 'Severity')">Priority @direction</button>
+                <button id="Severity" class="btn btn-outline-primary nowrap" onclick="orderBy('Severity', 'Priority')">Severity</button>
             }
 
             else
             {
-                <button id="Priority" class="btn btn-outline-primary" onclick="orderBy('Priority', 'Severity')">Priority</button>
-                <button id="Severity" class="btn btn-outline-primary active" onclick="orderBy('Severity', 'Priority')">Severity @direction</button>
+                <button id="Priority" class="btn btn-outline-primary nowrap" onclick="orderBy('Priority', 'Severity')">Priority</button>
+                <button id="Severity" class="btn btn-outline-primary active nowrap" onclick="orderBy('Severity', 'Priority')">Severity @direction</button>
             }
 
             <button class="btn btn-outline-primary @isAssigneeFilterActive" onclick="sortByAssignee(this)">
@@ -50,6 +50,11 @@
             {
                 <button type="button" class="btn btn-outline-primary">@Model.Title</button>
             }
+
+            @foreach (var board in Model.Boards)
+            {
+                @Html.ActionLink(board.Title, "ViewBoard", "Board", new { boardId = board.Id }, new { @class = "btn btn-outline-primary " })
+            }
         </div>
 
         @Html.Partial("Board", Model)
@@ -67,6 +72,7 @@
     const { BoardId } = model;
     let { OrderDirection, OrderFilter, AssignedFilter, SearchFilter } = model;
     let currentColumnId = -1;
+    let filesToUpload = [];
 
     function sortBySearch(element) {
         SearchFilter = element.value;

@@ -23,6 +23,10 @@ body {
 
 /*universal*/
 
+.nowrap {
+    white-space: nowrap;
+}
+
 ::-webkit-scrollbar {
     width: 5px;
     height: 5px;

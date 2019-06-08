@@ -4,6 +4,7 @@ using SAM.Taskboard.Logic.Utility;
 using SAM.Taskboard.Model;
 using SAM.Taskboard.Model.Task;
 using System;
+using System.IO;
 
 namespace SAM.Taskboard.Logic.Services
 {
@@ -37,10 +38,19 @@ namespace SAM.Taskboard.Logic.Services
                     StartTime = DateTime.Now,
                     AssigneeId = model.AssigneeId,
                     CreatorId = userId
-                    //Attachments = model.Attachments
                 };
 
                 unitOfWork.Tasks.Create(task);
+
+                foreach (var attachment in model.Attachments)
+                {
+                    byte[] imgData;
+                    using (var reader = new BinaryReader(attachment.InputStream))
+                    {
+                        imgData = reader.ReadBytes(attachment.ContentLength);
+                    }
+                    unitOfWork.Attachments.Create(new Attachment { Document = imgData, TaskId = task.Id });
+                }
 
                 return GenericServiceResult.Success;
             }

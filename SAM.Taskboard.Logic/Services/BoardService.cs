@@ -3,6 +3,7 @@ using SAM.Taskboard.DataProvider.Models;
 using SAM.Taskboard.Logic.Utility;
 using SAM.Taskboard.Model;
 using SAM.Taskboard.Model.Board;
+using SAM.Taskboard.Model.Project;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,13 @@ namespace SAM.Taskboard.Logic.Services
                 bool canUserCreateTask = CanUserCreateTask(userId, boardId);
 
                 List<ColumnInfo> columnInfos = GetColumns(userId, boardId, orderBy, direction, search, assignedToMe);
+                List<Board> boards = unitOfWork.Boards.Get(b => b.ProjectId == projectId && b.Id != boardId).ToList();
+                List<BoardInfo> boardInfos = new List<BoardInfo>();
+
+                foreach (var b in boards)
+                {
+                    boardInfos.Add(new BoardInfo { Id = b.Id, Title = b.Title });
+                }
 
                 BoardViewModel model = new BoardViewModel()
                 {
@@ -50,7 +58,8 @@ namespace SAM.Taskboard.Logic.Services
                     AssignedFilter = assignedToMe,
                     OrderFilter = orderBy,
                     OrderDirection = direction,
-                    SearchFilter = search
+                    SearchFilter = search,
+                    Boards = boardInfos
                 };
 
                 return new OperationResult<BoardViewModel> { Model = model, Message = GenericServiceResult.Success };
@@ -110,8 +119,8 @@ namespace SAM.Taskboard.Logic.Services
                 if (search != "")
                 {
                     tasks = (from t in tasks
-                            where t.Title.Contains(search)
-                            select t).ToList();
+                             where t.Title.Contains(search)
+                             select t).ToList();
                 }
 
                 List<TaskInfo> taskInfos = new List<TaskInfo>();

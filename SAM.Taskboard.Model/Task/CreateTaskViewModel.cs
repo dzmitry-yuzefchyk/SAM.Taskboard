@@ -1,8 +1,7 @@
-﻿using System;
+﻿using SAM.Taskboard.DataProvider.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web.Mvc;
+using System.Web;
 
 namespace SAM.Taskboard.Model.Task
 {
@@ -30,8 +29,13 @@ namespace SAM.Taskboard.Model.Task
         [Required]
         public Priority Priority { get; set; }
 
-        public List<byte[]> Attachments { get; set; }
+        public List<HttpPostedFileBase> Attachments { get; set; }
 
         public string AssigneeId { get; set; }
+
+        public CreateTaskViewModel()
+        {
+            Attachments = new List<HttpPostedFileBase>();
+        }
     }
 }

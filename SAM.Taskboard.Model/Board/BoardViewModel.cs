@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SAM.Taskboard.Model.Project;
+using System;
 using System.Collections.Generic;
 
 namespace SAM.Taskboard.Model.Board
@@ -16,6 +17,7 @@ namespace SAM.Taskboard.Model.Board
         public string SearchFilter { get; set; }
         public string OrderFilter { get; set; }
         public string OrderDirection { get; set; }
+        public List<BoardInfo> Boards { get; set; }
     }
 
     public class ColumnInfo
