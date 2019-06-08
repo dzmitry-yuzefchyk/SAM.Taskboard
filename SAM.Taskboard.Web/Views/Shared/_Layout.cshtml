@@ -46,7 +46,9 @@
         </div>
     </nav>
 
-    @RenderBody()
+    <wrapper>
+        @RenderBody()
+    </wrapper>
 
     @RenderSection("scripts", required: false)
 </body>

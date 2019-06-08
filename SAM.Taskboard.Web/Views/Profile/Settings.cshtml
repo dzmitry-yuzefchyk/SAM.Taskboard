@@ -65,17 +65,16 @@
         </div>
 
         <div class="row justify-content-center">
-            <button onclick="undo()" id="undoButton" type="button" class="btn btn-secondary">Undo</button>
-            <button type="submit" class="btn btn-primary">Save</button>
+            <button onclick="undo()" id="undoButton" type="button" class="btn btn-secondary mr-4">Undo</button>
+            <button type="submit" class="btn btn-primary ml-4">Save</button>
         </div>
     }
-</div>
 
 <script>
     const unchangedModel = $('#profileForm').html(); 
 
     function undo() {
-        $('#profileFormContainer').html(unchangedModel);
+        $('#profileForm').html(unchangedModel);
     }
 
     function openFileDialog() {
@@ -102,3 +101,6 @@
         return fileName.split('.').pop();
     }
 </script>
+</div>
+
+

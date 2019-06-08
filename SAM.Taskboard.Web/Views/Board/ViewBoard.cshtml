@@ -3,6 +3,10 @@
     var identity = (ClaimsIdentity)User.Identity;
     IEnumerable<Claim> claims = identity.Claims;
     string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+
+    string isAssigneeFilterActive = Model.AssignedFilter ? "active" : "";
+    bool isOrderedByPriority = Model.OrderFilter == "priority";
+    string direction = Model.OrderDirection.ToUpper() == "ASC" ?  "˅" : "˄";
 }
 
 @model SAM.Taskboard.Model.Board.BoardViewModel
@@ -11,6 +15,24 @@
     <div class="d-flex flex-column align-items-center justify-content-center w-100">
 
         <div class="btn-group pt-1 pb-1 pl-2 pr-2 mt-4 mb-2" role="group">
+            <input oninput="sortBySearch(this)" id="searchFilter" type="text" class="btn btn-outline-primary" style="width: 120px;" placeholder="Search" value="@Model.SearchFilter" />
+
+            @if (isOrderedByPriority)
+            {
+                <button id="Priority" class="btn btn-outline-primary active" onclick="orderBy('Priority', 'Severity')">Priority @direction</button>
+                <button id="Severity" class="btn btn-outline-primary" onclick="orderBy('Severity', 'Priority')">Severity</button>
+            }
+
+            else
+            {
+                <button id="Priority" class="btn btn-outline-primary" onclick="orderBy('Priority', 'Severity')">Priority</button>
+                <button id="Severity" class="btn btn-outline-primary active" onclick="orderBy('Severity', 'Priority')">Severity @direction</button>
+            }
+
+            <button class="btn btn-outline-primary @isAssigneeFilterActive" onclick="sortByAssignee(this)">
+                Assigned to me
+            </button>
+
             @Html.ActionLink(Model.ProjectTitle, "ViewProject", "Project", new { projectId = Model.ProjectId }, new { @class = "btn btn-primary" })
 
             @if (Model.CanUserChangeBoard)
@@ -39,4 +61,76 @@
             </div>
         }
     </div>
+
+<script>
+    const model = @Html.Raw(Json.Encode(Model));
+    const { BoardId } = model;
+    let { OrderDirection, OrderFilter, AssignedFilter, SearchFilter } = model;
+    let currentColumnId = -1;
+
+    function sortBySearch(element) {
+        SearchFilter = element.value;
+        sendSortRequest();
+    }
+
+    function sortByAssignee(element) {
+        const button = $(element);
+        AssignedFilter = !AssignedFilter;
+
+        if (AssignedFilter) {
+            button.addClass('active');
+        }
+
+        else {
+            button.removeClass('active');
+        }
+
+        sendSortRequest();
+    }
+
+    function orderBy(fieldToSortBy, alternative) {
+        if (OrderFilter.toUpperCase() == fieldToSortBy.toUpperCase()) {
+            if (OrderDirection.toUpperCase() == 'ASC') {
+                OrderDirection = 'DESC';
+
+                $('#' + fieldToSortBy).html(fieldToSortBy + ' ˄');
+            }
+            else {
+                OrderDirection = 'ASC';
+                $('#' + fieldToSortBy).html(fieldToSortBy + ' ˅');
+            }
+        }
+
+        else {
+            OrderFilter = fieldToSortBy;
+            OrderDirection = 'ASC';
+            $('#' + alternative).removeClass('active');
+            $('#' + fieldToSortBy).addClass('active');
+            $('#' + alternative).html(fieldToSortBy);
+            $('#' + fieldToSortBy).html(fieldToSortBy + ' ˅');
+        }
+
+        sendSortRequest();
+    }
+
+    function sendSortRequest() {
+        const data = {
+            'boardId': BoardId,
+            'orderBy': OrderFilter,
+            'direction': OrderDirection,
+            'search': SearchFilter,
+            'assignedToMe': AssignedFilter
+        };
+
+        const request = $.ajax({
+            type: 'GET',
+            url: '@Url.Action("PartialViewBoard", "Board")?' + $.param(data)
+        });
+
+        request.done(function (response) {
+            $('#taskboard').replaceWith(response);
+        });
+    }
+
+</script>
 </div>

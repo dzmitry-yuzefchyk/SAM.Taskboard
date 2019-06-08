@@ -25,6 +25,7 @@ body {
 
 ::-webkit-scrollbar {
     width: 5px;
+    height: 5px;
 }
 
 ::-webkit-scrollbar-track {
@@ -160,13 +161,21 @@ body {
 }
 
 .arrow-asc {
+    display: inline-block;
     background-image: url(../Content/arrow.png);
-    transform: rotate(90deg);
+    background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
+    transform: rotate(180deg);
     transition: ease-in-out 0.2s !important;
 }
 
 .arrow-desc {
+    display: inline-block;
     background-image: url(../Content/arrow.png);
+    background-repeat: no-repeat;
+    height: 20px;
+    width: 20px;
     transition: ease-in-out 0.2s !important;
 }
 

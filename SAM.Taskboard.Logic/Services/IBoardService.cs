@@ -6,7 +6,7 @@ namespace SAM.Taskboard.Logic.Services
     public interface IBoardService
     {
         GenericServiceResult CreateBoard(CreateBoardViewModel model, string userId, int projectId);
-        OperationResult<BoardViewModel> GetBoard(string userId, int boardId);
+        OperationResult<BoardViewModel> GetBoard(string userId, int boardId, string orderBy, string direction, string search, bool assignedToMe);
         GenericServiceResult AddColumn(CreateColumnViewModel model, string userId);
     }
 }

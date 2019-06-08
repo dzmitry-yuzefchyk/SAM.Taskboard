@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNet.Identity;
 using SAM.Taskboard.Logic.Services;
 using SAM.Taskboard.Logic.Utility;
+using SAM.Taskboard.Model;
 using SAM.Taskboard.Model.Board;
+using System.IO;
 using System.Net;
 using System.Web.Mvc;
 
@@ -18,10 +20,10 @@ namespace SAM.Taskboard.Web.Controllers
         }
 
         [HttpGet]
-        public ActionResult ViewBoard(int boardId)
+        public ActionResult ViewBoard(int boardId, string orderBy = "priority", string direction = "ASC", string search = "", bool assignedToMe = false)
         {
             string userId = User.Identity.GetUserId();
-            OperationResult<BoardViewModel> result = boardService.GetBoard(userId, boardId);
+            OperationResult<BoardViewModel> result = boardService.GetBoard(userId, boardId, orderBy, direction, search, assignedToMe);
 
             if (result.Message == GenericServiceResult.AccessDenied)
             {
@@ -30,6 +32,20 @@ namespace SAM.Taskboard.Web.Controllers
             }
 
             return View(result.Model);
+        }
+
+        [HttpGet]
+        public PartialViewResult PartialViewBoard(int boardId, string orderBy = "priority", string direction = "ASC", string search = "", bool assignedToMe = false)
+        {
+            string userId = User.Identity.GetUserId();
+            OperationResult<BoardViewModel> result = boardService.GetBoard(userId, boardId, orderBy, direction, search, assignedToMe);
+
+            if (result.Message == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+            }
+
+            return PartialView("Board", result.Model);
         }
 
         [HttpPost]

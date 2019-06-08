@@ -71,10 +71,8 @@
             </div>
         }
     </div>
-</div>
 
-
-<script>
+    <script>
     $('#createBoard').click(function () {
         const model = @Html.Raw(Json.Encode(Model));
         const request = $.ajax({
@@ -98,3 +96,5 @@
         e.preventDefault();
     });
 </script>
+</div>
+

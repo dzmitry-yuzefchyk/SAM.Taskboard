@@ -8,7 +8,7 @@
 
 @model SAM.Taskboard.Model.Board.BoardViewModel
 
-<div id="taskBoard" class="d-flex h-100 max-width-by-viewport overflow-x">
+<div id="taskboard" class="d-flex h-100 max-width-by-viewport overflow-x">
     @foreach (var column in Model.Columns)
     {
         @Html.Hidden("ColumnId", column.Id)
@@ -112,11 +112,8 @@
             @Html.Partial("~/Views/Task/CreateTask.cshtml", new SAM.Taskboard.Model.Task.CreateTaskViewModel { BoardId = Model.BoardId, ProjectId = Model.ProjectId })
         </div>
     }
-</div>
 
 <script>
-    let currentColumnId;
-
     $('#modalTask').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
         const columnId = button.data('columnid');
@@ -204,3 +201,4 @@
         }
     }
 </script>
+</div>

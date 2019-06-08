@@ -4,6 +4,7 @@
     {
         Success = 0,
         Error = 1,
-        AccessDenied = 2
+        AccessDenied = 2,
+        InvalidParametersValue = 3
     }
 }

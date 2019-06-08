@@ -12,6 +12,10 @@ namespace SAM.Taskboard.Model.Board
         public List<ColumnInfo> Columns { get; set; }
         public bool CanUserChangeBoard { get; set; }
         public bool CanUserCreateTask { get; set; }
+        public bool AssignedFilter { get; set; }
+        public string SearchFilter { get; set; }
+        public string OrderFilter { get; set; }
+        public string OrderDirection { get; set; }
     }
 
     public class ColumnInfo

@@ -18,7 +18,7 @@ namespace SAM.Taskboard.Logic.Services
             this.unitOfWork = unitOfWork;
         }
 
-        public OperationResult<BoardViewModel> GetBoard(string userId, int boardId)
+        public OperationResult<BoardViewModel> GetBoard(string userId, int boardId, string orderBy, string direction, string search, bool assignedToMe)
         {
             try
             {
@@ -36,7 +36,7 @@ namespace SAM.Taskboard.Logic.Services
                 bool canUserChangeBoard = CanUserChangeBoard(userId, boardId);
                 bool canUserCreateTask = CanUserCreateTask(userId, boardId);
 
-                List<ColumnInfo> columnInfos = GetColumns(userId, boardId);
+                List<ColumnInfo> columnInfos = GetColumns(userId, boardId, orderBy, direction, search, assignedToMe);
 
                 BoardViewModel model = new BoardViewModel()
                 {
@@ -46,7 +46,11 @@ namespace SAM.Taskboard.Logic.Services
                     Title = board.Title,
                     BoardId = board.Id,
                     ProjectId = projectId,
-                    ProjectTitle = projectTitle
+                    ProjectTitle = projectTitle,
+                    AssignedFilter = assignedToMe,
+                    OrderFilter = orderBy,
+                    OrderDirection = direction,
+                    SearchFilter = search
                 };
 
                 return new OperationResult<BoardViewModel> { Model = model, Message = GenericServiceResult.Success };
@@ -57,7 +61,7 @@ namespace SAM.Taskboard.Logic.Services
             }
         }
 
-        private List<ColumnInfo> GetColumns(string userId, int boardId)
+        private List<ColumnInfo> GetColumns(string userId, int boardId, string orderBy, string direction, string search, bool assignedToMe)
         {
             try
             {
@@ -66,7 +70,7 @@ namespace SAM.Taskboard.Logic.Services
 
                 foreach (var column in columns)
                 {
-                    List<TaskInfo> taskInfos = GetTasks(userId, column.Id, boardId);
+                    List<TaskInfo> taskInfos = GetTasks(userId, column.Id, boardId, orderBy, direction, search, assignedToMe);
 
                     columnInfos.Add(new ColumnInfo
                     {
@@ -84,11 +88,32 @@ namespace SAM.Taskboard.Logic.Services
             }
         }
 
-        private List<TaskInfo> GetTasks(string userId, int columnId, int boardId)
+        private List<TaskInfo> GetTasks(string userId, int columnId, int boardId, string orderBy, string direction, string search, bool assignedToMe)
         {
             try
             {
-                List<Task> tasks = unitOfWork.Tasks.Get(t => t.ColumnId == columnId, t => t.Priority, "ASC").ToList();
+                Func<Task, object> orderByFilter = t => t.Priority;
+                Func<Task, bool> whereFilter = t => t.ColumnId == columnId;
+
+                if (orderBy.ToLower() == "severity")
+                {
+                    orderByFilter = t => t.Severity;
+                }
+
+                if (assignedToMe)
+                {
+                    whereFilter = t => t.ColumnId == columnId && t.AssigneeId == userId;
+                }
+
+                List<Task> tasks = unitOfWork.Tasks.Get(whereFilter, orderByFilter, direction).ToList();
+
+                if (search != "")
+                {
+                    tasks = (from t in tasks
+                            where t.Title.Contains(search)
+                            select t).ToList();
+                }
+
                 List<TaskInfo> taskInfos = new List<TaskInfo>();
 
                 foreach (var task in tasks)
