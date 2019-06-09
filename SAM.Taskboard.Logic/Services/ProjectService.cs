@@ -178,11 +178,6 @@ namespace SAM.Taskboard.Logic.Services
             }
         }
 
-        //TODO: Activities
-        public void GetRecentActivities()
-        {
-        }
-
         public OperationResult<Dictionary<string, string>> GetProjectUsers(string userId, int projectId)
         {
             try

@@ -1,0 +1,150 @@
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
+
+@model SAM.Taskboard.Model.Task.TaskViewModel
+
+<div id="taskBody" class="d-flex mt-3 ml-3 mr-3 mb-4 w-100 rounded shadow-@theme theme-background-@theme">
+    @using (Html.BeginForm("UpdateTask", "Task", FormMethod.Post, new { @class = "w-100", id = "taskForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.CreatorEmail)
+        @Html.HiddenFor(m => m.AssigneeEmail)
+        @Html.HiddenFor(m => m.ProjectId)
+        @Html.HiddenFor(m => m.BoardId)
+        @Html.HiddenFor(m => m.TaskId)
+        @Html.HiddenFor(m => m.ColumnId)
+        <div class="d-flex flex-row">
+            <div class="container ml-2 mt-3 mr-2">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            @Html.TextBoxFor(m => m.Title, new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme} w-100", placeholder = "Task name" })
+                            @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row h-50">
+                    <div class="col h-100">
+                        <div class="form-group h-100">
+                            @Html.TextAreaFor(m => m.Content, new { type = "text", @class = $"form-control .h-100-notimportant overflow-hidden theme-background-{theme} textOnDark-{theme}", placeholder = "Task description", style = "height: 100%" })
+                            @Html.ValidationMessageFor(m => m.Content, "", new { @class = "text-danger small" })
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row ml-1 mt-2 textOnDark-@theme">Attachments: </div>
+
+                <div class="row ml-1" id="imagesList" ></div>
+
+                <div class="row ml-1" id="attachmentsList"> </div>
+            </div>
+
+            <div class="container ml-2 mr-2 mt-3 w-25">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="textOnDark-@theme">Creator:</label>
+                            <span data-toggle="tooltip" data-placement="top" title="@Model.CreatorEmail">
+                                <img src="@Model.CreatorIcon" class="rounded" width="23" height="23" />
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="textOnDark-@theme">Assignee: </label>
+                            @if (Model.AssigneeEmail == null)
+                            {
+                                <span>unassigned</span>
+                            }
+                            else
+                            {
+                                <span data-toggle="tooltip" data-placement="top" title="@Model.AssigneeEmail">
+                                    <img src="@Model.AssigneeIcon" class="rounded" width="23" height="23" />
+                                </span>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="textOnDark-@theme">Type</label>
+                            @Html.DropDownListFor(m => m.Type, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskType))), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}" })
+                            @Html.ValidationMessageFor(m => m.Type, "", new { @class = "text-danger small" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="textOnDark-@theme">Severity</label>
+                            @Html.DropDownListFor(m => m.Severity, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.Severity))), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}" })
+                            @Html.ValidationMessageFor(m => m.Severity, "", new { @class = "text-danger small" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="textOnDark-@theme">Priority</label>
+                            @Html.DropDownListFor(m => m.Priority, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.Priority))), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}" })
+                            @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="textOnDark-@theme">New assignee</label>
+                            @Html.DropDownListFor(m => m.AssigneeId, Enumerable.Empty<SelectListItem>(), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}" })
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row pl-4 justify-content-center textOnDark-@theme">
+                    <div class="col">
+                        <div class="form-group">
+                            <button onclick="onSave(event)" class="btn btn-outline-primary">Save</button>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <div class="form-group">
+                                <button onclick="undo(event)" class="btn btn-secondary">Undo</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+    <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content theme-background-@theme">
+                <div class="modal-body textOnDark-@theme theme-background-@theme">
+                    Are you sure?
+                </div>
+                <div class="modal-footer theme-border-@theme">
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    @Html.ActionLink("Delete", "DeleteTask", "Task", new { taskId = Model.TaskId, boardId = Model.BoardId }, new { @class = "btn btn-danger" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

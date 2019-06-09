@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SAM.Taskboard.DataProvider.Models
+﻿namespace SAM.Taskboard.DataProvider.Models
 {
     public class Attachment
     {
@@ -15,5 +9,11 @@ namespace SAM.Taskboard.DataProvider.Models
         public int TaskId { get; set; }
 
         public Task Task { get; set; }
+
+        public string Name { get; set; }
+
+        public string Type { get; set; }
+
+        public string Extension { get; set; }
     }
 }

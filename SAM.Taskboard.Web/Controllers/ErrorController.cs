@@ -21,5 +21,11 @@ namespace SAM.Taskboard.Web.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public ActionResult BadRequest(string aspxerrorpath)
+        {
+            return View();
+        }
     }
 }

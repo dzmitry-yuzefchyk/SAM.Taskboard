@@ -39,10 +39,79 @@ namespace SAM.Taskboard.Web.Controllers
 
             if (result == GenericServiceResult.AccessDenied)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("Default", "Error");
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateTask(TaskViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return PartialView(model);
+            }
+
+            string userId = User.Identity.GetUserId();
+            var result = taskService.UpdateTask(model, userId);
+
+            if (result == GenericServiceResult.AccessDenied)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+            }
+
+            if (result == GenericServiceResult.Error)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteTask(int taskId, int boardId)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = taskService.DeleteTask(userId, taskId, boardId);
+
+            if (result == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("Default", "Error");
+            }
+
+            return RedirectToAction("ViewBoard", "Board", new { BoardId = boardId });
+        }
+
+        [HttpGet]
+        public ActionResult ViewTask(int taskId)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = taskService.ViewTask(userId, taskId);
+
+            if (result.Message == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result.Message == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("Default", "Error");
+            }
+
+            return View(result.Model);
         }
 
         [HttpPost]
@@ -53,7 +122,14 @@ namespace SAM.Taskboard.Web.Controllers
 
             if (result == GenericServiceResult.AccessDenied)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.Forbidden);
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("Default", "Error");
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);

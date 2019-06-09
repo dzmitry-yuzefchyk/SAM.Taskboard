@@ -6,12 +6,10 @@
 
 ul {
     list-style-type: none;
-    font-size: 0.9em;
 }
 
 li {
     list-style-type: none;
-    font-size: 0.9em;
 }
 
 html {
@@ -32,7 +30,33 @@ body {
 }
 
 /*universal*/
-#uploadList 
+.h-100-notimportant {
+    height: 100%;
+}
+
+.attachment-image {
+    height: 3em !important;
+    transition: ease-in-out 0.2s !important;
+}
+
+    .attachment-image:hover {
+        transform: scale(1.1);
+        transition: ease-in-out 0.2s !important;
+    }
+
+.attachment-link {
+    margin: 0 5px 0 5px;
+    transition: ease-in-out 0.2s !important;
+}
+
+    .attachment-link:hover {
+        color: #007bff !important;
+        transition: ease-in-out 0.2s !important;
+    }
+
+#uploadList {
+    font-size: 0.9em;
+}
 
 .nowrap {
     white-space: nowrap;
@@ -163,6 +187,10 @@ body {
 
 .max-height {
     max-height: 48em;
+}
+
+.overflow-hidden {
+    overflow: hidden;
 }
 
 .overflow-x {

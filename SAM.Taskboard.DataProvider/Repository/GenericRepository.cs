@@ -78,6 +78,18 @@ namespace SAM.Taskboard.DataProvider.Repository
             context.SaveChanges();
         }
 
+        public void Delete(Func<TEntity, bool> where)
+        {
+            List<TEntity> entities = model.Where(where).ToList();
+
+            foreach (var entity in entities)
+            {
+                model.Remove(entity);
+            }
+
+            context.SaveChanges();
+        }
+
         public void Dispose()
         {
             context.Dispose();

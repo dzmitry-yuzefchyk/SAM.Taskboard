@@ -59,6 +59,7 @@
     <Compile Include="TaskSettingsRole.cs" />
     <Compile Include="TaskType.cs" />
     <Compile Include="Task\CreateTaskViewModel.cs" />
+    <Compile Include="Task\TaskViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">

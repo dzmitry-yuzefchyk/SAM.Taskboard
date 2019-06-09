@@ -86,7 +86,6 @@
         });
 
         request.fail(function (jqXHR) {
-            console.log(jqXHR);
             if (jqXHR.status == 400) {
                 $("#modalForm").replaceWith(jqXHR.responseText);
             }

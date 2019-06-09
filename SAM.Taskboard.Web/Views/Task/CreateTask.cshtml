@@ -90,7 +90,6 @@
                                 <div class="form-group">
                                     <label class="textOnDark-@theme">Assignee</label>
                                     @Html.DropDownListFor(m => m.AssigneeId, Enumerable.Empty<SelectListItem>(), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme}" })
-                                    @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger small" })
                                 </div>
                             </div>
                         </div>
@@ -121,9 +120,11 @@
         const title = $('#addTaskColumn').find('#Title').val();
         const columnId = $('#addTaskColumn').find('#ColumnId').val();
         const projectId = $('#addTaskColumn').find('#ProjectId').val();
+        const assigneeId = $('#addTaskColumn').find('#AssigneeId').val();
         formData.set('Title', title);
         formData.set('ColumnId', columnId);
         formData.set('ProjectId', projectId);
+        formData.set('AssigneeId', assigneeId);
 
         const request = $.ajax({
             type: "POST",

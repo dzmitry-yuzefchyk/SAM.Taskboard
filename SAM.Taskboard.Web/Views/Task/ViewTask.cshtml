@@ -1,0 +1,131 @@
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+
+    var serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+    serializer.MaxJsonLength = Int32.MaxValue;
+    var jsonModel = serializer.Serialize(Model);
+}
+
+@model SAM.Taskboard.Model.Task.TaskViewModel
+
+<div class="container w-100 h-auto">
+    <div class="d-flex flex-column align-items-center justify-content-center w-100">
+
+        <div class="btn-group pt-1 pb-1 pl-2 pr-2 mt-4 mb-2" role="group">
+            @Html.ActionLink(Model.ProjectTitle, "ViewProject", "Project", new { projectId = Model.ProjectId }, new { @class = "btn btn-primary" })
+
+            <button class="btn btn-success">@Model.Title</button>
+
+            <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">Delete task</button>
+
+            @Html.ActionLink(Model.BoardTitle, "ViewBoard", "Board", new { boardId = Model.BoardId }, new { @class = "btn btn-primary " })
+
+            @foreach (var board in Model.Boards)
+            {
+                @Html.ActionLink(board.Title, "ViewBoard", "Board", new { boardId = board.Id }, new { @class = "btn btn-outline-primary " })
+            }
+        </div>
+
+        @Html.Partial("TaskBody", Model)
+    </div>
+</div>
+
+<script>
+    const { Attachments, ProjectId} = @Html.Raw(jsonModel);
+
+    window.onload = function () {
+        showAttachments();
+        loadProjectUsers(ProjectId);
+    };
+
+    function showAttachments() {
+        for (let attachment of Attachments)
+        {
+            saveByteArray(attachment.FileName, attachment.Document, attachment.FileType);
+        }
+    }
+
+    function saveByteArray(name, byte, type) {
+        const imageTypes = ['image/jpeg', 'image/png'];
+
+        if (imageTypes.includes(type)) {
+            const imageBase64 = btoa(String.fromCharCode.apply(null, new Uint8Array(byte)));
+            const img = '<img class="attachment-image" src="data:' + type + ';base64,' + imageBase64 + '"></img>';
+            $('#imagesList').prepend(img);
+        }
+
+        else {
+            const bytes = new Uint8Array(byte);
+            const blob = new Blob([bytes], { type });
+
+            const link = window.URL.createObjectURL(blob);
+            const a = '<li><a download="' + name +'" href="' + link + '" class="attachment-link">' + name + '</a></li>'
+            $('#attachmentsList').append(a);
+        }
+    }
+
+    function undo(event) {
+        event.preventDefault();
+        $("#taskForm")[0].reset();
+    }
+
+    function onSave(event) {
+        event.preventDefault();
+        const request = $.ajax({
+            type: "POST",
+            url: '@Url.Action("UpdateTask", "Task")',
+            data: $('form').serialize()
+        });
+
+        console.log($('form').serialize());
+
+        request.done(function () {
+            location.reload();
+        });
+
+        request.fail(function (jqXHR) {
+            if (jqXHR.status == 400) {
+                $("#taskBody").replaceWith(jqXHR.responseText);
+            }
+        });
+    }
+
+    function elastic(element) {
+        element.style.height = "5px";
+        element.style.height = (element.scrollHeight)+"px";
+    }
+
+    function loadProjectUsers(projectId) {
+        const request = $.ajax({
+            type: 'GET',
+            url: '@Url.Action("GetProjectUsers", "Project")?projectId=' + projectId
+        });
+
+        request.done(function (result) {
+            let usersList = [];
+
+            for (let user in result.users) {
+                let option = '<option value="' + user + '">' + result.users[user] + '</option>';
+                usersList.push(option);
+            }
+
+            const emptyAssigneeOption = '<option value=""/>';
+            $('#AssigneeId').empty();
+            $('#AssigneeId').append(emptyAssigneeOption);
+            $('#AssigneeId').append(usersList);
+        });
+
+        request.fail(function (jqXHR) {
+            if (jqXHR.statusCode == 400) {
+                window.location.replace = '@Url.Action("Default", "Error")';
+            }
+
+            if (jqXHR.statusCode == 403) {
+                window.location.replace = '@Url.Action("Forbidden", "Error")';
+            }
+        });
+    }
+</script>

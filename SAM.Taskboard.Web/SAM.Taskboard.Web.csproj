@@ -291,6 +291,9 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Error\Forbidden.cshtml" />
     <Content Include="Views\Profile\Settings.cshtml" />
+    <Content Include="Views\Task\ViewTask.cshtml" />
+    <Content Include="Views\Task\TaskBody.cshtml" />
+    <Content Include="Views\Error\BadRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

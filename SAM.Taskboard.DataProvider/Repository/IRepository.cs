@@ -15,5 +15,6 @@ namespace SAM.Taskboard.DataProvider.Repository
         void Create(TEntity item);
         void Update(TEntity item);
         void Delete(int id);
+        void Delete(Func<TEntity, bool> where);
     }
 }
