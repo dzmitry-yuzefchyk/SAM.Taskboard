@@ -4,7 +4,9 @@ using SAM.Taskboard.Logic.Utility;
 using SAM.Taskboard.Model;
 using SAM.Taskboard.Model.Task;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Web;
 
 namespace SAM.Taskboard.Logic.Services
 {
@@ -41,15 +43,45 @@ namespace SAM.Taskboard.Logic.Services
                 };
 
                 unitOfWork.Tasks.Create(task);
+                int taskId = task.Id;
 
-                foreach (var attachment in model.Attachments)
+                GenericServiceResult result = UploadAttachment(taskId, model.Attachments);
+
+                return GenericServiceResult.Success;
+            }
+            catch
+            {
+                return GenericServiceResult.Error;
+            }
+        }
+
+        private GenericServiceResult UploadAttachment(int taskId, List<HttpPostedFileBase> attachments)
+        {
+            try
+            {
+                List<string> allowedExtensions = new List<string> { ".png", ".jpg", ".doc", ".docx", ".txt", ".xls", ".rtf", ".zip" };
+                int maxAttachmentsCount = 6;
+                foreach (var attachment in attachments)
                 {
+                    if (maxAttachmentsCount == 0)
+                    {
+                        break;
+                    }
+
+                    string fileExtension = Path.GetExtension(attachment.FileName);
+                    if (!allowedExtensions.Contains(fileExtension))
+                    {
+                        continue;
+                    }
+
                     byte[] imgData;
                     using (var reader = new BinaryReader(attachment.InputStream))
                     {
                         imgData = reader.ReadBytes(attachment.ContentLength);
                     }
-                    unitOfWork.Attachments.Create(new Attachment { Document = imgData, TaskId = task.Id });
+                    unitOfWork.Attachments.Create(new Attachment { Document = imgData, TaskId = taskId });
+
+                    maxAttachmentsCount--;
                 }
 
                 return GenericServiceResult.Success;
@@ -82,31 +114,6 @@ namespace SAM.Taskboard.Logic.Services
             }
         }
 
-        //public bool CanUserChangeTask(string userId, int boardId)
-        //{
-        //    try
-        //    {
-        //        BoardSettings boardSettings = unitOfWork.BoardSettings.Get(boardId);
-        //        Board board = unitOfWork.Boards.Get(boardId);
-                
-        //        int userProjectRole = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == board.ProjectId && p.UserId == userId).Role;
-        //        int accessToChangeTask = boardSettings.AccessToChangeTask;
-
-        //        if ((CustomRoles)userProjectRole == CustomRoles.Administrator)
-        //        {
-        //            return true;
-        //        }
-
-        //        string creatorId = board.CreatorId;
-        //        int userAccessToTask = creatorId == userId ? (int)CustomRoles.Creator : (int)CustomRoles.Member;
-
-        //        return userAccessToTask >= accessToChangeTask;
-        //    }
-        //    catch
-        //    {
-        //        return false;
-        //    }
-        //}
         private bool CanUserCreateTask(string userId, int boardId)
         {
             try

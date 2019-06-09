@@ -4,6 +4,16 @@
     font-family: Verdana;
 }
 
+ul {
+    list-style-type: none;
+    font-size: 0.9em;
+}
+
+li {
+    list-style-type: none;
+    font-size: 0.9em;
+}
+
 html {
     height: 100vh;
 }
@@ -22,6 +32,7 @@ body {
 }
 
 /*universal*/
+#uploadList 
 
 .nowrap {
     white-space: nowrap;

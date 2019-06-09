@@ -107,7 +107,6 @@
             </div>
         }
     </div>
-</div>
 
 <script>
     $('#createTask').click(function (event) {
@@ -134,23 +133,23 @@
             contentType: false
         });
 
-        request.done(function () {
+        request.done(function (result) {
             $(".modal-backdrop").remove();
+            console.log(result);
             filesToUpload = [];
             sendSortRequest();
         });
 
         request.fail(function (jqXHR) {
             if (jqXHR.status == 400) {
+                clearFiles();
                 $("#modalForm").replaceWith(jqXHR.responseText);
-                loadProjectUsers();
+                loadProjectUsers(projectId);
             }
         });
     });
 
-
-    function loadProjectUsers() {
-        const projectId = (@Html.Raw(Json.Encode(Model))).ProjectId;
+    function loadProjectUsers(projectId) {
         const modal = $(this);
 
         const request = $.ajax({
@@ -199,15 +198,18 @@
                         continue;
                     }
 
+                    if (filesToUpload.length > 4) {
+                        break;
+                    }
+
                     filesToUpload.push(file);
                     $('#uploadList').append('<li>' + file.name + '</li>');
                 }
             }
 
+            $('#uploadList').find('button').remove()
             $('#uploadList').append('<button class="btn text-danger" onclick="clearFiles()">Remove all</button>');
         }
-
-        console.log(filesToUpload);
     }
 
     function dragOverHandler(event) {
@@ -223,3 +225,4 @@
         $('#uploadList').empty();
     }
 </script>
+</div>
