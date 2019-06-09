@@ -294,6 +294,7 @@
     <Content Include="Views\Task\ViewTask.cshtml" />
     <Content Include="Views\Task\TaskBody.cshtml" />
     <Content Include="Views\Error\BadRequest.cshtml" />
+    <Content Include="Views\Board\Settings.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

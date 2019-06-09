@@ -42,7 +42,7 @@
                         @Model.Title
                     </button>
                     <div class="dropdown-menu bg-dropdown-@theme" aria-labelledby="dropDown">
-                        <a class="dropdown-item dropdown-@theme" href="#">boardSettings</a>
+                        @Html.ActionLink("Board settings", "Settings", "Board", new { BoardId = Model.BoardId }, new { @class = $"dropdown-item dropdown-{theme}" })
                     </div>
                 </div>
             }

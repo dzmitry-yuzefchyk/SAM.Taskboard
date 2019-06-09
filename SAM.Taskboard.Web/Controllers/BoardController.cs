@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using SAM.Taskboard.Logic.Services;
 using SAM.Taskboard.Logic.Utility;
-using SAM.Taskboard.Model;
 using SAM.Taskboard.Model.Board;
-using System.IO;
 using System.Net;
 using System.Web.Mvc;
 
@@ -104,6 +102,70 @@ namespace SAM.Taskboard.Web.Controllers
             }
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        public ActionResult Settings(int boardId)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = boardService.GetBoardSettings(userId, boardId);
+
+            if (result.Message == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result.Message == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("BadRequest", "Error");
+            }
+
+            return View(result.Model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdateSettings(BoardSettingsViewModel model)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = boardService.UpdateBoardSettings(model, userId);
+
+            if (result == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("BadRequest", "Error");
+            }
+
+            return RedirectToAction("Settings", new { boardId = model.BoardId });
+        }
+
+        [HttpGet]
+        public ActionResult DeleteBoard(int boardId, int projectId)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = boardService.DeleteBoard(userId, boardId);
+
+            if (result == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("BadRequest", "Error");
+            }
+
+            return RedirectToAction("ViewProject", "Project", new { projectId = projectId });
         }
     }
 }

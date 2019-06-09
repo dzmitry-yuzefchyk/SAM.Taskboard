@@ -1,0 +1,162 @@
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
+
+@model SAM.Taskboard.Model.Board.BoardSettingsViewModel
+
+<div class="container w-100">
+    <div class="d-flex flex-column align-items-center justify-content-center w-100">
+
+        <div class="btn-group pt-1 pb-1 pl-2 pr-2 mt-4 mb-2" role="group">
+
+            @Html.ActionLink(Model.ProjectTitle, "ViewProject", "Project", new { projectId = Model.ProjectId }, new { @class = "btn btn-outline-primary" })
+
+            <button class="btn btn-danger" data-toggle="modal" data-target="#confirmDelete">Delete board</button>
+
+            @Html.ActionLink(Model.Title, "ViewBoard", "Board", new { boardId = Model.BoardId }, new { @class = "btn btn-primary " })
+
+            @foreach (var board in Model.Boards)
+            {
+                @Html.ActionLink(board.Title, "ViewBoard", "Board", new { boardId = board.Id }, new { @class = "btn btn-outline-primary " })
+            }
+        </div>
+
+        <div id="boardFormContainer" class="mt-2">
+            @using (Html.BeginForm("UpdateSettings", "Board", FormMethod.Post, new { id = "boardForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.BoardId);
+                @Html.HiddenFor(m => m.ProjectId);
+
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        @Html.TextBoxFor(m => m.Title, new { type = "text", @class = $"w-250 form-control theme-background-{theme} textOnDark-{theme}", placeholder = "Name" })
+                        @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <label class="textOnDark-@theme">Who can change board?</label>
+                        @Html.DropDownListFor(m => m.AccessToChangeBoard, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.BoardSettingsRole))), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme} w-250" })
+                        @Html.ValidationMessageFor(m => m.AccessToChangeBoard, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <label class="textOnDark-@theme">Who can create task?</label>
+                        @Html.DropDownListFor(m => m.AccessToCreateTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskSettingsRole))), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme} w-250" })
+                        @Html.ValidationMessageFor(m => m.AccessToCreateTask, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <label class="textOnDark-@theme">Who can change task?</label>
+                        @Html.DropDownListFor(m => m.AccessToChangeTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskSettingsRole))), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme} w-250" })
+                        @Html.ValidationMessageFor(m => m.AccessToChangeTask, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="form-group">
+                        <label class="textOnDark-@theme">Who can delete task?</label>
+                        @Html.DropDownListFor(m => m.AccessToDeleteTask, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.TaskSettingsRole))), new { type = "text", @class = $"form-control theme-background-{theme} textOnDark-{theme} w-250" })
+                        @Html.ValidationMessageFor(m => m.AccessToDeleteTask, "", new { @class = "text-danger small" })
+                    </div>
+                </div>
+
+                <div class="row justify-content-center mt-1 mb-2 text-danger small">
+                    @Html.ValidationMessage("Error")
+                </div>
+
+                <div class="d-flex">
+                    @foreach (var column in Model.Columns)
+                    {
+                        <div id="column" class="d-flex flex-column pt-2 pl-4 pr-4 pb-2 mt-3 ml-3 mr-3 mb-4 rounded shadow-@theme theme-background-@theme">
+                            @Html.Hidden("ColumnId", column.Id)
+                            <span class="textOnDark-@theme">
+                                Column title:
+                            </span>
+                            @Html.TextBox("ColumnTitle", column.Title, new { type = "text", @class = $"mb-3 form-control theme-background-{theme} textOnDark-{theme}", placeholder = "Column title", required="true" })
+                            <span class="textOnDark-@theme">
+                                Column position:
+                            </span>
+                            @Html.TextBox("ColumnPosition", column.Position, new { type = "number", @class = $"form-control theme-background-{theme} textOnDark-{theme}", placeholder = "Column position", required="true" })
+                        </div>
+                    }
+                </div>
+
+                <div class="row justify-content-center">
+                    <button onclick="undo(event)" type="button" class="btn btn-secondary mr-4">Undo</button>
+                    <button onclick="saveSettings(event)" type="button" class="btn btn-primary ml-4">Save</button>
+                </div>
+            }
+
+            <script>
+                function undo(event) {
+                    event.preventDefault();
+                    $("#boardForm")[0].reset();
+                }
+
+                function saveSettings(event) {
+                    event.preventDefault();
+                    const form = $('form')[0];
+                    const formData = new FormData(form);
+                    let columns = [];
+                    let index = 0;
+
+                    $('div[id*=column]').each(function () {
+                        const columnId = $(this).find('#ColumnId').val();
+                        const columnTitle = $(this).find('#ColumnTitle').val();
+                        const columnPosition = $(this).find('#ColumnPosition').val();
+                        const columnData = {
+                            Id: columnId,
+                            Title: columnTitle,
+                            Postion: columnPosition
+                        };
+
+                        formData.append('Columns[' + index + '].Id', columnId);
+                        formData.append('Columns[' + index + '].Title', columnTitle);
+                        formData.append('Columns[' + index + '].Position', columnPosition);
+                        index++;
+                    });
+                    
+
+
+
+                    const request = $.ajax({
+                        url: '@Url.Action("UpdateSettings", "Board")',
+                        data: formData,
+                        type: 'POST',
+                        contentType: false,
+                        processData: false
+                    });
+
+                    request.done(function (result) {
+                        window.location.reload();
+                    });
+                }
+            </script>
+        </div>
+
+    </div>
+
+    <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content theme-background-@theme">
+                <div class="modal-body textOnDark-@theme theme-background-@theme">
+                    Are you sure?
+                </div>
+                <div class="modal-footer theme-border-@theme">
+                    <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    @Html.ActionLink("Delete board", "DeleteBoard", "Board", new { boardId = Model.BoardId, projectId = Model.ProjectId }, new { @class = "btn btn-danger " })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
