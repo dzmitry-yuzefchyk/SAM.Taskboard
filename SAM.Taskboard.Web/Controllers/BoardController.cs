@@ -167,5 +167,26 @@ namespace SAM.Taskboard.Web.Controllers
 
             return RedirectToAction("ViewProject", "Project", new { projectId = projectId });
         }
+
+        [HttpGet]
+        public ActionResult DeleteColumn(int columnId, int boardId)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = boardService.DeleteColumn(userId, columnId);
+
+            if (result == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("BadRequest", "Error");
+            }
+
+            return RedirectToAction("Settings", "Board", new { boardId = boardId });
+        }
     }
 }

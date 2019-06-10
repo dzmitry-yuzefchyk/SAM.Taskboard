@@ -87,6 +87,8 @@
                                 Column position:
                             </span>
                             @Html.TextBox("ColumnPosition", column.Position, new { type = "number", @class = $"form-control theme-background-{theme} textOnDark-{theme}", placeholder = "Column position", required="true" })
+
+                            <button class="btn btn-danger mt-3" type="button" data-toggle="modal" data-target="#confirmDelete" data-columnid="@column.Id">Delete column</button>
                         </div>
                     }
                 </div>
@@ -96,67 +98,82 @@
                     <button onclick="saveSettings(event)" type="button" class="btn btn-primary ml-4">Save</button>
                 </div>
             }
-
-            <script>
-                function undo(event) {
-                    event.preventDefault();
-                    $("#boardForm")[0].reset();
-                }
-
-                function saveSettings(event) {
-                    event.preventDefault();
-                    const form = $('form')[0];
-                    const formData = new FormData(form);
-                    let columns = [];
-                    let index = 0;
-
-                    $('div[id*=column]').each(function () {
-                        const columnId = $(this).find('#ColumnId').val();
-                        const columnTitle = $(this).find('#ColumnTitle').val();
-                        const columnPosition = $(this).find('#ColumnPosition').val();
-                        const columnData = {
-                            Id: columnId,
-                            Title: columnTitle,
-                            Postion: columnPosition
-                        };
-
-                        formData.append('Columns[' + index + '].Id', columnId);
-                        formData.append('Columns[' + index + '].Title', columnTitle);
-                        formData.append('Columns[' + index + '].Position', columnPosition);
-                        index++;
-                    });
-                    
-
-
-
-                    const request = $.ajax({
-                        url: '@Url.Action("UpdateSettings", "Board")',
-                        data: formData,
-                        type: 'POST',
-                        contentType: false,
-                        processData: false
-                    });
-
-                    request.done(function (result) {
-                        window.location.reload();
-                    });
-                }
-            </script>
         </div>
 
     </div>
-
-    <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="confirmDelete" aria-labelledby="confirmDelete" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content theme-background-@theme">
                 <div class="modal-body textOnDark-@theme theme-background-@theme">
                     Are you sure?
                 </div>
-                <div class="modal-footer theme-border-@theme">
+                <div id="modalButtons" class="modal-footer theme-border-@theme">
                     <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    @Html.ActionLink("Delete board", "DeleteBoard", "Board", new { boardId = Model.BoardId, projectId = Model.ProjectId }, new { @class = "btn btn-danger " })
+
                 </div>
             </div>
         </div>
     </div>
+
+<script>
+    function undo(event) {
+        event.preventDefault();
+        $("#boardForm")[0].reset();
+    }
+                
+    function saveSettings(event) {
+        event.preventDefault();
+        const form = $('form')[0];
+        const formData = new FormData(form);
+        let columns = [];
+        let index = 0;
+
+        $('div[id*=column]').each(function () {
+            const columnId = $(this).find('#ColumnId').val();
+            const columnTitle = $(this).find('#ColumnTitle').val();
+            const columnPosition = $(this).find('#ColumnPosition').val();
+
+            formData.append('Columns[' + index + '].Id', columnId);
+            formData.append('Columns[' + index + '].Title', columnTitle);
+            formData.append('Columns[' + index + '].Position', columnPosition);
+            index++;
+        });
+
+
+        const request = $.ajax({
+            url: '@Url.Action("UpdateSettings", "Board")',
+            data: formData,
+            type: 'POST',
+            contentType: false,
+            processData: false
+        });
+
+        request.done(function (result) {
+            window.location.reload();
+        });
+    }
+
+    $('#confirmDelete').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const columnId = button.data('columnid');
+        const modal = $(this);
+        let link;
+        let text;
+
+        if (columnId != undefined) {
+            link = '@Url.Action("DeleteColumn", "Board", new { boardId = Model.BoardId })&columnId=' + columnId;
+            text = 'Delete column';
+        }
+
+        else {
+            link = '@Url.Action("DeleteBoard", "Board", new { boardId = Model.BoardId, projectId = Model.ProjectId })';
+            text = 'Delete board';
+        }
+
+        modal.find("#okButton").remove();
+        const action = '<a id="okButton" class="btn btn-danger" href="' + link + '">' + text + '</a>';
+        modal.find("#modalButtons").append(action);
+    });
+</script>
+  
 </div>

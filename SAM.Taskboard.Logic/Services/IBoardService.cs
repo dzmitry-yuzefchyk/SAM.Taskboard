@@ -11,5 +11,6 @@ namespace SAM.Taskboard.Logic.Services
         OperationResult<BoardSettingsViewModel> GetBoardSettings(string userId, int boardId);
         GenericServiceResult UpdateBoardSettings(BoardSettingsViewModel model, string userId);
         GenericServiceResult DeleteBoard(string userId, int boardId);
+        GenericServiceResult DeleteColumn(string userId, int columnId);
     }
 }

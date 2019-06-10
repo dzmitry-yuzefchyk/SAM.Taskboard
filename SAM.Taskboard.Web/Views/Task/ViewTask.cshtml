@@ -44,11 +44,11 @@
     function showAttachments() {
         for (let attachment of Attachments)
         {
-            saveByteArray(attachment.FileName, attachment.Document, attachment.FileType);
+            saveByteArray(attachment.FileName, attachment.Document, attachment.FileType, attachment.Id);
         }
     }
 
-    function saveByteArray(name, byte, type) {
+    function saveByteArray(name, byte, type, id) {
         const imageTypes = ['image/jpeg', 'image/png'];
 
         if (imageTypes.includes(type)) {
@@ -58,11 +58,8 @@
         }
 
         else {
-            const bytes = new Uint8Array(byte);
-            const blob = new Blob([bytes], { type });
-
-            const link = window.URL.createObjectURL(blob);
-            const a = '<li><a download="' + name +'" href="' + link + '" class="attachment-link">' + name + '</a></li>'
+            const link = '@Url.Action("DownloadAttachment", "Task", new { projectId = Model.ProjectId })&attachmentId=' + id;
+            const a = '<li><a href="' + link + '" class="attachment-link">' + name + '</a></li>'
             $('#attachmentsList').append(a);
         }
     }

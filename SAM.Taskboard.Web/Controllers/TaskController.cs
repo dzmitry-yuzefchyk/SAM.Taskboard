@@ -134,5 +134,28 @@ namespace SAM.Taskboard.Web.Controllers
 
             return new HttpStatusCodeResult(HttpStatusCode.OK);
         }
+
+
+        [HttpGet]
+        public ActionResult DownloadAttachment(int attachmentId, int projectId)
+        {
+            string userId = User.Identity.GetUserId();
+            OperationResult<AttachmentInfo> result = taskService.GetAttachment(userId, attachmentId, projectId);
+
+            if (result.Message == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result.Message == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("Default", "Error");
+            }
+
+            AttachmentInfo attachment = result.Model;
+            return File(attachment.Document, attachment.FileType, attachment.FileName);
+        }
     }
 }

@@ -157,16 +157,18 @@ namespace SAM.Taskboard.Logic.Services
 
                 List<Attachment> attachments = unitOfWork.Attachments.Get(a => a.TaskId == taskId).ToList();
                 List<AttachmentInfo> taskAttachments = new List<AttachmentInfo>();
+                List<string> attachmentsToDownload = new List<string> { ".doc", ".docx", ".txt", ".xls", ".rtf", ".zip" };
 
                 foreach (var attachment in attachments)
                 {
-                    AttachmentInfo attachmentInfo = new AttachmentInfo
+                    AttachmentInfo attachmentInfo = new AttachmentInfo { Id = attachment.Id, FileName = attachment.Name };
+
+                    if (!attachmentsToDownload.Contains(attachment.Extension))
                     {
-                        Document = attachment.Document,
-                        FileExtension = attachment.Extension,
-                        FileName = attachment.Name,
-                        FileType = attachment.Type
-                    };
+                        attachmentInfo.Document = attachment.Document;
+                        attachmentInfo.FileExtension = attachment.Extension;
+                        attachmentInfo.FileType = attachment.Type;
+                    }
 
                     taskAttachments.Add(attachmentInfo);
                 }
@@ -206,6 +208,28 @@ namespace SAM.Taskboard.Logic.Services
             catch
             {
                 return new OperationResult<TaskViewModel> { Model = null, Message = GenericServiceResult.Error };
+            }
+        }
+
+        public OperationResult<AttachmentInfo> GetAttachment(string userId, int attachmentId, int projectId)
+        {
+            try
+            {
+                bool isUserHaveAccess = CanUserViewTask(userId, projectId);
+
+                if (!isUserHaveAccess)
+                {
+                    return new OperationResult<AttachmentInfo> { Model = null, Message = GenericServiceResult.AccessDenied };
+                }
+
+                Attachment attachment = unitOfWork.Attachments.Get(attachmentId);
+                AttachmentInfo attachmentInfo = new AttachmentInfo { Document = attachment.Document, FileType = attachment.Type, FileName = attachment.Name };
+
+                return new OperationResult<AttachmentInfo> { Model = attachmentInfo, Message = GenericServiceResult.Success };
+            }
+            catch
+            {
+                return new OperationResult<AttachmentInfo> { Model = null, Message = GenericServiceResult.Error };
             }
         }
 

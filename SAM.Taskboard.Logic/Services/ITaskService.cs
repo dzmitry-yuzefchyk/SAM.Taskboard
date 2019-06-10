@@ -10,5 +10,6 @@ namespace SAM.Taskboard.Logic.Services
         OperationResult<TaskViewModel> ViewTask(string userId, int taskId);
         GenericServiceResult UpdateTask(TaskViewModel model, string userId);
         GenericServiceResult DeleteTask(string userId, int taskId, int boardId);
+        OperationResult<AttachmentInfo> GetAttachment(string userId, int attachmentId, int projectId);
     }
 }

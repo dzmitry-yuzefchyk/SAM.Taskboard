@@ -347,7 +347,7 @@ namespace SAM.Taskboard.Logic.Services
                     return GenericServiceResult.AccessDenied;
                 }
 
-                var result = DeleteTasksWithoutPermission(boardId);
+                var result = DeleteColumnsWithoutPermission(boardId);
 
                 if (result != GenericServiceResult.Success)
                 {
@@ -365,7 +365,37 @@ namespace SAM.Taskboard.Logic.Services
             }
         }
 
-        private GenericServiceResult DeleteTasksWithoutPermission(int boardId)
+        public GenericServiceResult DeleteColumn(string userId, int columnId)
+        {
+            try
+            {
+                Column column = unitOfWork.Columns.Get(columnId);
+                bool isUserCanChangeBoard = CanUserChangeBoard(userId, column.BoardId);
+
+                if (!isUserCanChangeBoard)
+                {
+                    return GenericServiceResult.AccessDenied;
+                }
+
+                List<Task> tasks = unitOfWork.Tasks.Get(t => t.ColumnId == columnId).ToList();
+
+                foreach (var task in tasks)
+                {
+                    unitOfWork.Attachments.Delete(a => a.TaskId == task.Id);
+                    unitOfWork.Tasks.Delete(task.Id);
+                }
+
+                unitOfWork.Columns.Delete(column.Id);
+
+                return GenericServiceResult.Success;
+            }
+            catch
+            {
+                return GenericServiceResult.Error;
+            }
+        }
+
+        private GenericServiceResult DeleteColumnsWithoutPermission(int boardId)
         {
             try
             {

@@ -57,6 +57,7 @@ namespace SAM.Taskboard.Model.Task
 
     public class AttachmentInfo
     {
+        public int Id { get; set; }
         public byte[] Document { get; set; }
         public string FileName { get; set; }
         public string FileType { get; set; }
