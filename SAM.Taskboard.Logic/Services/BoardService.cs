@@ -461,7 +461,7 @@ namespace SAM.Taskboard.Logic.Services
                 Board board = unitOfWork.Boards.Get(boardId);
                 int projectId = board.ProjectId;
 
-                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
+                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId && x.ProjectId == projectId).Role;
 
                 if (roleUserProject == (int)ProjectRoles.Administrator)
                 {

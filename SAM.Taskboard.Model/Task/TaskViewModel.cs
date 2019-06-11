@@ -49,6 +49,10 @@ namespace SAM.Taskboard.Model.Task
 
         public string CreatorIcon { get; set; }
 
+        public bool CanUserDeleteTask { get; set; }
+
+        public bool CanUserChangeTask { get; set; }
+
         public TaskViewModel()
         {
             Attachments = new List<AttachmentInfo>();

@@ -1,0 +1,75 @@
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
+
+@model SAM.Taskboard.Model.Project.ProjectUsersViewModel
+
+<table class="table table-sm table-@theme">
+    <thead>
+        <tr>
+            <th scope="col">
+            </th>
+            <th scope="col">
+                Name
+            </th>
+            <th scope="col">
+                Email
+            </th>
+            <th scope="col">
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.ProjectUsers)
+        {
+            <tr>
+                <td scope="row">
+                    <img src="@user.Icon" class="rounded" width="23" height="23" />
+                </td>
+                <td scope="row">
+                    @user.Name
+                </td>
+                <td>
+                    @user.Email
+                </td>
+                <td>
+                    @if (user.CanYouDeleteUser)
+                    {
+                        <button type="button" class="btn btn-danger" data-userid="@user.Id" data-toggle="modal" data-target="#confirmDelete">
+                            Remove user
+                        </button>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (Model.PagesCount > 1)
+{
+    <ul class="pagination ">
+        <li class="page-item">
+            <button type="button" class="page-link theme-background-@theme" data-pageTo="previous" onclick="pageTo(event, @Model.CurrentPage)">
+                Previous
+            </button>
+        </li>
+        @foreach (int pageNumber in Model.Pages)
+        {
+            <li class='page-item @(Model.CurrentPage == pageNumber ? "active" : String.Empty)'>
+                <button type="button" class="page-link theme-background-@theme" onclick="pageTo(event, @pageNumber)">
+                    @pageNumber
+                </button>
+            </li>
+        }
+        <li class="page-item">
+            <button type="button" class="page-link theme-background-@theme" data-pageTo="next" onclick="pageTo(event, @Model.CurrentPage)">
+                Next
+            </button>
+        </li>
+    </ul>
+}
+

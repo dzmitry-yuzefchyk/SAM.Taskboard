@@ -98,7 +98,6 @@
         if (OrderFilter.toUpperCase() == fieldToSortBy.toUpperCase()) {
             if (OrderDirection.toUpperCase() == 'ASC') {
                 OrderDirection = 'DESC';
-
                 $('#' + fieldToSortBy).html(fieldToSortBy + ' ˄');
             }
             else {
@@ -112,7 +111,7 @@
             OrderDirection = 'ASC';
             $('#' + alternative).removeClass('active');
             $('#' + fieldToSortBy).addClass('active');
-            $('#' + alternative).html(fieldToSortBy);
+            $('#' + alternative).html(alternative);
             $('#' + fieldToSortBy).html(fieldToSortBy + ' ˅');
         }
 

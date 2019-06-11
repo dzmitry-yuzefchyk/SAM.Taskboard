@@ -10,5 +10,10 @@ namespace SAM.Taskboard.Logic.Services
         GenericServiceResult CreateNewProject(string userId, CreateProjectViewModel model);
         OperationResult<ProjectViewModel> GetBoards(string userId, int projectId, int currentPage);
         OperationResult<Dictionary<string, string>> GetProjectUsers(string userId, int projectId);
+        OperationResult<ProjectSettingsViewModel> GetProjectSettings(string userId, int projectId, int page = 0, string searchFilter = "");
+        GenericServiceResult SaveProjectSettings(string userId, ProjectSettingsViewModel model);
+        GenericServiceResult AddUserToProject(string userId, string userEmailToAdd, int projectId);
+        GenericServiceResult RemoveUserFromProject(string userId, string userIdToRemove, int projectId);
+        GenericServiceResult DeleteProject(string userId, int projectId);
     }
 }

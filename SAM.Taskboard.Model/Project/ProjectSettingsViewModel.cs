@@ -2,8 +2,10 @@
 
 namespace SAM.Taskboard.Model.Project
 {
-    public class CreateProjectViewModel
+    public class ProjectSettingsViewModel
     {
+        public int Id { get; set; }
+
         [MaxLength(64, ErrorMessage = "Maximum 64 symbols")]
         [Required(ErrorMessage = "Please specify field")]
         public string Title { get; set; }
@@ -20,5 +22,9 @@ namespace SAM.Taskboard.Model.Project
 
         [Required(ErrorMessage = "Please specify field")]
         public BoardSettingsRole AccessToCreateBoard { get; set; }
+
+        public bool CanUserDeleteProject { get; set; }
+
+        public ProjectUsersViewModel ProjectUsersViewModel { get; set; }
     }
 }

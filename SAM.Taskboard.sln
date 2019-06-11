@@ -12,6 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitignore = .gitignore
 		LICENSE = LICENSE
 		README.md = README.md
+		Speech.docx = Speech.docx
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SAM.Taskboard.IoC", "SAM.Taskboard.IoC\SAM.Taskboard.IoC.csproj", "{F1A5A742-03AE-433D-A033-1BFBC2B745FF}"

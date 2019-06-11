@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace SAM.Taskboard.DataProvider.Repository
 {
@@ -16,5 +17,6 @@ namespace SAM.Taskboard.DataProvider.Repository
         void Update(TEntity item);
         void Delete(int id);
         void Delete(Func<TEntity, bool> where);
+        IEnumerable<TEntity> Query();
     }
 }

@@ -12,7 +12,6 @@
 
         @using (Html.BeginForm("CreateTask", "Task", FormMethod.Post, new { id = "addTaskColumn", enctype = "multipart/form-data" }))
         {
-            @Html.AntiForgeryToken()
             <div class="modal-body theme-background-@theme">
 
                 <div class="d-flex flex-row justify-content-around w-100 h-100">
@@ -110,7 +109,7 @@
 <script>
     $('#createTask').click(function (event) {
         event.preventDefault();
-        var formData = new FormData($('form')[1]);
+        const formData = new FormData($('form')[1]);
 
         for (let i = 0; i < filesToUpload.length; i++) {
             let file = filesToUpload[i];
@@ -121,10 +120,14 @@
         const columnId = $('#addTaskColumn').find('#ColumnId').val();
         const projectId = $('#addTaskColumn').find('#ProjectId').val();
         const assigneeId = $('#addTaskColumn').find('#AssigneeId').val();
+        const boardId = $('#addTaskColumn').find('#BoardId').val();
         formData.set('Title', title);
         formData.set('ColumnId', columnId);
         formData.set('ProjectId', projectId);
         formData.set('AssigneeId', assigneeId);
+        formData.set('BoardId', boardId);
+
+
 
         const request = $.ajax({
             type: "POST",

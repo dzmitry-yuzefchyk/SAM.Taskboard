@@ -114,21 +114,25 @@
                     </div>
                 </div>
 
-                <div class="row pl-4 justify-content-center textOnDark-@theme">
-                    <div class="col">
-                        <div class="form-group">
-                            <button onclick="onSave(event)" class="btn btn-outline-primary">Save</button>
-                        </div>
-                    </div>
 
-                    <div class="col">
-                        <div class="form-group">
+                @if (Model.CanUserChangeTask)
+                {
+                    <div class="row pl-4 justify-content-center textOnDark-@theme">
+                        <div class="col">
                             <div class="form-group">
-                                <button onclick="undo(event)" class="btn btn-secondary">Undo</button>
+                                <button onclick="onSave(event)" class="btn btn-outline-primary">Save</button>
+                            </div>
+                        </div>
+
+                        <div class="col">
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <button onclick="undo(event)" class="btn btn-secondary">Undo</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
     }

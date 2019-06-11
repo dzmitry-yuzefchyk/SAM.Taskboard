@@ -152,7 +152,7 @@ namespace SAM.Taskboard.Logic.Services
         {
             try
             {
-                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
+                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId && x.ProjectId == projectId).Role;
                 int roleToChangeProject = unitOfWork.ProjectSettings.GetFirstOrDefaultWhere(x => x.Id == projectId).AccessToChangeProject;
 
                 return roleUserProject <= roleToChangeProject;
@@ -202,6 +202,280 @@ namespace SAM.Taskboard.Logic.Services
             catch
             {
                 return new OperationResult<Dictionary<string, string>> { Model = null, Message = GenericServiceResult.Error };
+            }
+        }
+
+        public OperationResult<ProjectSettingsViewModel> GetProjectSettings(string userId, int projectId, int page = 0, string searchFilter = "")
+        {
+            try
+            {
+                bool canUserChangeProject = CanUserChangeProject(userId, projectId);
+                if (!canUserChangeProject)
+                {
+                    return new OperationResult<ProjectSettingsViewModel> { Model = null, Message = GenericServiceResult.AccessDenied };
+                }
+
+                Project project = unitOfWork.Projects.Get(projectId);
+                ProjectSettings projectSettings = unitOfWork.ProjectSettings.Get(projectId);
+                List<ProjectUser> projectUsers = unitOfWork.ProjectUser.Get(p => p.ProjectId == projectId).ToList();
+                List<User> users = (from u in unitOfWork.Users.Query()
+                                    join r in projectUsers on u.Id equals r.UserId
+                                    where u.UserName.Contains(searchFilter)
+                                    select u
+                                    ).Skip(page * 15).Take(15).ToList();
+
+                int rowsCount = projectUsers.Count;
+
+                List<UserInfo> userInfos = new List<UserInfo>();
+
+                foreach (var user in users)
+                {
+                    UserProfile profile = unitOfWork.ClientManager.GetProfile(user.Id);
+                    int userRole = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.UserId == user.Id && p.ProjectId == projectId).Role;
+                    bool isUserAdministrator = (ProjectRoles)userRole == ProjectRoles.Administrator;
+                    bool canYouDeleteUser = isUserAdministrator || userId == user.Id;
+                    UserInfo userInfo = new UserInfo
+                    {
+                        Id = user.Id,
+                        Email = user.Email,
+                        Icon = profile.Icon,
+                        Name = profile.Name,
+                        CanYouDeleteUser = !canYouDeleteUser
+                    };
+                    userInfos.Add(userInfo);
+                }
+
+                ProjectUsersViewModel projectUsersModel = new ProjectUsersViewModel
+                {
+                    ProjectUsers = userInfos,
+                    CurrentPage = page,
+                    PageSize = 15,
+                    RowsCount = rowsCount
+                };
+
+                projectUsersModel.GetPages();
+
+                bool canUserDeleteProject = CanUserDeleteProject(userId, projectId);
+
+                ProjectSettingsViewModel model = new ProjectSettingsViewModel
+                {
+                    Id = projectId,
+                    Title = project.Title,
+                    About = project.About,
+                    AccessToChangeProject = (ProjectSettingsRole)projectSettings.AccessToChangeProject,
+                    AccessToCreateBoard = (BoardSettingsRole)projectSettings.AccessToCreateBoard,
+                    AccessToDeleteBoard = (BoardSettingsRole)projectSettings.AccessToDeleteBoard,
+                    ProjectUsersViewModel = projectUsersModel,
+                    CanUserDeleteProject = canUserDeleteProject
+                };
+
+                return new OperationResult<ProjectSettingsViewModel> { Model = model, Message = GenericServiceResult.Success };
+            }
+            catch
+            {
+                return new OperationResult<ProjectSettingsViewModel> { Model = null, Message = GenericServiceResult.Error };
+            }
+        }
+
+        public GenericServiceResult SaveProjectSettings(string userId, ProjectSettingsViewModel model)
+        {
+            try
+            {
+                int projectId = model.Id;
+                bool canUserChangeProject = CanUserChangeProject(userId, projectId);
+                if (!canUserChangeProject)
+                {
+                    return GenericServiceResult.AccessDenied;
+                }
+
+                Project project = unitOfWork.Projects.Get(projectId);
+                ProjectSettings projectSettings = unitOfWork.ProjectSettings.Get(projectId);
+
+                project.Title = model.Title;
+                project.About = model.About;
+                projectSettings.AccessToChangeProject = (int)model.AccessToChangeProject;
+                projectSettings.AccessToCreateBoard = (int)model.AccessToCreateBoard;
+                projectSettings.AccessToDeleteBoard = (int)model.AccessToDeleteBoard;
+
+                unitOfWork.ProjectSettings.Update(projectSettings);
+                unitOfWork.Projects.Update(project);
+
+                return GenericServiceResult.Success;
+            }
+            catch
+            {
+                return GenericServiceResult.Error;
+            }
+        }
+
+        public GenericServiceResult AddUserToProject(string userId, string userEmailToAdd, int projectId)
+        {
+            try
+            {
+                bool canUserChangeProject = CanUserChangeProject(userId, projectId);
+                if (!canUserChangeProject)
+                {
+                    return GenericServiceResult.AccessDenied;
+                }
+
+                User existingUser = unitOfWork.Users.GetFirstOrDefaultWhere(u => u.Email == userEmailToAdd);
+                if (existingUser == null)
+                {
+                    return GenericServiceResult.Error;
+                }
+
+                string userIdToAdd = existingUser.Id;
+
+                ProjectUser existingProjectUser = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.UserId == userIdToAdd && p.ProjectId == projectId);
+                if (existingProjectUser != null)
+                {
+                    return GenericServiceResult.Error;
+                }
+
+                ProjectUser projectUser = new ProjectUser
+                {
+                    ProjectId = projectId,
+                    UserId = userIdToAdd,
+                    Role = (int)ProjectRoles.Member
+                };
+
+                unitOfWork.ProjectUser.Create(projectUser);
+
+                return GenericServiceResult.Success;
+            }
+            catch
+            {
+                return GenericServiceResult.Error;
+            }
+        }
+
+        public GenericServiceResult RemoveUserFromProject(string userId, string userIdToRemove, int projectId)
+        {
+            try
+            {
+                bool canUserChangeProject = CanUserChangeProject(userId, projectId);
+                if (!canUserChangeProject)
+                {
+                    return GenericServiceResult.AccessDenied;
+                }
+
+                ProjectUser projectUser = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == projectId && p.UserId == userIdToRemove);
+                unitOfWork.ProjectUser.Delete(projectUser.Id);
+
+                return GenericServiceResult.Success;
+            }
+            catch
+            {
+                return GenericServiceResult.Error;
+            }
+        }
+
+        public GenericServiceResult DeleteProject(string userId, int projectId)
+        {
+            try
+            {
+                bool canUserDeleteProject = CanUserDeleteProject(userId, projectId);
+                if (!canUserDeleteProject)
+                {
+                    return GenericServiceResult.AccessDenied;
+                }
+
+                List<Board> boards = unitOfWork.Boards.Get(b => b.ProjectId == projectId).ToList();
+                var result = DeleteBoards(boards);
+                if (result == GenericServiceResult.Error)
+                {
+                    return result;
+                }
+
+                unitOfWork.ProjectUser.Delete(p => p.ProjectId == projectId);
+                unitOfWork.ProjectSettings.Delete(projectId);
+                unitOfWork.Projects.Delete(projectId);
+
+                return GenericServiceResult.Success;
+            }
+            catch
+            {
+                return GenericServiceResult.Error;
+            }
+        }
+
+        private GenericServiceResult DeleteBoards(List<Board> boards)
+        {
+            try
+            {
+                foreach (var board in boards)
+                {
+                    List<Column> columns = unitOfWork.Columns.Get(c => c.BoardId == board.Id).ToList();
+                    DeleteColumns(columns);
+                    unitOfWork.BoardSettings.Delete(board.Id);
+                    unitOfWork.Boards.Delete(board.Id);
+                }
+
+                return GenericServiceResult.Success;
+            }
+            catch
+            {
+                return GenericServiceResult.Error;
+            }
+        }
+
+        private GenericServiceResult DeleteColumns(List<Column> columns)
+        {
+            try
+            {
+                foreach (var column in columns)
+                {
+                    List<Task> tasks = unitOfWork.Tasks.Get(t => t.ColumnId == column.Id).ToList();
+                    DeleteTasks(tasks);
+                    unitOfWork.Columns.Delete(column.Id);
+                }
+
+                return GenericServiceResult.Success;
+            }
+            catch
+            {
+                return GenericServiceResult.Error;
+            }
+        }
+
+        private GenericServiceResult DeleteTasks(List<Task> tasks)
+        {
+            try
+            {
+                foreach (var task in tasks)
+                {
+                    unitOfWork.Attachments.Delete(a => a.TaskId == task.Id);
+                    unitOfWork.Tasks.Delete(task.Id);
+                }
+
+                return GenericServiceResult.Success;
+            }
+            catch
+            {
+                return GenericServiceResult.Error;
+            }
+        }
+
+        private bool CanUserDeleteProject(string userId, int projectId)
+        {
+            try
+            {
+                ProjectUser projectUser = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == projectId && p.UserId == userId);
+                if (projectUser == null)
+                {
+                    return false;
+                }
+
+                if ((ProjectRoles)projectUser.Role != ProjectRoles.Administrator)
+                {
+                    return false;
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
             }
         }
     }

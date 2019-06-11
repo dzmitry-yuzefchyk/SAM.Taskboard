@@ -182,6 +182,9 @@ namespace SAM.Taskboard.Logic.Services
                     boardInfos.Add(boardInfo);
                 }
 
+                bool canUserChangeTask = CanUserChangeTask(userId, board.Id, taskId);
+                bool canUserDeleteTask = CanUserDeleteTask(userId, board.Id, taskId);
+
                 model = new TaskViewModel
                 {
                     TaskId = taskId,
@@ -200,7 +203,9 @@ namespace SAM.Taskboard.Logic.Services
                     BoardId = board.Id,
                     BoardTitle = board.Title,
                     ColumnId = column.Id,
-                    Boards = boardInfos
+                    Boards = boardInfos,
+                    CanUserChangeTask = canUserChangeTask,
+                    CanUserDeleteTask = canUserDeleteTask
                 };
 
                 return new OperationResult<TaskViewModel> { Model = model, Message = GenericServiceResult.Success };

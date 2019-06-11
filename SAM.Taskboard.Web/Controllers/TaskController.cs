@@ -17,7 +17,6 @@ namespace SAM.Taskboard.Web.Controllers
             this.taskService = taskService;
         }
 
-        [ValidateAntiForgeryToken]
         [HttpPost]
         public ActionResult CreateTask(CreateTaskViewModel model)
         {

@@ -1,0 +1,203 @@
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
+
+@model SAM.Taskboard.Model.Project.ProjectSettingsViewModel
+
+<div class="container w-100">
+    <div class="d-flex flex-column align-items-center justify-content-center w-100">
+
+        <div id="projectSettings">
+            @Html.Partial("SettingsProject", Model)
+        </div>
+
+        <div class="btn-group pt-1 pb-1 pl-2 pr-2 mt-4 mb-2" role="group">
+            <input oninput="sortBySearch(this)" id="searchFilter" type="text" class="btn btn-outline-primary" placeholder="Search" />
+        </div>
+
+        <div id="projectUsers">
+            @Html.Partial("SettingsProjectUsers", Model.ProjectUsersViewModel)
+        </div>
+
+        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#addUser">
+            Add user
+        </button>
+
+    </div>
+
+    <div class="modal fade" id="confirmDelete" aria-labelledby="confirmDelete" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content theme-background-@theme">
+                <div class="modal-body textOnDark-@theme theme-background-@theme">
+                    Are you sure?
+                </div>
+                <div id="modalButtons" class="modal-footer theme-border-@theme">
+                    <button id="closeConfirmModal" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="addUser" aria-labelledby="confirmDelete" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content theme-background-@theme">
+            <div class="modal-body textOnDark-@theme theme-background-@theme">
+                <div class="row justify-content-center">
+                    <input id="addUserEmail" type="email" class="w-250 form-control theme-background-@theme textOnDark-@theme" placeholder="User email" required />
+                </div>
+            </div>
+            <div class="modal-footer theme-border-@theme">
+                <button id="closeModal" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button class="btn btn-primary" onclick="addUser(event)">Add user</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let currentPage = @Model.ProjectUsersViewModel.CurrentPage - 1;
+    let UserId = '';
+    let searchFilter = '';
+    const ProjectId = @Model.Id;
+    const PagesCount = @Model.ProjectUsersViewModel.PagesCount;
+
+    function undo(event) {
+        event.preventDefault();
+        $("#projectForm")[0].reset();
+    }
+
+    function sortBySearch(element) {
+        searchFilter = $(element).val();
+        refreshUsers();
+    }
+
+    function saveSettings(event) {
+        event.preventDefault();
+        const form = $('form')[0];
+        const formData = new FormData(form);
+
+        const request = $.ajax({
+            url: '@Url.Action("SaveSettings", "Project")',
+            data: formData,
+            type: 'POST',
+            contentType: false,
+            processData: false
+        });
+
+        request.done(function () {
+            refreshSettings();
+        });
+    }
+
+    function refreshSettings() {
+        const request = $.ajax({
+            url: '@Url.Action("GetSettingsPartial", "Project")?projectId=' + ProjectId,
+            type: 'GET'
+        });
+
+        request.done(function (result) {
+            $('#projectSettings').html(result);
+        });
+    }
+
+    function refreshUsers() {
+        const request = $.ajax({
+            url: '@Url.Action("GetProjectUsersPartial", "Project")?projectId=' + ProjectId + "&page=" + currentPage + "&searchFilter=" + searchFilter,
+            type: 'GET'
+        });
+
+        request.done(function (result) {
+            $('#projectUsers').html(result);
+        });
+    }
+
+    function addUser() {
+        const userEmail = $('#addUserEmail').val();
+
+        const request = $.ajax({
+            url: '@Url.Action("AddUser", "Project")?projectId=' + ProjectId + '&userEmailToAdd=' + userEmail,
+            type: 'POST'
+        });
+
+        request.done(function () {
+            $('#closeModal').click();
+            $('#addUserMessage').remove();
+            refreshUsers();
+        });
+
+        request.fail(function (jqXHR) {
+            if (jqXHR.status == 400) {
+                $('#addUserMessage').remove();
+                const message = '<div id="addUserMessage" class = "row justify-content-center text-danger small">User already in team or it not exists</div>'
+                $('#addUser').find('.modal-body').append(message);
+            }
+        });
+    }
+
+    $('#confirmDelete').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        const userId = button.data('userid');
+        const projectId = button.data('projectid');
+        const modal = $(this);
+        let link;
+        let action;
+
+        if (projectId != undefined) {
+            link = '@Url.Action("DeleteProject", "Project")?projectId=' + projectId;
+            action = '<a id="okButton" class="btn btn-danger" href="' + link + '">Delete Project</a>';
+        }
+
+        if (userId != undefined) {
+            UserId = userId;
+            action = '<button id="okButton" class="btn btn-danger" onclick="removeUser()">Remove user</button>';
+        }
+
+        modal.find("#okButton").remove();
+        modal.find("#modalButtons").append(action);
+    });
+
+    function removeUser() {
+        const request = $.ajax({
+            url: '@Url.Action("DeleteUser", "Project")?projectId=' + ProjectId + "&userIdToRemove=" + UserId,
+            type: 'POST'
+        });
+
+        request.done(function () {
+            refreshUsers();
+            $('#closeConfirmModal').click();
+            UserId = '';
+        });
+
+        request.fail(function (jqXHR) {
+            if (jqXHR.status == 400) {
+                $('#addUserMessage').remove();
+                const message = '<div id="addUserMessage" class = "row justify-content-center text-danger small">User already in team or it not exists</div>'
+                $('#addUser').find('.modal-body').append(message);
+            }
+        });
+    }
+
+    function pageTo(event, page) {
+        const button = $(event.relatedTarget);
+        const pageTo = button.data('pageto');
+
+        if (pageTo == 'next') {
+            currentPage = currentPage < PagesCount ? currentPage + 1 : currentPage; 
+        }
+
+        if (pageTo == 'previous') {
+            currentPage = currentPage > 1 ? currentPage - 1 : 1 
+        }
+
+        else {
+            currentPage = page - 1;
+        }
+
+        refreshUsers();
+    }
+</script>
+

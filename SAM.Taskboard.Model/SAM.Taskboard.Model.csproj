@@ -52,9 +52,11 @@
     <Compile Include="PaginationModel.cs" />
     <Compile Include="Priority.cs" />
     <Compile Include="Project\CreateProjectViewModel.cs" />
+    <Compile Include="Project\ProjectSettingsViewModel.cs" />
     <Compile Include="Project\ProjectsViewModel.cs" />
     <Compile Include="Account\RegisterViewModel.cs" />
     <Compile Include="Account\ResendConfirmationEmailViewModel.cs" />
+    <Compile Include="Project\ProjectUsersViewModel.cs" />
     <Compile Include="Project\ProjectViewModel.cs" />
     <Compile Include="Severity.cs" />
     <Compile Include="TaskSettingsRole.cs" />

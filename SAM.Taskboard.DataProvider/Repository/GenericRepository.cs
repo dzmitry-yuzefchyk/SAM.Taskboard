@@ -90,6 +90,12 @@ namespace SAM.Taskboard.DataProvider.Repository
             context.SaveChanges();
         }
 
+        public IEnumerable<TEntity> Query()
+        {
+            IQueryable<TEntity> query = model;
+            return query.ToList();
+        }
+
         public void Dispose()
         {
             context.Dispose();

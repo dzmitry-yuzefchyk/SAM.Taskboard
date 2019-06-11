@@ -1,0 +1,71 @@
+﻿@using System.Security.Claims;
+@{
+    var identity = (ClaimsIdentity)User.Identity;
+    IEnumerable<Claim> claims = identity.Claims;
+    string theme = claims.FirstOrDefault(u => u.Type == "Theme").Value;
+}
+
+@model SAM.Taskboard.Model.Project.ProjectSettingsViewModel
+
+<div class="btn-group pt-1 pb-1 pl-2 pr-2 mt-4 mb-2" role="group">
+    @Html.ActionLink(Model.Title, "ViewProject", "Project", new { projectId = Model.Id }, new { @class = "btn btn-outline-primary" })
+    @if (Model.CanUserDeleteProject)
+    {
+        <button class="btn btn-danger" data-projectid="@Model.Id" data-toggle="modal" data-target="#confirmDelete">Delete Project</button>
+    }
+</div>
+
+<div class="mt-2">
+    @using (Html.BeginForm("UpdateSettings", "Project", FormMethod.Post, new { id = "projectForm" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id);
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.Title, new { type = "text", @class = $"w-250 form-control theme-background-{theme} textOnDark-{theme}", placeholder = "Name" })
+                @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+            <div class="row justify-content-center">
+            <div class="form-group">
+                @Html.TextBoxFor(m => m.About, new { type = "text", @class = $"w-250 form-control theme-background-{theme} textOnDark-{theme}", placeholder = "Name" })
+                @Html.ValidationMessageFor(m => m.About, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                <label class="textOnDark-@theme">Who can change project?</label>
+                @Html.DropDownListFor(m => m.AccessToChangeProject, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.ProjectSettingsRole))), new { type = "text", @class = $"form-control w-250 theme-background-{theme} textOnDark-{theme}" })
+                @Html.ValidationMessageFor(m => m.AccessToChangeProject, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                <label class="textOnDark-@theme">Who can create board?</label>
+                @Html.DropDownListFor(m => m.AccessToCreateBoard, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.BoardSettingsRole))), new { type = "text", @class = $"form-control w-250 theme-background-{theme} textOnDark-{theme}" })
+                @Html.ValidationMessageFor(m => m.AccessToCreateBoard, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="form-group">
+                <label class="textOnDark-@theme">Who can delete boards?</label>
+                @Html.DropDownListFor(m => m.AccessToDeleteBoard, new SelectList(Enum.GetValues(typeof(SAM.Taskboard.Model.BoardSettingsRole))), new { type = "text", @class = $"form-control w-250 theme-background-{theme} textOnDark-{theme}" })
+                @Html.ValidationMessageFor(m => m.AccessToDeleteBoard, "", new { @class = "text-danger small" })
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-1 mb-2 text-danger small">
+            @Html.ValidationMessage("Error")
+        </div>
+
+        <div class="row justify-content-center">
+            <button onclick="undo(event)" type="button" class="btn btn-secondary mr-4">Undo</button>
+            <button onclick="saveSettings(event)" type="button" class="btn btn-primary ml-4">Save</button>
+        </div>
+    }
+</div>

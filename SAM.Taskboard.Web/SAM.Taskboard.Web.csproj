@@ -295,6 +295,9 @@
     <Content Include="Views\Task\TaskBody.cshtml" />
     <Content Include="Views\Error\BadRequest.cshtml" />
     <Content Include="Views\Board\Settings.cshtml" />
+    <Content Include="Views\Project\Settings.cshtml" />
+    <Content Include="Views\Project\SettingsProjectUsers.cshtml" />
+    <Content Include="Views\Project\SettingsProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

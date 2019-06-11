@@ -18,7 +18,7 @@
                         @Model.ProjectTitle
                     </button>
                     <div class="dropdown-menu bg-dropdown-@theme" aria-labelledby="dropDown">
-                        <a class="dropdown-item dropdown-@theme" href="#">projectSettings</a>
+                        @Html.ActionLink("Settings", "Settings", new { projectId = Model.ProjectId }, new { @class=$"dropdown-item dropdown-{theme}" })
                     </div>
                 </div>
             }

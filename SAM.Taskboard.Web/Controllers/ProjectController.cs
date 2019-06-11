@@ -95,5 +95,157 @@ namespace SAM.Taskboard.Web.Controllers
 
             return Json(new { success = true,  users = result.Model }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpGet]
+        public ActionResult Settings(int projectId)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = projectService.GetProjectSettings(userId, projectId);
+
+            if (result.Message == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("BadRequest", "Error");
+            }
+
+            if (result.Message == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            return View(result.Model);
+        }
+
+        [HttpGet]
+        public ActionResult GetSettingsPartial(int projectId)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = projectService.GetProjectSettings(userId, projectId);
+
+            if (result.Message == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("BadRequest", "Error");
+            }
+
+            if (result.Message == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            return PartialView("SettingsProject", result.Model);
+        }
+
+        [HttpGet]
+        public ActionResult GetProjectUsersPartial(int projectId, int page = 0, string searchFilter = "")
+        {
+            string userId = User.Identity.GetUserId();
+            var result = projectService.GetProjectSettings(userId, projectId, page, searchFilter);
+
+            if (result.Message == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("BadRequest", "Error");
+            }
+
+            if (result.Message == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            return PartialView("SettingsProjectUsers", result.Model.ProjectUsersViewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SaveSettings(ProjectSettingsViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return PartialView("SettingsProject", model);
+            }
+
+            string userId = User.Identity.GetUserId();
+            var result = projectService.SaveProjectSettings(userId, model);
+
+            if (result == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("BadRequest", "Error");
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        public ActionResult AddUser(int projectId, string userEmailToAdd)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = projectService.AddUserToProject(userId, userEmailToAdd, projectId);
+
+            if (result == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result == GenericServiceResult.Error)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteUser(int projectId, string userIdToRemove)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = projectService.RemoveUserFromProject(userId, userIdToRemove, projectId);
+
+            if (result == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result == GenericServiceResult.Error)
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return RedirectToAction("BadRequest", "Error");
+            }
+
+            return new HttpStatusCodeResult(HttpStatusCode.OK);
+        }
+
+        [HttpGet]
+        public ActionResult DeleteProject(int projectId)
+        {
+            string userId = User.Identity.GetUserId();
+            var result = projectService.DeleteProject(userId, projectId);
+
+            if (result == GenericServiceResult.AccessDenied)
+            {
+                Response.StatusCode = (int)HttpStatusCode.Forbidden;
+                return RedirectToAction("Forbidden", "Error");
+            }
+
+            if (result == GenericServiceResult.Error)
+            {
+                new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            return RedirectToAction("AllProjects");
+        }
     }
 }

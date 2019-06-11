@@ -1,5 +1,6 @@
 ﻿using SAM.Taskboard.Logic.Utility;
 using SAM.Taskboard.Model.Board;
+using SAM.Taskboard.Model.Project;
 
 namespace SAM.Taskboard.Logic.Services
 {
