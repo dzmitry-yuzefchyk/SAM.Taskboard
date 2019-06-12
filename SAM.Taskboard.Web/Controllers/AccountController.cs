@@ -189,37 +189,22 @@ namespace SAM.Taskboard.Web.Controllers
         {
             UserServiceResult result = UserService.ConfirmEmail(userId, token);
 
-            if (result == UserServiceResult.success)
-            {
-                return View(new ResendConfirmationEmailViewModel { Email = email });
-            }
-
             if (result == UserServiceResult.emailAlreadyConfirmed)
             {
-                return View();// TODO: Error handling
+                ModelState.AddModelError("Error", "Email already confirmed");
+                return View(new ResendConfirmationEmailViewModel { Email = "" });
             }
 
-            else
+            if (result == UserServiceResult.userNotExist)
             {
-                return View(); // TODO: Error handling
+                ModelState.AddModelError("Error", "User not exists");
+                return View(new ResendConfirmationEmailViewModel { Email = "" });
             }
+
+            ModelState.AddModelError("Error", $"Email {email} was successfuly confirmed.");
+            return View(new ResendConfirmationEmailViewModel { Email = email });
         }
 
-        #endregion
-
-        //TODO: Reset password
-        #region ResetPassword 
-        public ActionResult ResetPassword()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult ResetPassword(bool f)
-        {
-            return View();
-        }
         #endregion
     }
 }
