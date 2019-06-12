@@ -30,6 +30,10 @@ body {
 }
 
 /*universal*/
+.w-80 {
+    width: 100px;
+}
+
 .notifcication-bubble {
     display: inline-block;
     width: 15px;
