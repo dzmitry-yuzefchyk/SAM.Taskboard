@@ -32,10 +32,6 @@ namespace SAM.Taskboard.DataProvider
             UserSettings = new GenericRepository<UserSettings>(context);
             Attachments = new GenericRepository<Attachment>(context);
             Comments = new GenericRepository<Comment>(context);
-
-            var provider = new DpapiDataProtectionProvider("SAM.Taskboard");
-            UserManager.UserTokenProvider = new DataProtectorTokenProvider<User, string>(provider.Create("UserToken"))
-                as IUserTokenProvider<User, string>;
         }
 
         public TaskboardUserManager UserManager { get; }
