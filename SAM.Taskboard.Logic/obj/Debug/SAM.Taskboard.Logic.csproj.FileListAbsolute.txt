@@ -9,11 +9,8 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Newt
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.DataProvider.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.Security.dll
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Owin.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.dll
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.Security.OAuth.dll
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.Security.Cookies.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.DataProvider.pdb
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.DataProvider.dll.config
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\SAM.Taskboard.Model.pdb
@@ -24,10 +21,7 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Micr
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.Identity.EntityFramework.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Newtonsoft.Json.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.Security.xml
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.xml
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.Security.OAuth.xml
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.Security.Cookies.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.csprojAssemblyReference.cache
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.csproj.CoreCompileInputs.cache
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.csproj.CopyComplete

@@ -7,6 +7,8 @@ namespace SAM.Taskboard.DataProvider.Identity
     {
         public TaskboardUserManager(IUserStore<User> store)
             : base(store)
-        { }
+        {
+            this.UserTokenProvider = new TotpSecurityStampBasedTokenProvider<User, string>();
+        }
     }
 }
