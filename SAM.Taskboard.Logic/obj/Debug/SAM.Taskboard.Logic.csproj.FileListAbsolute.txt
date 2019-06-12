@@ -33,3 +33,11 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.csproj.CopyComplete
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\obj\Debug\SAM.Taskboard.Logic.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.Host.SystemWeb.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.SignalR.Core.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Logic\bin\Debug\Microsoft.Owin.Host.SystemWeb.xml

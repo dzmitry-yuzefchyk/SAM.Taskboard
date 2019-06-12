@@ -31,6 +31,7 @@ namespace SAM.Taskboard.DataProvider
             UserProfiles = new GenericRepository<UserProfile>(context);
             UserSettings = new GenericRepository<UserSettings>(context);
             Attachments = new GenericRepository<Attachment>(context);
+            Comments = new GenericRepository<Comment>(context);
 
             var provider = new DpapiDataProtectionProvider("SAM.Taskboard");
             UserManager.UserTokenProvider = new DataProtectorTokenProvider<User, string>(provider.Create("UserToken"))
@@ -65,6 +66,8 @@ namespace SAM.Taskboard.DataProvider
 
         public IRepository<UserSettings> UserSettings { get; }
 
+        public IRepository<Comment> Comments { get; }
+
         public void Dispose()
         {
             UserManager.Dispose();
@@ -81,6 +84,7 @@ namespace SAM.Taskboard.DataProvider
             Users.Dispose();
             UserProfiles.Dispose();
             UserSettings.Dispose();
+            Comments.Dispose();
         }
     }
 }

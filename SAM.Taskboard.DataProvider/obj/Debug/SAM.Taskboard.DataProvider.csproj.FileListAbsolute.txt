@@ -48,3 +48,11 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Deb
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.byte_img_to_base64_string.resources
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.changed_attachment.resources
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.changed_attachment_added_filename.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.added_comments.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.added_comments_datetime.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.added_comments_datetime1.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.added_comments_datetime2.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.added_comments_datetime3.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.added_comments_datetime4.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.added_comments_datetime5.resources
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.DataProvider\obj\Debug\SAM.Taskboard.DataProvider.Migrations.added_comments_datetime6.resources

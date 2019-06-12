@@ -15,9 +15,29 @@
     @Scripts.Render("~/bundles/jquery")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("/signalr/hubs")
+    
+    <script>
+        $(document).ready(function () {
+            $.connection.hub.qs = { 'dummyData': 'yes' };
+            var notificationHub = $.connection.notificationHub;
+
+            notificationHub.client.notify = function (notification) {
+                const notificationLink = '<div class="rounded-0 theme-background-@theme mt-2 mb-2 border-0 theme-border-primary-@theme dropdown-item dropdown-@theme card">' + '<div class="card-header">' + notification.Title + '</div>' + notification.Message + '</a>';
+                const notificationBubble = '<div id="newNotification" class="notifcication-bubble"></div>';
+
+                $('#newNotification').remove();
+                $('#notificationDropdown').append(notificationLink);
+                $('#notificationsLabel').append(notificationBubble);
+            }
+
+            $.connection.hub.start();
+        });
+    </script>
+
 </head>
 <body class="body-@theme">
-    <nav class="navbar navbar-expand-lg pt-1 pb-1 navbar-@theme bg-navbar-@theme pl-xl-5 opacity" style="z-index: 9999">
+    <nav class="navbar navbar-expand-lg pt-1 pb-1 navbar-@theme bg-navbar-@theme pl-xl-5" style="z-index: 9999">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -29,6 +49,7 @@
                     <a class="navbar-brand text-light" href="@Url.Action("AllProjects", "Project")">DTaskboard</a>
                 </li>
 
+
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle pt-1 pb-1 text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <img class="ml-0 mr-2 rounded" src="@{Html.RenderAction("GetUserIcon", "Profile");}" width="50" height="50" />
@@ -37,8 +58,15 @@
                     <div class="dropdown-menu bg-dropdown-@theme" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item dropdown-@theme" href="@Url.Action("Settings", "Profile")">Settings</a>
                         <a class="dropdown-item dropdown-@theme" href="@Url.Action("MyTasks", "Tasks")">My tasks</a>
-                        <a class="dropdown-item dropdown-@theme" href="@Url.Action("MyNotifications", "Profile")">Notifications: @{Html.RenderAction("GetNotificationsAmount", "Profile");}</a>
                         <a class="dropdown-item dropdown-@theme" href="@Url.Action("Logout", "Account")">Logout</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle pt-3 pb-1 text-light" id="notificationsLabel" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Notifications
+                    </a>
+                    <div id="notificationDropdown" class="dropdown-menu bg-dropdown-@theme" aria-labelledby="navbarDropdown">
                     </div>
                 </li>
 
@@ -51,5 +79,6 @@
     </wrapper>
 
     @RenderSection("scripts", required: false)
+  
 </body>
 </html>

@@ -21,5 +21,6 @@ namespace SAM.Taskboard.DataProvider
         IRepository<User> Users { get; }
         IRepository<UserProfile> UserProfiles { get; }
         IRepository<UserSettings> UserSettings { get; }
+        IRepository<Comment> Comments { get; }
     }
 }

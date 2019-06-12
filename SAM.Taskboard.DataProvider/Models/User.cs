@@ -11,6 +11,8 @@ namespace SAM.Taskboard.DataProvider.Models
 
         public ICollection<Task> Tasks { get; set; }
 
+        public ICollection<Comment> Comments { get; set; }
+
         public ICollection<Board> Boards { get; set; }
 
         public ICollection<ProjectUser> ProjectUser { get; set; }

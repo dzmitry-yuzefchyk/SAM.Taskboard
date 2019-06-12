@@ -289,6 +289,7 @@ namespace SAM.Taskboard.Logic.Services
                 }
 
                 Project project = unitOfWork.Projects.Get(projectId);
+                string projectTitleBeforeChanging = project.Title;
                 ProjectSettings projectSettings = unitOfWork.ProjectSettings.Get(projectId);
 
                 project.Title = model.Title;
@@ -299,6 +300,18 @@ namespace SAM.Taskboard.Logic.Services
 
                 unitOfWork.ProjectSettings.Update(projectSettings);
                 unitOfWork.Projects.Update(project);
+
+                string creatorId = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == projectId && p.Role == (int)ProjectRoles.Administrator).UserId;
+                NotificationMessage message = new NotificationMessage
+                {
+                    Title = $"{projectTitleBeforeChanging}",
+                    Message = "Project settings were updated.",
+                    Link = null,
+                    ObjectId = projectId,
+                    Initiator = userId,
+                    SendTo = creatorId
+                };
+                Notifyer.Notify(message);
 
                 return GenericServiceResult.Success;
             }
@@ -339,7 +352,19 @@ namespace SAM.Taskboard.Logic.Services
                     Role = (int)ProjectRoles.Member
                 };
 
+                string projectTitle = unitOfWork.Projects.Get(projectId).Title;
                 unitOfWork.ProjectUser.Create(projectUser);
+
+                NotificationMessage message = new NotificationMessage
+                {
+                    Title = $"{projectTitle}",
+                    Message = "You were added to project.",
+                    Link = null,
+                    ObjectId = projectId,
+                    Initiator = userId,
+                    SendTo = userIdToAdd
+                };
+                Notifyer.Notify(message);
 
                 return GenericServiceResult.Success;
             }
@@ -361,6 +386,19 @@ namespace SAM.Taskboard.Logic.Services
 
                 ProjectUser projectUser = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == projectId && p.UserId == userIdToRemove);
                 unitOfWork.ProjectUser.Delete(projectUser.Id);
+
+                string projectTitle = unitOfWork.Projects.Get(projectId).Title;
+
+                NotificationMessage message = new NotificationMessage
+                {
+                    Title = $"{projectTitle}",
+                    Message = "You were removed from project.",
+                    Link = null,
+                    ObjectId = projectId,
+                    Initiator = userId,
+                    SendTo = userIdToRemove
+                };
+                Notifyer.Notify(message);
 
                 return GenericServiceResult.Success;
             }

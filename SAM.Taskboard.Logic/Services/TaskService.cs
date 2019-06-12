@@ -49,6 +49,32 @@ namespace SAM.Taskboard.Logic.Services
 
                 GenericServiceResult result = UploadAttachment(taskId, model.Attachments);
 
+                string creatorId = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == model.ProjectId && p.Role == (int)ProjectRoles.Administrator).UserId;
+                string projectTitle = unitOfWork.Projects.Get(model.ProjectId).Title;
+
+                NotificationMessage message = new NotificationMessage
+                {
+                    NotificationType = NotificationType.Changed,
+                    Title = $"{projectTitle}",
+                    Message = $"Task {task.Title} was created",
+                    Initiator = userId,
+                    SendTo = creatorId
+                };
+                Notifyer.Notify(message);
+
+                if (task.AssigneeId != null)
+                {
+                    message = new NotificationMessage
+                    {
+                        NotificationType = NotificationType.Assigned,
+                        Title = $"{projectTitle}",
+                        Message = $"You were assigned to task {task.Title}",
+                        Initiator = userId,
+                        SendTo = task.AssigneeId
+                    };
+                    Notifyer.Notify(message);
+                }
+
                 return GenericServiceResult.Success;
             }
             catch
@@ -114,6 +140,19 @@ namespace SAM.Taskboard.Logic.Services
                 Task task = unitOfWork.Tasks.Get(taskId);
                 task.ColumnId = columnId;
                 unitOfWork.Tasks.Update(task);
+
+                int projectId = unitOfWork.Boards.Get(boardId).ProjectId;
+                Project project = unitOfWork.Projects.Get(projectId);
+                Column column = unitOfWork.Columns.Get(columnId);
+
+                NotificationMessage message = new NotificationMessage
+                {
+                    Title = $"{project.Title}",
+                    Message = $"Task {task.Title} was moved to column {column.Title}",
+                    Initiator = userId,
+                    SendTo = task.CreatorId
+                };
+                Notifyer.Notify(message);
 
                 return GenericServiceResult.Success;
             }
@@ -262,6 +301,8 @@ namespace SAM.Taskboard.Logic.Services
 
                 Task task = unitOfWork.Tasks.Get(model.TaskId);
 
+                string taskPreviousAssignee = task.AssigneeId;
+
                 task.Id = model.TaskId;
                 task.Title = model.Title;
                 task.Content = model.Content;
@@ -272,7 +313,36 @@ namespace SAM.Taskboard.Logic.Services
                 task.AssigneeId = assigneId;
                 task.CreatorId = creatorId;
 
+                string taskNewAssingee = taskPreviousAssignee == task.AssigneeId ? "" : task.AssigneeId;
+
                 unitOfWork.Tasks.Update(task);
+
+                Project project = unitOfWork.Projects.Get(model.ProjectId);
+
+                NotificationMessage message = new NotificationMessage
+                {
+                    Title = $"{project.Title}",
+                    Message = $"Task {task.Title} was changed",
+                    Initiator = "",
+                    SendTo = task.CreatorId,
+                    AdditionalSendTo = taskNewAssingee,
+                    AdditionalSendToMessage = new NotificationMessage
+                    {
+                        Title = $"{project.Title}",
+                        Message = $"You were assigned to task {task.Title}",
+                        Initiator = userId,
+                        SendTo = taskNewAssingee,
+                        AdditionalSendTo = taskPreviousAssignee,
+                        AdditionalSendToMessage = new NotificationMessage
+                        {
+                            Title = $"{project.Title}",
+                            Message = $"You were unassigned from task {task.Title}",
+                            Initiator = userId,
+                            SendTo = taskPreviousAssignee
+                        }
+                    }
+                };
+                Notifyer.Notify(message);
 
                 return GenericServiceResult.Success;
             }
@@ -292,8 +362,32 @@ namespace SAM.Taskboard.Logic.Services
                     return GenericServiceResult.AccessDenied;
                 }
 
+                string taskTitle = unitOfWork.Tasks.Get(taskId).Title;
+                string taskCreator = unitOfWork.Tasks.Get(taskId).CreatorId;
+                string taskAssignee = unitOfWork.Tasks.Get(taskId).AssigneeId;
+
                 unitOfWork.Attachments.Delete(a => a.TaskId == taskId);
                 unitOfWork.Tasks.Delete(taskId);
+
+                int projectId = unitOfWork.Boards.Get(boardId).ProjectId;
+                Project project = unitOfWork.Projects.Get(projectId);
+
+                NotificationMessage message = new NotificationMessage
+                {
+                    Title = $"{project.Title}",
+                    Message = $"Task {taskTitle} was deleted",
+                    Initiator = userId,
+                    SendTo = taskCreator,
+                    AdditionalSendTo = taskAssignee,
+                    AdditionalSendToMessage = new NotificationMessage
+                    {
+                        Title = $"{project.Title}",
+                        Message = $"Task {taskTitle} was deleted",
+                        Initiator = userId,
+                        SendTo = taskAssignee,
+                    }
+                };
+                Notifyer.Notify(message);
 
                 return GenericServiceResult.Success;
             }

@@ -162,12 +162,45 @@
     <Compile Include="Migrations\201906091148253_changed_attachment_added_filename.Designer.cs">
       <DependentUpon>201906091148253_changed_attachment_added_filename.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201906111715235_added_comments.cs" />
+    <Compile Include="Migrations\201906111715235_added_comments.Designer.cs">
+      <DependentUpon>201906111715235_added_comments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111717357_added_comments_datetime.cs" />
+    <Compile Include="Migrations\201906111717357_added_comments_datetime.Designer.cs">
+      <DependentUpon>201906111717357_added_comments_datetime.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111718273_added_comments_datetime1.cs" />
+    <Compile Include="Migrations\201906111718273_added_comments_datetime1.Designer.cs">
+      <DependentUpon>201906111718273_added_comments_datetime1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111722364_added_comments_datetime2.cs" />
+    <Compile Include="Migrations\201906111722364_added_comments_datetime2.Designer.cs">
+      <DependentUpon>201906111722364_added_comments_datetime2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111724513_added_comments_datetime3.cs" />
+    <Compile Include="Migrations\201906111724513_added_comments_datetime3.Designer.cs">
+      <DependentUpon>201906111724513_added_comments_datetime3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111726409_added_comments_datetime4.cs" />
+    <Compile Include="Migrations\201906111726409_added_comments_datetime4.Designer.cs">
+      <DependentUpon>201906111726409_added_comments_datetime4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906111727522_added_comments_datetime5.cs" />
+    <Compile Include="Migrations\201906111727522_added_comments_datetime5.Designer.cs">
+      <DependentUpon>201906111727522_added_comments_datetime5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201906120814156_added_comments_datetime6.cs" />
+    <Compile Include="Migrations\201906120814156_added_comments_datetime6.Designer.cs">
+      <DependentUpon>201906120814156_added_comments_datetime6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Activity.cs" />
     <Compile Include="Models\Attachment.cs" />
     <Compile Include="Models\Board.cs" />
     <Compile Include="Models\BoardSettings.cs" />
     <Compile Include="Models\Column.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Project.cs" />
     <Compile Include="Models\ProjectSettings.cs" />
     <Compile Include="Models\ProjectUser.cs" />
@@ -240,6 +273,30 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201906091148253_changed_attachment_added_filename.resx">
       <DependentUpon>201906091148253_changed_attachment_added_filename.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111715235_added_comments.resx">
+      <DependentUpon>201906111715235_added_comments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111717357_added_comments_datetime.resx">
+      <DependentUpon>201906111717357_added_comments_datetime.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111718273_added_comments_datetime1.resx">
+      <DependentUpon>201906111718273_added_comments_datetime1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111722364_added_comments_datetime2.resx">
+      <DependentUpon>201906111722364_added_comments_datetime2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111724513_added_comments_datetime3.resx">
+      <DependentUpon>201906111724513_added_comments_datetime3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111726409_added_comments_datetime4.resx">
+      <DependentUpon>201906111726409_added_comments_datetime4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906111727522_added_comments_datetime5.resx">
+      <DependentUpon>201906111727522_added_comments_datetime5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201906120814156_added_comments_datetime6.resx">
+      <DependentUpon>201906120814156_added_comments_datetime6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

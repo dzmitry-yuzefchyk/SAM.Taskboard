@@ -122,3 +122,9 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Ta
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Taskboard.Web.csproj.CopyComplete
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Taskboard.Web.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Taskboard.Web.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.Core.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.Core.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.SystemWeb.xml

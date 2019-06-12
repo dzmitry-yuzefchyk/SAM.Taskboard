@@ -214,6 +214,18 @@ namespace SAM.Taskboard.Logic.Services
 
                 unitOfWork.Boards.Create(board);
 
+                string creatorId = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == projectId && p.Role == (int)ProjectRoles.Administrator).UserId;
+                string projectTitle = unitOfWork.Projects.Get(projectId).Title;
+
+                NotificationMessage message = new NotificationMessage
+                {
+                    Title = $"{projectTitle}",
+                    Message = $"Board {board.Title} was created",
+                    Initiator = userId,
+                    SendTo = creatorId
+                };
+                Notifyer.Notify(message);
+
                 return GenericServiceResult.Success;
             }
             catch
@@ -326,6 +338,19 @@ namespace SAM.Taskboard.Logic.Services
                     unitOfWork.Columns.Update(databaseColumn);
                 }
 
+                int projectId = unitOfWork.Projects.Get(board.ProjectId).Id;
+                string creatorId = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == projectId && p.Role == (int)ProjectRoles.Administrator).UserId;
+                string projectTitle = unitOfWork.Projects.Get(projectId).Title;
+
+                NotificationMessage message = new NotificationMessage
+                {
+                    Title = $"{projectTitle}",
+                    Message = $"Board {board.Title} settings were changed",
+                    Initiator = userId,
+                    SendTo = creatorId
+                };
+                Notifyer.Notify(message);
+
                 return GenericServiceResult.Success;
             }
             catch
@@ -356,6 +381,18 @@ namespace SAM.Taskboard.Logic.Services
 
                 unitOfWork.BoardSettings.Delete(board.Id);
                 unitOfWork.Boards.Delete(board.Id);
+
+                string creatorId = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(p => p.ProjectId == projectId && p.Role == (int)ProjectRoles.Administrator).UserId;
+                string projectTitle = unitOfWork.Projects.Get(projectId).Title;
+
+                NotificationMessage message = new NotificationMessage
+                {
+                    Title = $"{projectTitle}",
+                    Message = $"Board {board.Title} was deleted",
+                    Initiator = userId,
+                    SendTo = creatorId
+                };
+                Notifyer.Notify(message);
 
                 return GenericServiceResult.Success;
             }

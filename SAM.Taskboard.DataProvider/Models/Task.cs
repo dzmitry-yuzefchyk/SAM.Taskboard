@@ -39,9 +39,12 @@ namespace SAM.Taskboard.DataProvider.Models
 
         public ICollection<Attachment> Attachments { get; set; }
 
+        public ICollection<Comment> Comments { get; set; }
+
         public Task()
         {
             Attachments = new List<Attachment>();
+            Comments = new List<Comment>();
         }
     }
 }
