@@ -37,7 +37,8 @@
                          data-taskId="@task.Id"
                          data-columnId="@column.Id"
                          draggable="@task.CanUserChangeTask.ToString()"
-                         ondragstart="onTaskDragStart(event, this)">
+                         ondragstart="onTaskDragStart(event, this)"
+                         ondragend="onTaskDragEnd()">
                         @Html.Hidden("TaskId", task.Id)
 
                         <div class="card-header theme-border-primary-@theme textOnDark-@theme">
@@ -155,6 +156,10 @@
     function onTaskDragStart(event, element) {
         const taskId = element.getAttribute('data-taskid');
         event.dataTransfer.setData('text/plain', taskId);
+    }
+
+    function onTaskDragEnd() {
+        $('div').find('#temporaryTask').remove();
     }
 
     function onTaskDrop(event, element) {

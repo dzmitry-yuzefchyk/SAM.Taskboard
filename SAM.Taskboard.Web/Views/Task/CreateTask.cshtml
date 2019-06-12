@@ -40,12 +40,14 @@
 
                         <div class="row">
                             <div class="col">
-                                <div class="form-group">
+                                <div id="files" class="form-group">
                                     <label class="pt-2 textOnDark-@theme">Attachments</label>
                                     <div id="dropArea" class="rounded" ondrop="dropFile(event)" ondragover="dragOverHandler(event)">
-                                        <span class="textOnDark-@theme">Drop your files here</span>
+                                        <span class="textOnDark-@theme">Drop your files here.</span><br>
+                                        <span class="textOnDark-@theme small"> Allowed formats: png, jpg, doc, docx, txt, xls, rtf, zip</span><br>
+                                        <span class="textOnDark-@theme small"> Maximum 5 files </span>
                                     </div>
-                                    <ul class="list-group textOnDark-@theme" id="uploadList"></ul>
+                                    <div class="pl-2 row textOnDark-@theme" id="uploadList"></div>
 
                                     <input style="visibility: hidden" id="fileSelect" type="file" name="attachment"/>
                                 </div>
@@ -206,12 +208,14 @@
                     }
 
                     filesToUpload.push(file);
-                    $('#uploadList').append('<li>' + file.name + '</li>');
+                    $('#uploadList').append('<li class="attachment-link small">' + file.name + '</li>');
                 }
             }
 
-            $('#uploadList').find('button').remove()
-            $('#uploadList').append('<button class="btn text-danger" onclick="clearFiles()">Remove all</button>');
+            if (filesToUpload.length > 0) {
+                $('#files').find('button').remove();
+                $('#uploadList').after('<button type="button" class="btn text-danger" onclick="clearFiles()">Remove all</button>');
+            }
         }
     }
 
@@ -226,6 +230,7 @@
     function clearFiles() {
         filesToUpload = [];
         $('#uploadList').empty();
+        $('#files').find('button').remove();
     }
 </script>
 </div>
