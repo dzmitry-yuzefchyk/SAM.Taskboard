@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
-using SAM.Taskboard.Logic.Utility;
 
 [assembly: OwinStartup(typeof(SAM.Taskboard.Web.App_Start.Startup))]
 

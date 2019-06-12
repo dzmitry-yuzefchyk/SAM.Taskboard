@@ -15,8 +15,7 @@ namespace SAM.Taskboard.DataProvider
 
         public UnitOfWork()
         {
-            string connectionString = Environment.GetEnvironmentVariable("IsAzure") == null ? "Taskboard" : "AzureTaskboard";
-            context = new TaskboardContext(connectionString);
+            context = new TaskboardContext();
             UserManager = new TaskboardUserManager(new UserStore<User>(context));
             ClientManager = new TaskboardClientManager(context);
             Activities = new GenericRepository<Activity>(context);
@@ -32,6 +31,10 @@ namespace SAM.Taskboard.DataProvider
             UserSettings = new GenericRepository<UserSettings>(context);
             Attachments = new GenericRepository<Attachment>(context);
             Comments = new GenericRepository<Comment>(context);
+
+            var provider = new DpapiDataProtectionProvider("SAM.Taskboard");
+            UserManager.UserTokenProvider = new DataProtectorTokenProvider<User, string>(provider.Create("UserToken"))
+                as IUserTokenProvider<User, string>;
         }
 
         public TaskboardUserManager UserManager { get; }
