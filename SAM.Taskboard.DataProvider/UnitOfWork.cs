@@ -15,7 +15,8 @@ namespace SAM.Taskboard.DataProvider
 
         public UnitOfWork()
         {
-            context = new TaskboardContext();
+            string connectionString = Environment.GetEnvironmentVariable("IsAzure") == null ? "Taskboard" : "AzureTaskboard";
+            context = new TaskboardContext(connectionString);
             UserManager = new TaskboardUserManager(new UserStore<User>(context));
             ClientManager = new TaskboardClientManager(context);
             Activities = new GenericRepository<Activity>(context);

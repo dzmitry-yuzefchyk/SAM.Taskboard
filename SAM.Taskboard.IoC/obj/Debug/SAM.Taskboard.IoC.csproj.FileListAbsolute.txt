@@ -53,3 +53,9 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\obj\Debug\SAM.Ta
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.AspNet.SignalR.Core.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.AspNet.SignalR.Core.pdb
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.AspNet.SignalR.Core.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.AspNet.Identity.Owin.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.OAuth.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.Cookies.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.AspNet.Identity.Owin.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.OAuth.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.IoC\bin\Debug\Microsoft.Owin.Security.Cookies.xml
