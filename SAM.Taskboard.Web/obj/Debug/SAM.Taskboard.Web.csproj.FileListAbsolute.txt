@@ -55,6 +55,8 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\EntityFramew
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\EntityFramework.SqlServer.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.Identity.Core.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.Identity.Owin.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.Core.dll
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.Owin.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.Owin.Host.SystemWeb.dll
@@ -93,6 +95,10 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\EntityFramew
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\EntityFramework.SqlServer.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.Identity.Core.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.Identity.Owin.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.Core.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
+D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.Owin.xml
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.Owin.Host.SystemWeb.xml
@@ -122,9 +128,3 @@ D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Ta
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Taskboard.Web.csproj.CopyComplete
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Taskboard.Web.dll
 D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\obj\Debug\SAM.Taskboard.Web.pdb
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.Core.dll
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.Core.pdb
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.Core.xml
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.SystemWeb.pdb
-D:\Документы\TaskBoard\SAM.Taskboard\SAM.Taskboard.Web\bin\Microsoft.AspNet.SignalR.SystemWeb.xml

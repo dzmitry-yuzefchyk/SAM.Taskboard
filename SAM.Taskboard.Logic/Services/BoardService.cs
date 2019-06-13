@@ -465,7 +465,7 @@ namespace SAM.Taskboard.Logic.Services
             {
                 ProjectSettings projectSettings = unitOfWork.ProjectSettings.Get(projectId);
                 int accessToCreateBoard = projectSettings.AccessToDeleteBoard;
-                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
+                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId && x.ProjectId == projectId).Role;
 
                 return roleUserProject <= accessToCreateBoard;
             }
@@ -481,7 +481,7 @@ namespace SAM.Taskboard.Logic.Services
             {
                 ProjectSettings projectSettings = unitOfWork.ProjectSettings.Get(projectId);
                 int accessToCreateBoard = projectSettings.AccessToCreateBoard;
-                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
+                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId && x.ProjectId == projectId).Role;
 
                 return roleUserProject <= accessToCreateBoard;
             }
@@ -537,7 +537,7 @@ namespace SAM.Taskboard.Logic.Services
                 Board board = unitOfWork.Boards.Get(boardId);
                 int projectId = board.ProjectId;
 
-                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
+                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId && x.ProjectId == projectId).Role;
 
                 if (roleUserProject == (int)ProjectRoles.Administrator)
                 {

@@ -167,7 +167,7 @@ namespace SAM.Taskboard.Logic.Services
         {
             try
             {
-                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId).Role;
+                int roleUserProject = unitOfWork.ProjectUser.GetFirstOrDefaultWhere(x => x.UserId == userId && x.ProjectId == projectId).Role;
                 int roleToCreateBoard = unitOfWork.ProjectSettings.GetFirstOrDefaultWhere(x => x.Id == projectId).AccessToCreateBoard;
 
                 return roleUserProject <= roleToCreateBoard;
